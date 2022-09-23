@@ -2,7 +2,7 @@ const USER_KEY = 'user';
 
 export const readUserEmail = () => {
   if (localStorage.getItem(USER_KEY) === null) {
-    return JSON.stringify({});
+    return localStorage.setItem(USER_KEY, JSON.stringify({}));
   }
   return JSON.parse(localStorage.getItem(USER_KEY));
 };
