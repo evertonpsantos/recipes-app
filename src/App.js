@@ -21,14 +21,3 @@ function App() {
 }
 
 export default App;
-
-/* <div className="meals">
-    <span className="logo">TRYBE</span>
-    </div> */
-/* <object
-        className="rocksGlass"
-        type="image/svg+xml"
-        data={ rockGlass }
-      >
-        Glass
-      </object> */
