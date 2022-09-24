@@ -26,5 +26,5 @@ describe('Testing footer component', () => {
 
     const mealTitle = screen.getByText('Meals');
     expect(mealTitle).toBeInTheDocument();
-  })
+  });
 });
