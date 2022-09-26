@@ -1,20 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { fetchMealRecipe, fetchDrinkRecipe } from '../helpers/mealsAPI';
+import { fetchMealRecipe } from '../helpers/mealsAPI';
+import { fetchDrinkRecipe } from '../helpers/drinksAPI';
 import MealDetails from '../components/MealDetails';
 import DrinkDetails from '../components/DrinkDetails';
+import RecipesContext from '../context/RecipesContext';
 
 export default function RecipeDetails() {
   const { pathname } = useLocation();
   const { id } = useParams();
 
-  useEffect(() => (
-    pathname.includes('meals')
-      ? fetchMealRecipe(id)
-      : fetchDrinkRecipe(id)
-  ), [pathname, id]);
+  const { recipe, setRecipe } = useContext(RecipesContext);
 
-  return pathname.includes('meals')
-    ? <MealDetails />
-    : <DrinkDetails />;
+  useEffect(() => {
+    (async () => (
+      pathname.includes('meals')
+        ? setRecipe(await fetchMealRecipe(id))
+        : setRecipe(await fetchDrinkRecipe(id))
+    ))();
+  }, [pathname, id]);
+
+  if (recipe) {
+    if (pathname.includes('meals')) {
+      return (
+        <div>
+          <MealDetails />
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <DrinkDetails />
+      </div>
+    );
+  }
 }
