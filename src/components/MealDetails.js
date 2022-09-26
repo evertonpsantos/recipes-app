@@ -1,10 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import RecipesContext from '../context/RecipesContext';
+import drinksAPI from '../helpers/drinksAPI';
 
 export default function MealDetails() {
   const { recipe } = useContext(RecipesContext);
 
   const meal = recipe.meals[0];
+
+  useEffect(() => { (async () => drinksAPI())(); }, []);
 
   if (!recipe.meals[0]) return null;
   return (
