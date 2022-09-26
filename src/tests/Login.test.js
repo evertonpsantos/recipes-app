@@ -35,6 +35,6 @@ describe('Login page test', () => {
 
     userEvent.click(screen.getByTestId(BUTTON_TESTID));
 
-    expect(screen.getByText(/ola/i)).toBeDefined();
+    expect(screen.getByText(/Meals/i)).toBeDefined();
   });
 });
