@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
+import shareIcon from '../images/shareIcon.svg';
+
+const copy = require('clipboard-copy');
 
 export default function Button() {
   const { id } = useParams();
@@ -7,8 +10,7 @@ export default function Button() {
   const history = useHistory();
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [inProgressRecipes, setInProgress] = useState([]);
-
-  console.log(pathname);
+  const [copyMessage, setCopyMessage] = useState('');
 
   useEffect(() => {
     const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
@@ -32,6 +34,11 @@ export default function Button() {
     history.push(`${pathname}/in-progress`);
   };
 
+  const handleShareButton = () => {
+    copy(`http://localhost:3000${pathname}`);
+    setCopyMessage('Link copied!');
+  };
+
   if (!doneRecipes) return <p>...</p>;
 
   return (
@@ -49,7 +56,16 @@ export default function Button() {
         </div>
       )}
 
-      <button type="button" data-testid="share-btn">Compartilhar</button>
+      <button
+        type="button"
+        data-testid="share-btn"
+        onClick={ handleShareButton }
+        className="details-button"
+      >
+        <img src={ shareIcon } alt="share-icon" />
+      </button>
+      { copyMessage && <p>{copyMessage}</p>}
+
       <button type="button" data-testid="favorite-btn">Favoritar</button>
     </div>
   );

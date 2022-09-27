@@ -6,3 +6,9 @@
   width: 100px;
 }
 
+.details-button {
+  bottom: 0;
+  height: 50px;
+  position: sticky;
+  width: 50px;
+}
