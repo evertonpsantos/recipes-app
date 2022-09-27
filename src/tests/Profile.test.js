@@ -5,7 +5,7 @@ import renderWithRouter from './helpers/renderwithRouter';
 
 describe('testa a page profile', () => {
   beforeEach(() => {
-    localStorage.setItem('user', JSON.stringify());
+    localStorage.setItem('user', JSON.stringify({ email: 'teste@teste.com' }));
     renderWithRouter(<App />, '/profile');
   });
   it('testa se quando done recipes é clicado redireciona o componente doneRecipes', () => {
