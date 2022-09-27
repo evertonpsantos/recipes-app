@@ -191,4 +191,66 @@ const mockAPI = {
   ],
 };
 
+export const mockCategory = {
+  meals: [
+    {
+      strCategory: 'Beef',
+    },
+    {
+      strCategory: 'Breakfast',
+    },
+    {
+      strCategory: 'Chicken',
+    },
+    {
+      strCategory: 'Dessert',
+    },
+    {
+      strCategory: 'Goat',
+    },
+  ],
+};
+
+export const mockBeefCategory = {
+  meals: [
+    {
+      strMeal: 'Beef and Mustard Pie',
+      strMealThumb: 'https://www.themealdb.com/images/media/meals/sytuqu1511553755.jpg',
+      idMeal: '52874',
+    },
+    {
+      strMeal: 'Beef and Oyster pie',
+    },
+    {
+      strMeal: 'Beef Banh Mi Bowls with Sriracha Mayo, Carrot & Pickled Cucumber',
+    },
+    {
+      strMeal: 'Beef Bourguignon',
+    },
+    {
+      strMeal: 'Beef Brisket Pot Roast',
+    },
+    {
+      strMeal: 'Beef Dumpling Stew',
+    },
+    {
+      strMeal: 'Beef Lo Mein',
+    },
+    {
+      strMeal: 'Beef Rendang',
+    },
+    {
+      strMeal: 'Beef stroganoff',
+    },
+    {
+      strMeal: 'Beef Sunday Roast',
+    },
+    {
+      strMeal: 'Beef Wellington',
+    },
+    {
+      strMeal: 'Big Mac',
+    },
+  ],
+};
 export default mockAPI;
