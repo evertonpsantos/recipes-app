@@ -27,7 +27,7 @@ describe('testa a page profile', () => {
     expect(favoriteRecipesH1).toBeInTheDocument();
   });
   it('testa se o botão de logout ao ser clicado volta pra home e limpa o localStorage', () =>{
-    const logoutButton = screen.getByRole('button', {name:/logout/i});
+    const logoutButton = screen.getByRole('button', {name:/Logout/i});
     expect(logoutButton).toBeInTheDocument();
     userEvent.click(logoutButton);
     const userInputs = screen.getAllByRole('textbox')
