@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import RecipesContext from '../context/RecipesContext';
 import drinksAPI from '../helpers/drinksAPI';
+import DrinkRecommendations from './DrinkRecommendations';
 
 export default function MealDetails() {
   const { recipe } = useContext(RecipesContext);
@@ -64,6 +65,8 @@ export default function MealDetails() {
         allowFullScreen
         data-testid="video"
       />
+
+      <DrinkRecommendations />
     </div>
   );
 }

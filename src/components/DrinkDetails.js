@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import RecipesContext from '../context/RecipesContext';
 import mealsAPI from '../helpers/mealsAPI';
+import MealRecommendations from './MealRecommendations';
 
 export default function DrinkDetails() {
   const { recipe } = useContext(RecipesContext);
@@ -59,6 +60,8 @@ export default function DrinkDetails() {
         </tbody>
       </table>
       <p data-testid="instructions">{drink.strInstructions}</p>
+
+      <MealRecommendations />
     </div>
   );
 }
