@@ -4,13 +4,25 @@ import { useParams } from 'react-router-dom';
 export default function Button() {
   const { id } = useParams();
   const [doneRecipes, setDoneRecipes] = useState([]);
+  const [inProgressRecipes, setInProgress] = useState([]);
 
   useEffect(() => {
     const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
+    const inProgressRecipesStorage = JSON
+      .parse(localStorage.getItem('inProgressRecipes'));
+
     if (doneRecipesStorage) {
-      return setDoneRecipes(doneRecipesStorage);
+      setDoneRecipes(doneRecipesStorage);
     }
-  }, [doneRecipes]);
+
+    if (inProgressRecipesStorage) {
+      const recipesInProgress = [
+        ...Object.keys(inProgressRecipesStorage.drinks || {}),
+        ...Object.keys(inProgressRecipesStorage.meals || {}),
+      ];
+      setInProgress(recipesInProgress);
+    }
+  }, [id]);
 
   if (!doneRecipes) return <p>...</p>;
 
@@ -23,7 +35,7 @@ export default function Button() {
             data-testid="start-recipe-btn"
             className="recipe-status-btn"
           >
-            Start Recipe
+            { inProgressRecipes.includes(id) ? 'Continue Recipe' : 'Start Recipe' }
           </button>
         </div>
       )}
