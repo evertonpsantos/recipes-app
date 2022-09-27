@@ -19,6 +19,7 @@ export default function RecipeDetails() {
         ? setRecipe(await fetchMealRecipe(id))
         : setRecipe(await fetchDrinkRecipe(id))
     ))();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, id]);
 
   if (recipe) {
