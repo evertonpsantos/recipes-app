@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 
 export default function Button() {
   const { id } = useParams();
+  const { pathname } = useLocation();
+  const history = useHistory();
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [inProgressRecipes, setInProgress] = useState([]);
+
+  console.log(pathname);
 
   useEffect(() => {
     const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
@@ -24,6 +28,10 @@ export default function Button() {
     }
   }, [id]);
 
+  const handleClick = () => {
+    history.push(`${pathname}/in-progress`);
+  };
+
   if (!doneRecipes) return <p>...</p>;
 
   return (
@@ -34,6 +42,7 @@ export default function Button() {
             type="button"
             data-testid="start-recipe-btn"
             className="recipe-status-btn"
+            onClick={ handleClick }
           >
             { inProgressRecipes.includes(id) ? 'Continue Recipe' : 'Start Recipe' }
           </button>
