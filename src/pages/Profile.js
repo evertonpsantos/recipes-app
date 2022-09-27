@@ -6,21 +6,26 @@ import { readUserEmail } from '../helpers/userLocalStorage';
 
 export default function Profile() {
   const history = useHistory();
+
   const redirectDoneRecipes = () => (
     history.push('/done-recipes')
   );
+
   const redirectFavoriteRecipes = () => (
     history.push('/favorite-recipes')
   );
+
   const logout = () => {
     history.push('/');
     localStorage.clear();
   };
+
+  const getEmail = readUserEmail() && readUserEmail().email;
   return (
     <div>
       <Header />
       <div>
-        <h1 data-testid="profile-email">{ readUserEmail().email }</h1>
+        <h1 data-testid="profile-email">{ getEmail }</h1>
         <button
           onClick={ redirectDoneRecipes }
           type="button"
