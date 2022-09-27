@@ -5,7 +5,6 @@ import { fetchDrinkRecipe } from '../helpers/drinksAPI';
 import MealDetails from '../components/MealDetails';
 import DrinkDetails from '../components/DrinkDetails';
 import RecipesContext from '../context/RecipesContext';
-import Button from '../components/Button';
 import '../style/RecipeDetails.css';
 
 export default function RecipeDetails() {
