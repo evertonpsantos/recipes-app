@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import RecipesContext from '../context/RecipesContext';
+import Button from './Button';
 import DrinkRecommendations from './DrinkRecommendations';
 
 export default function MealDetails() {
   const { recipe } = useContext(RecipesContext);
   const { meals } = recipe;
-  console.log(meals);
 
   if (meals.length === 0) return <h1>Loading...</h1>;
   return (
@@ -64,6 +64,7 @@ export default function MealDetails() {
       />
 
       <DrinkRecommendations />
+      <Button />
     </div>
   );
 }

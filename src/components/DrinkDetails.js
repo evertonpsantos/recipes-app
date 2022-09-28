@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import RecipesContext from '../context/RecipesContext';
+import Button from './Button';
 import MealRecommendations from './MealRecommendations';
 
 export default function DrinkDetails() {
@@ -58,6 +59,7 @@ export default function DrinkDetails() {
       <p data-testid="instructions">{drinks[0].strInstructions}</p>
 
       <MealRecommendations />
+      <Button />
     </div>
   );
 }
