@@ -1,0 +1,5 @@
+.radio-btn {
+  display: flexbox;
+  justify-content: space-evenly;
+  padding: 5px;
+}
