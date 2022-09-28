@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+// import RecipesContext from '../context/RecipesContext';
 import drinksAPI, { drinksCategories,
   drinksFilterByCategories } from '../helpers/drinksAPI';
 import mealsAPI, { mealsCategories, mealsFilterByCategories } from '../helpers/mealsAPI';
@@ -10,6 +11,7 @@ function Recipes() {
   const { pathname } = useLocation();
   const [recipes, setRecipes] = useState([]);
   const [categories, setCategories] = useState([]);
+  // const { filteredSearch } = useContext(RecipesContext);
   const [btnFilter, setBtn] = useState({
     filter: {},
   });

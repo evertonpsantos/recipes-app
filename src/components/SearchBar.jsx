@@ -9,7 +9,7 @@ export default function SearchBar() {
   const [checkedRadioBtn1, setCheckedRadioBtn1] = useState(false);
   const [checkedRadioBtn2, setCheckedRadioBtn2] = useState(false);
   const [checkedRadioBtn3, setCheckedRadioBtn3] = useState(false);
-  const [setFilteredSearch] = useContext(RecipesContext);
+  const { setFilteredSearch } = useContext(RecipesContext);
   const { pathname } = useLocation();
 
   const setMealsEndpoint = () => {
@@ -80,6 +80,7 @@ export default function SearchBar() {
   const handleSearchClick = async () => {
     const response = await fetch(url);
     const result = await response.json();
+    console.log(result);
     setFilteredSearch(result);
   };
 
