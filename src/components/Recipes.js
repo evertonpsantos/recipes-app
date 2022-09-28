@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-// import RecipesContext from '../context/RecipesContext';
+import RecipesContext from '../context/RecipesContext';
 import drinksAPI, { drinksCategories,
   drinksFilterByCategories } from '../helpers/drinksAPI';
 import mealsAPI, { mealsCategories, mealsFilterByCategories } from '../helpers/mealsAPI';
@@ -11,7 +11,7 @@ function Recipes() {
   const { pathname } = useLocation();
   const [recipes, setRecipes] = useState([]);
   const [categories, setCategories] = useState([]);
-  // const { filteredSearch } = useContext(RecipesContext);
+  const { filteredSearch } = useContext(RecipesContext);
   const [btnFilter, setBtn] = useState({
     filter: {},
   });
@@ -76,28 +76,51 @@ function Recipes() {
             </button>
           ))}
       </form>
-      {recipes.filter((_, index) => index < MAX_RECIPE)
-        .map((el, i) => (
-          <Link
-            to={ `/${checkPath() ? 'meals' : 'drinks'}/${el[checkPath() ? 'idMeal'
-              : 'idDrink']}` }
-            key={ i }
-          >
-            <div data-testid={ `${i}-recipe-card` }>
-              <img
-                data-testid={ `${i}-card-img` }
-                src={ checkPath() ? el.strMealThumb : el.strDrinkThumb }
-                alt={ checkPath() ? el.strMeal : el.strDrink }
-                style={ {
-                  width: '100px',
-                } }
-              />
-              <span data-testid={ `${i}-card-name` }>
-                {checkPath() ? el.strMeal : el.strDrink}
-              </span>
-            </div>
-          </Link>
-        ))}
+      { filteredSearch !== null
+        ? filteredSearch.filter((_, index) => index < MAX_RECIPE)
+          .map((e, i) => (
+            <Link
+              to={ `/${checkPath() ? 'meals' : 'drinks'}/${e[checkPath() ? 'idMeal'
+                : 'idDrink']}` }
+              key={ i }
+            >
+              <div data-testid={ `${i}-recipe-card` }>
+                <img
+                  data-testid={ `${i}-card-img` }
+                  src={ checkPath() ? e.strMealThumb : e.strDrinkThumb }
+                  alt={ checkPath() ? e.strMeal : e.strDrink }
+                  style={ {
+                    width: '100px',
+                  } }
+                />
+                <span data-testid={ `${i}-card-name` }>
+                  {checkPath() ? e.strMeal : e.strDrink}
+                </span>
+              </div>
+            </Link>
+          ))
+        : recipes.filter((_, index) => index < MAX_RECIPE)
+          .map((el, i) => (
+            <Link
+              to={ `/${checkPath() ? 'meals' : 'drinks'}/${el[checkPath() ? 'idMeal'
+                : 'idDrink']}` }
+              key={ i }
+            >
+              <div data-testid={ `${i}-recipe-card` }>
+                <img
+                  data-testid={ `${i}-card-img` }
+                  src={ checkPath() ? el.strMealThumb : el.strDrinkThumb }
+                  alt={ checkPath() ? el.strMeal : el.strDrink }
+                  style={ {
+                    width: '100px',
+                  } }
+                />
+                <span data-testid={ `${i}-card-name` }>
+                  {checkPath() ? el.strMeal : el.strDrink}
+                </span>
+              </div>
+            </Link>
+          ))}
     </div>
   );
 }
