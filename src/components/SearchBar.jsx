@@ -57,7 +57,6 @@ export default function SearchBar() {
   };
 
   const handleSearchClick = async () => {
-    console.log(url);
     const response = await fetch(url);
     const result = await response.json();
     console.log(result);
