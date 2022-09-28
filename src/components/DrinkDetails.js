@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import RecipesContext from '../context/RecipesContext';
 import mealsAPI from '../helpers/mealsAPI';
+import Button from './Button';
 import MealRecommendations from './MealRecommendations';
 
 export default function DrinkDetails() {
@@ -62,6 +63,7 @@ export default function DrinkDetails() {
       <p data-testid="instructions">{drink.strInstructions}</p>
 
       <MealRecommendations />
+      <Button />
     </div>
   );
 }

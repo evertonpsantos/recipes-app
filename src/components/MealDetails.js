@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import RecipesContext from '../context/RecipesContext';
 import drinksAPI from '../helpers/drinksAPI';
+import Button from './Button';
 import DrinkRecommendations from './DrinkRecommendations';
 
 export default function MealDetails() {
@@ -67,6 +68,7 @@ export default function MealDetails() {
       />
 
       <DrinkRecommendations />
+      <Button />
     </div>
   );
 }

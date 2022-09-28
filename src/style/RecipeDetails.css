@@ -1,0 +1,22 @@
+.recipe-status-btn {
+  bottom: 0;
+  height: 50px;
+  left: 40%;
+  position: fixed;
+  width: 100px;
+}
+
+.details-button {
+  bottom: 0;
+  height: 50px;
+  position: sticky;
+  width: 50px;
+}
+
+.favorite {
+  bottom: 0;
+  height: 50px;
+  left: 12px;
+  position: sticky;
+  width: 50px;
+}
