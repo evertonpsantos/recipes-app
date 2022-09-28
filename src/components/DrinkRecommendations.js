@@ -26,7 +26,6 @@ export default function Recommendations() {
               key={ i }
             >
               <img
-                className="d-block w-100"
                 src={ drink.strDrinkThumb }
                 alt={ drink.strDrink }
                 style={ {

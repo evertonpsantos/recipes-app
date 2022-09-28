@@ -34,7 +34,6 @@ export default function Recommendations() {
               } }
             >
               <img
-                className="d-block w-100"
                 src={ meal.strMealThumb }
                 alt={ meal.strMeal }
                 style={ { width: '200px !important' } }

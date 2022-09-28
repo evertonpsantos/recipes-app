@@ -15,24 +15,18 @@ function Recipes() {
   });
 
   useEffect(() => {
-    let controller = new AbortController();
-    if (controller) {
-      (async () => {
-        if (pathname === '/meals') {
-          const data = await mealsAPI();
-          const mealsCat = await mealsCategories();
-          setCategories(mealsCat.meals);
-          controller = null;
-          return setRecipes(data.meals);
-        }
-        const data = await drinksAPI();
-        const drinksCat = await drinksCategories();
-        setCategories(drinksCat.drinks);
-        controller = null;
-        return setRecipes(data.drinks);
-      })();
-    }
-    return () => controller?.abort();
+    (async () => {
+      if (pathname === '/meals') {
+        const data = await mealsAPI();
+        const mealsCat = await mealsCategories();
+        setCategories(mealsCat.meals);
+        return setRecipes(data.meals);
+      }
+      const data = await drinksAPI();
+      const drinksCat = await drinksCategories();
+      setCategories(drinksCat.drinks);
+      return setRecipes(data.drinks);
+    })();
   }, [pathname]);
 
   const checkPath = () => {
