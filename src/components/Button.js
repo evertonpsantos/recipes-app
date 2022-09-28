@@ -3,6 +3,8 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import saveRecipe from '../helpers/recipeLocalStorage';
 import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 const copy = require('clipboard-copy');
 
@@ -13,6 +15,7 @@ export default function Button() {
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [inProgressRecipes, setInProgress] = useState([]);
   const [copyMessage, setCopyMessage] = useState('');
+  const [isFavorite, setIsFavorite] = useState(false);
   const { recipe } = useContext(RecipesContext);
 
   useEffect(() => {
@@ -39,6 +42,22 @@ export default function Button() {
   };
 
   const handleFavoriting = () => {
+    if (isFavorite) {
+      if (pathname.includes('meals')) {
+        const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes'));
+        const filteredArray = favoriteArray
+          .filter((savedRecipe) => savedRecipe.id !== recipe.meals[0].idMeal);
+        localStorage.setItem('favoriteRecipes', JSON.stringify(filteredArray));
+        return setIsFavorite(false);
+      }
+
+      const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes'));
+      const filteredArray = favoriteArray
+        .filter((savedRecipe) => savedRecipe.id !== recipe.drinks[0].idDrink);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(filteredArray));
+      return setIsFavorite(false);
+    }
+
     if ('meals' in recipe) {
       const { idMeal, strArea, strCategory,
         strMeal, strMealThumb, strAlcoholic } = recipe.meals[0];
@@ -53,7 +72,8 @@ export default function Button() {
         image: strMealThumb,
       };
 
-      return saveRecipe(newRecipe);
+      saveRecipe(newRecipe);
+      return setIsFavorite(true);
     }
 
     const { idDrink, strArea, strCategory,
@@ -70,7 +90,24 @@ export default function Button() {
     };
 
     saveRecipe(newRecipe);
+    return setIsFavorite(true);
   };
+
+  useEffect(() => {
+    // if (checkIfIsFavorite()) {
+    //   setIsFavorite(true);
+    // }
+    if ('meals' in recipe) {
+      const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+      return setIsFavorite(favoriteArray
+        .some((savedRecipe) => savedRecipe.id === recipe.meals[0].idMeal));
+    }
+
+    const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    return setIsFavorite(favoriteArray
+      .some((savedRecipe) => savedRecipe.id === recipe.drinks[0].idDrink));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recipe]);
 
   if (!doneRecipes) return <p>...</p>;
 
@@ -105,7 +142,10 @@ export default function Button() {
         onClick={ handleFavoriting }
         className="details-button favorite"
       >
-        Favoritar
+        <img
+          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+          alt="share-icon"
+        />
       </button>
     </div>
   );
