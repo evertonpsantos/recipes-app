@@ -11,7 +11,7 @@ export default function RecipeDetails() {
   const { pathname } = useLocation();
   const { id } = useParams();
 
-  const { recipe, setRecipe } = useContext(RecipesContext);
+  const { setRecipe } = useContext(RecipesContext);
 
   useEffect(() => {
     (async () => (
