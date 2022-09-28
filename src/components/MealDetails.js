@@ -5,25 +5,24 @@ import DrinkRecommendations from './DrinkRecommendations';
 
 export default function MealDetails() {
   const { recipe } = useContext(RecipesContext);
+  const { meals } = recipe;
 
-  const meal = recipe.meals[0];
-
-  if (!recipe.meals[0]) return null;
+  if (meals.length === 0) return <h1>Loading...</h1>;
   return (
     <div>
       <img
-        src={ meal.strMealThumb }
-        alt={ meal.strMeal }
+        src={ meals[0].strMealThumb }
+        alt={ meals[0].strMeal }
         data-testid="recipe-photo"
         style={ { width: '200px' } }
       />
-      <h1 data-testid="recipe-title">{meal.strMeal}</h1>
-      <h3 data-testid="recipe-category">{meal.strCategory}</h3>
+      <h1 data-testid="recipe-title">{meals[0].strMeal}</h1>
+      <h3 data-testid="recipe-category">{meals[0].strCategory}</h3>
       <table>
         <thead>
           <tr>
             {
-              Object.entries(meal)
+              Object.entries(meals[0])
                 .filter((el) => el[0].includes('strIngredient'))
                 .filter((ele) => ele[1] !== '')
                 .map((el, index) => (
@@ -39,7 +38,7 @@ export default function MealDetails() {
         </thead>
         <tbody>
           {
-            Object.entries(meal)
+            Object.entries(meals[0])
               .filter((el) => el[0].includes('strMeasure'))
               .filter((ele) => ele[1] !== '')
               .map((el, index) => (
@@ -53,12 +52,12 @@ export default function MealDetails() {
           }
         </tbody>
       </table>
-      <p data-testid="instructions">{meal.strInstructions}</p>
+      <p data-testid="instructions">{meals[0].strInstructions}</p>
       <iframe
         title="how to make video"
         width="560"
         height="315"
-        src={ meal.strYoutube.replace('watch?v=', 'embed/') }
+        src={ meals[0]?.strYoutube.replace('watch?v=', 'embed/') }
         frameBorder="0"
         allowFullScreen
         data-testid="video"

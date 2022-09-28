@@ -40,14 +40,13 @@ function Recipes() {
       setBtn({ filter: { [param]: true } });
       return setRecipes(data[checkPath() ? 'meals' : 'drinks']);
     }
-    // if (btnFilter.filter[param]) {
     const data = checkPath() ? (await mealsAPI())
       : (await drinksAPI());
     setBtn({ filter: {} });
     return setRecipes(data[checkPath() ? 'meals' : 'drinks']);
-    // }
   };
 
+  if (recipes.length === 0) return <h1>Loading...</h1>;
   return (
     <div>
       <form>

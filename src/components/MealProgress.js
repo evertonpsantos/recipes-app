@@ -3,19 +3,18 @@ import RecipesContext from '../context/RecipesContext';
 
 export default function MealProgress() {
   const { recipe } = useContext(RecipesContext);
+  const { meals } = recipe;
 
-  const meal = recipe.meals[0];
-
-  if (!recipe.meals[0]) return null;
+  if (meals.length === 0) return <h1>Loading...</h1>;
   return (
     <div>
       <img
-        src={ meal.strMealThumb }
-        alt={ meal.strMeal }
+        src={ meals[0].strMealThumb }
+        alt={ meals[0].strMeal }
         style={ { width: '200px' } }
         data-testid="recipe-photo"
       />
-      <h1 data-testid="recipe-title">{meal.strMeal}</h1>
+      <h1 data-testid="recipe-title">{meals[0].strMeal}</h1>
       <button
         type="button"
         data-testid="share-btn"
@@ -28,10 +27,10 @@ export default function MealProgress() {
       >
         Favorite
       </button>
-      <h3 data-testid="recipe-category">{meal.strCategory}</h3>
+      <h3 data-testid="recipe-category">{meals[0].strCategory}</h3>
       <div>
         {
-          Object.entries(meal)
+          Object.entries(meals[0])
             .filter((el) => el[0].includes('strIngredient'))
             .filter((el) => el[1] !== '' && el[1] !== null)
             .map((el, index) => (
@@ -49,7 +48,7 @@ export default function MealProgress() {
             ))
         }
       </div>
-      <p data-testid="instructions">{meal.strInstructions}</p>
+      <p data-testid="instructions">{meals[0].strInstructions}</p>
       <button type="button" data-testid="finish-recipe-btn">Finish</button>
     </div>
   );

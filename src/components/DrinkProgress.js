@@ -3,19 +3,18 @@ import RecipesContext from '../context/RecipesContext';
 
 export default function DrinkProgress() {
   const { recipe } = useContext(RecipesContext);
+  const { drinks } = recipe;
 
-  const drink = recipe.drinks[0];
-
-  if (!recipe.drinks[0]) return null;
+  if (drinks.length === 0) return <h1>Loading...</h1>;
   return (
     <div>
       <img
-        src={ drink.strDrinkThumb }
-        alt={ drink.strDrink }
+        src={ drinks[0].strDrinkThumb }
+        alt={ drinks[0].strDrink }
         style={ { width: '200px' } }
         data-testid="recipe-photo"
       />
-      <h1 data-testid="recipe-title">{ drink.strDrink }</h1>
+      <h1 data-testid="recipe-title">{ drinks[0].strDrink }</h1>
       <button
         type="button"
         data-testid="share-btn"
@@ -30,10 +29,10 @@ export default function DrinkProgress() {
         Favorite
 
       </button>
-      <h3 data-testid="recipe-category">{drink.strCategory}</h3>
+      <h3 data-testid="recipe-category">{drinks[0].strCategory}</h3>
       <div>
         {
-          Object.entries(drink)
+          Object.entries(drinks[0])
             .filter((el) => el[0].includes('strIngredient'))
             .filter((el) => el[1] !== '' && el[1] !== null)
             .map((el, index) => (
@@ -51,7 +50,7 @@ export default function DrinkProgress() {
             ))
         }
       </div>
-      <p data-testid="instructions">{drink.strInstructions}</p>
+      <p data-testid="instructions">{drinks[0].strInstructions}</p>
       <button
         type="button"
         data-testid="finish-recipe-btn"
