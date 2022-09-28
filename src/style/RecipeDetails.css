@@ -14,5 +14,9 @@
 }
 
 .favorite {
+  bottom: 0;
+  height: 50px;
   left: 12px;
+  position: sticky;
+  width: 50px;
 }

@@ -140,7 +140,8 @@ export default function Button() {
         type="button"
         data-testid="favorite-btn"
         onClick={ handleFavoriting }
-        className="details-button favorite"
+        className="favorite"
+        src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
       >
         <img
           src={ isFavorite ? blackHeartIcon : whiteHeartIcon }

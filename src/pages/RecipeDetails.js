@@ -22,19 +22,19 @@ export default function RecipeDetails() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, id]);
 
-  if (recipe) {
-    if (pathname.includes('meals')) {
-      return (
-        <div>
-          <MealDetails />
-        </div>
-      );
-    }
-
+  // if (recipe) {
+  if (pathname.includes('meals')) {
     return (
       <div>
-        <DrinkDetails />
+        <MealDetails />
       </div>
     );
   }
+
+  return (
+    <div>
+      <DrinkDetails />
+    </div>
+  );
+  // }
 }
