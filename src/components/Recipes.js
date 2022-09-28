@@ -15,18 +15,24 @@ function Recipes() {
   });
 
   useEffect(() => {
-    (async () => {
-      if (pathname === '/meals') {
-        const data = await mealsAPI();
-        const mealsCat = await mealsCategories();
-        setCategories(mealsCat.meals);
-        return setRecipes(data.meals);
-      }
-      const data = await drinksAPI();
-      const drinksCat = await drinksCategories();
-      setCategories(drinksCat.drinks);
-      return setRecipes(data.drinks);
-    })();
+    let controller = new AbortController();
+    if (controller) {
+      (async () => {
+        if (pathname === '/meals') {
+          const data = await mealsAPI();
+          const mealsCat = await mealsCategories();
+          setCategories(mealsCat.meals);
+          controller = null;
+          return setRecipes(data.meals);
+        }
+        const data = await drinksAPI();
+        const drinksCat = await drinksCategories();
+        setCategories(drinksCat.drinks);
+        controller = null;
+        return setRecipes(data.drinks);
+      })();
+    }
+    return () => controller?.abort();
   }, [pathname]);
 
   const checkPath = () => {
@@ -40,14 +46,13 @@ function Recipes() {
       setBtn({ filter: { [param]: true } });
       return setRecipes(data[checkPath() ? 'meals' : 'drinks']);
     }
-    // if (btnFilter.filter[param]) {
     const data = checkPath() ? (await mealsAPI())
       : (await drinksAPI());
     setBtn({ filter: {} });
     return setRecipes(data[checkPath() ? 'meals' : 'drinks']);
-    // }
   };
 
+  if (recipes.length === 0) return <h1>Loading...</h1>;
   return (
     <div>
       <form>

@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Slider from 'react-slick';
 import drinksAPI from '../helpers/drinksAPI';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import settings from '../helpers/carouselSettings';
+// import settings from '../helpers/carouselSettings';
 
 export default function Recommendations() {
   const [recommendations, setRecommendations] = useState({});
@@ -16,7 +13,12 @@ export default function Recommendations() {
 
   if (recommendations.drinks) {
     return (
-      <Slider { ...settings }>
+      <div
+        style={ {
+          display: 'flex',
+          overflowX: 'scroll',
+        } }
+      >
         {
           recommendations.drinks.slice(0, SIX).map((drink, i) => (
             <div
@@ -27,6 +29,9 @@ export default function Recommendations() {
                 className="d-block w-100"
                 src={ drink.strDrinkThumb }
                 alt={ drink.strDrink }
+                style={ {
+                  width: '200px',
+                } }
               />
               <div>
                 <h3 data-testid={ `${i}-recommendation-title` }>{ drink.strDrink }</h3>
@@ -35,7 +40,7 @@ export default function Recommendations() {
             </div>
           ))
         }
-      </Slider>
+      </div>
     );
   }
   return null;

@@ -9,30 +9,33 @@ import RecipesContext from '../context/RecipesContext';
 export default function RecipeDetails() {
   const { pathname } = useLocation();
   const { id } = useParams();
-
   const { recipe, setRecipe } = useContext(RecipesContext);
 
+  const path = pathname.split('/')[1];
+
   useEffect(() => {
-    (async () => (
-      pathname.includes('meals')
-        ? setRecipe(await fetchMealRecipe(id))
-        : setRecipe(await fetchDrinkRecipe(id))
-    ))();
-  }, [pathname, id]);
-
-  if (recipe) {
-    if (pathname.includes('meals')) {
-      return (
-        <div>
-          <MealDetails />
-        </div>
-      );
+    let loading = true;
+    if (loading) {
+      (async () => {
+        setRecipe(path === 'meals' ? ({ ...await fetchMealRecipe(id), drinks: [] })
+          : ({ ...await fetchDrinkRecipe(id), meals: [] }));
+        loading = false;
+      })();
     }
+  }, [id, path, setRecipe]);
 
+  if (recipe[path].length === 0) return <h1>Loading...</h1>;
+  if (path === 'meals') {
     return (
       <div>
-        <DrinkDetails />
+        <MealDetails />
       </div>
     );
   }
+
+  return (
+    <div>
+      <DrinkDetails />
+    </div>
+  );
 }
