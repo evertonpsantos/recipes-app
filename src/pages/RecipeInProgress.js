@@ -1,15 +1,26 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import { fetchMealRecipe } from '../helpers/mealsAPI';
+import { fetchDrinkRecipe } from '../helpers/drinksAPI';
+import RecipesContext from '../context/RecipesContext';
+import MealProgress from '../components/MealProgress';
+import DrinkProgress from '../components/DrinkProgress';
 
 export default function RecipeInProgress() {
-  return (
-    <div>
-      <img src="" alt="" data-testid="recipe-photo" />
-      <h1 data-testid="recipe-title">Título da receita</h1>
-      <button type="button" data-testid="share-btn">Share</button>
-      <button type="button" data-testid="favorite-btn">Favorite</button>
-      <h3 data-testid="recipe-category">Categoria</h3>
-      <p data-testid="instructions">Instruções</p>
-      <button type="button" data-testid="finish-recipe-btn">Finish</button>
-    </div>
-  );
+  const { pathname } = useLocation();
+  const { id } = useParams();
+
+  const { setRecipe } = useContext(RecipesContext);
+
+  useEffect(() => {
+    (async () => (
+      pathname.includes('meals')
+        ? setRecipe(await fetchMealRecipe(id))
+        : setRecipe(await fetchDrinkRecipe(id))
+    ))();
+  }, [pathname, id]);
+
+  return pathname.includes('meals')
+    ? <MealProgress />
+    : <DrinkProgress />;
 }
