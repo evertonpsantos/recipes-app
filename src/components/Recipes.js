@@ -4,8 +4,8 @@ import drinksAPI, { drinksCategories,
   drinksFilterByCategories } from '../helpers/drinksAPI';
 import mealsAPI, { mealsCategories, mealsFilterByCategories } from '../helpers/mealsAPI';
 
-function Recipies() {
-  const MAX_RECIPIE = 12;
+function Recipes() {
+  const MAX_RECIPE = 12;
   const MAX_CATEGORIES = 5;
   const { pathname } = useLocation();
   const [recipes, setRecipes] = useState([]);
@@ -74,7 +74,7 @@ function Recipies() {
             </button>
           ))}
       </form>
-      {recipes.filter((_, index) => index < MAX_RECIPIE)
+      {recipes.filter((_, index) => index < MAX_RECIPE)
         .map((el, i) => (
           <Link
             to={ `/${checkPath() ? 'meals' : 'drinks'}/${el[checkPath() ? 'idMeal'
@@ -100,4 +100,4 @@ function Recipies() {
   );
 }
 
-export default Recipies;
+export default Recipes;
