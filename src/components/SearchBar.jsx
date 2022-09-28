@@ -31,19 +31,27 @@ export default function SearchBar() {
   //   }
   // };
 
-  useEffect(() => {
-    if (pathname === '/meals') {
-      if (checkedRadioBtn1) setUrl(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`);
-      else if (checkedRadioBtn2) setUrl(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`);
-      else if (checkedRadioBtn3 && searchInput.length === 1) setUrl(`https://www.themealdb.com/api/json/v1/1/filter.php?f=${searchInput}`);
-    } else global.alert('Your search must have only 1 (one) character');
-
-    if (pathname === '/drinks') {
-      if (checkedRadioBtn1) setUrl(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchInput}`);
-      else if (checkedRadioBtn2) setUrl(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`);
-      else if (checkedRadioBtn3 && searchInput.length === 1) setUrl(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?f=${searchInput}`);
+  const mealsPath = () => {
+    if (checkedRadioBtn1) setUrl(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`);
+    else if (checkedRadioBtn2) setUrl(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`);
+    else if (checkedRadioBtn3 && searchInput.length === 1) setUrl(`https://www.themealdb.com/api/json/v1/1/filter.php?f=${searchInput}`);
+    else if (checkedRadioBtn3 && searchInput.length > 1) {
+      global.alert('Your search must have only 1 (one) character');
     }
-  }, [checkedRadioBtn1, checkedRadioBtn2, checkedRadioBtn3]);
+  };
+
+  const drinksPath = () => {
+    if (checkedRadioBtn1) setUrl(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchInput}`);
+    else if (checkedRadioBtn2) setUrl(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`);
+    else if (checkedRadioBtn3 && searchInput.length === 1) setUrl(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?f=${searchInput}`);
+    else if (checkedRadioBtn3 && searchInput.length > 1) {
+      global.alert('Your search must have only 1 (one) character');
+    }
+  };
+
+  useEffect(() => (
+    pathname === '/meals' ? mealsPath() : drinksPath()
+  ), [checkedRadioBtn1, checkedRadioBtn2, checkedRadioBtn3, searchInput]);
 
   // const setDrinksEndpoint = () => {
   //   if (checkedRadioBtn1) {
