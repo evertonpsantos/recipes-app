@@ -1,36 +1,32 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import RecipesContext from '../context/RecipesContext';
-import mealsAPI from '../helpers/mealsAPI';
 import Button from './Button';
 import MealRecommendations from './MealRecommendations';
 
 export default function DrinkDetails() {
   const { recipe } = useContext(RecipesContext);
+  const { drinks } = recipe;
 
-  const drink = recipe.drinks[0];
-
-  useEffect(() => { (async () => mealsAPI())(); }, []);
-
-  if (!recipe.drinks[0]) return null;
+  if (drinks.length === 0) return <h1>Loading...</h1>;
   return (
     <div>
       <img
-        src={ drink.strDrinkThumb }
-        alt={ drink.strDrink }
+        src={ drinks[0].strDrinkThumb }
+        alt={ drinks[0].strDrink }
         data-testid="recipe-photo"
         style={ { width: '200px' } }
       />
-      <h1 data-testid="recipe-title">{drink.strDrink}</h1>
+      <h1 data-testid="recipe-title">{drinks[0].strDrink}</h1>
       <h3 data-testid="recipe-category">
-        {drink.strCategory}
+        {drinks[0].strCategory}
         {' '}
-        <span>{drink.strAlcoholic}</span>
+        <span>{drinks[0].strAlcoholic}</span>
       </h3>
       <table>
         <thead>
           <tr>
             {
-              Object.entries(drink)
+              Object.entries(drinks[0])
                 .filter((el) => el[0].includes('strIngredient'))
                 .filter((ele) => ele[1] !== '')
                 .map((el, index) => (
@@ -46,7 +42,7 @@ export default function DrinkDetails() {
         </thead>
         <tbody>
           {
-            Object.entries(drink)
+            Object.entries(drinks[0])
               .filter((el) => el[0].includes('strMeasure'))
               .filter((ele) => ele[1] !== '')
               .map((el, index) => (
@@ -60,7 +56,7 @@ export default function DrinkDetails() {
           }
         </tbody>
       </table>
-      <p data-testid="instructions">{drink.strInstructions}</p>
+      <p data-testid="instructions">{drinks[0].strInstructions}</p>
 
       <MealRecommendations />
       <Button />

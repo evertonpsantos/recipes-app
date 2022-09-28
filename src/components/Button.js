@@ -58,7 +58,7 @@ export default function Button() {
       return setIsFavorite(false);
     }
 
-    if ('meals' in recipe) {
+    if (recipe.meals.length !== 0) {
       const { idMeal, strArea, strCategory,
         strMeal, strMealThumb, strAlcoholic } = recipe.meals[0];
 
@@ -94,10 +94,7 @@ export default function Button() {
   };
 
   useEffect(() => {
-    // if (checkIfIsFavorite()) {
-    //   setIsFavorite(true);
-    // }
-    if ('meals' in recipe) {
+    if (recipe.meals.length !== 0) {
       const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
       return setIsFavorite(favoriteArray
         .some((savedRecipe) => savedRecipe.id === recipe.meals[0].idMeal));
@@ -106,7 +103,6 @@ export default function Button() {
     const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
     return setIsFavorite(favoriteArray
       .some((savedRecipe) => savedRecipe.id === recipe.drinks[0].idDrink));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recipe]);
 
   if (!doneRecipes) return <p>...</p>;
