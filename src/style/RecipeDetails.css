@@ -12,3 +12,7 @@
   position: sticky;
   width: 50px;
 }
+
+.favorite {
+  left: 12px;
+}

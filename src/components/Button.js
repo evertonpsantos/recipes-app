@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
+import RecipesContext from '../context/RecipesContext';
+import saveRecipe from '../helpers/recipeLocalStorage';
 import shareIcon from '../images/shareIcon.svg';
 
 const copy = require('clipboard-copy');
@@ -11,6 +13,7 @@ export default function Button() {
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [inProgressRecipes, setInProgress] = useState([]);
   const [copyMessage, setCopyMessage] = useState('');
+  const { recipe } = useContext(RecipesContext);
 
   useEffect(() => {
     const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
@@ -30,26 +33,56 @@ export default function Button() {
     }
   }, [id]);
 
-  const handleClick = () => {
-    history.push(`${pathname}/in-progress`);
-  };
-
   const handleShareButton = () => {
     copy(`http://localhost:3000${pathname}`);
     setCopyMessage('Link copied!');
+  };
+
+  const handleFavoriting = () => {
+    if ('meals' in recipe) {
+      const { idMeal, strArea, strCategory,
+        strMeal, strMealThumb, strAlcoholic } = recipe.meals[0];
+
+      const newRecipe = {
+        id: idMeal,
+        type: 'meal',
+        nationality: strArea,
+        category: strCategory,
+        alcoholicOrNot: strAlcoholic || '',
+        name: strMeal,
+        image: strMealThumb,
+      };
+
+      return saveRecipe(newRecipe);
+    }
+
+    const { idDrink, strArea, strCategory,
+      strDrink, strDrinkThumb, strAlcoholic } = recipe.drinks[0];
+
+    const newRecipe = {
+      id: idDrink,
+      type: 'drink',
+      nationality: strArea || '',
+      category: strCategory,
+      alcoholicOrNot: strAlcoholic,
+      name: strDrink,
+      image: strDrinkThumb,
+    };
+
+    saveRecipe(newRecipe);
   };
 
   if (!doneRecipes) return <p>...</p>;
 
   return (
     <div>
-      { !doneRecipes.some((recipe) => recipe.id === id) && (
+      { !doneRecipes.some((doneRecipe) => doneRecipe.id === id) && (
         <div className="recipe-button-container">
           <button
             type="button"
             data-testid="start-recipe-btn"
             className="recipe-status-btn"
-            onClick={ handleClick }
+            onClick={ () => history.push(`${pathname}/in-progress`) }
           >
             { inProgressRecipes.includes(id) ? 'Continue Recipe' : 'Start Recipe' }
           </button>
@@ -66,7 +99,14 @@ export default function Button() {
       </button>
       { copyMessage && <p>{copyMessage}</p>}
 
-      <button type="button" data-testid="favorite-btn">Favoritar</button>
+      <button
+        type="button"
+        data-testid="favorite-btn"
+        onClick={ handleFavoriting }
+        className="details-button favorite"
+      >
+        Favoritar
+      </button>
     </div>
   );
 }
