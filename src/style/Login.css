@@ -79,4 +79,11 @@
   .login-form {
     gap: 0.4em;
   }
+
+  .login-input, .login-button {
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 0.6em;
+    width: 65%;
+  }
 }
