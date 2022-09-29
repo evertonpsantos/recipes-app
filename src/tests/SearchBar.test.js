@@ -4,9 +4,6 @@ import App from '../App';
 import renderWithRouter from './helpers/renderwithRouter';
 
 const mealsByIngredient = require('../../cypress/mocks/mealIngredients');
-// const drinksByIngredient = require('../../cypress/mocks/drinksByIngredient');
-// const oneDrink = require('../../cypress/mocks/oneDrink');
-// const oneMeal = require('../../cypress/mocks/oneMeal');
 
 const INGREDIENT_DATA_TESTID = 'ingredient-search-radio';
 const RECIPE_NAME_DATA_TESTID = 'name-search-radio';
@@ -167,46 +164,4 @@ describe('SearchBar page tests', () => {
 
     expect(global.fetch).toHaveBeenCalled();
   });
-  // test(' in Drinks page if when user select a radio button and searches for a recipe, the API is requested', () => {
-  //   renderWithRouter(<App />, '/drinks');
-
-  //   jest.spyOn(global, 'fetch');
-  //   global.fetch = jest.fn().mockResolvedValueOnce({
-  //     json: jest.fn().mockResolvedValue(drinksByIngredient),
-  //   });
-
-  //   const searchImgButton = screen.getByTestId(SEARCH_ICON_IMAGE);
-  //   userEvent.click(searchImgButton);
-
-  //   const ingredientRadio = screen.getByTestId(INGREDIENT_DATA_TESTID);
-  //   const searchInput = screen.getByTestId(SEARCH_INPUT_DATA_TESTID);
-  //   const searchButton = screen.getByTestId(SEARCH_BUTTON_DATA_TESTID);
-
-  //   userEvent.click(ingredientRadio);
-  //   userEvent.type(searchInput, 'Light rum');
-  //   userEvent.click(searchButton);
-
-  //   expect(global.fetch).toHaveBeenCalled();
-  // });
-  // test(' in Drinks page if when user select a radio button and searches for a recipe, the API is requested', () => {
-  //   renderWithRouter(<App />, '/drinks');
-
-  //   jest.spyOn(global, 'fetch');
-  //   global.fetch = jest.fn().mockResolvedValueOnce({
-  //     json: jest.fn().mockResolvedValue(oneDrink),
-  //   });
-
-  //   const searchImgButton = screen.getByTestId(SEARCH_ICON_IMAGE);
-  //   userEvent.click(searchImgButton);
-
-  //   const recipeNameRadio = screen.getByTestId(RECIPE_NAME_DATA_TESTID);
-  //   const searchInput = screen.getByTestId(SEARCH_INPUT_DATA_TESTID);
-  //   const searchButton = screen.getByTestId(SEARCH_BUTTON_DATA_TESTID);
-
-  //   userEvent.click(recipeNameRadio);
-  //   userEvent.type(searchInput, 'Aquamarine');
-  //   userEvent.click(searchButton);
-
-  //   expect(global.fetch).toHaveBeenCalled();
-  // });
 });

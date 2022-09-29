@@ -8,7 +8,7 @@ export default function SearchBar() {
   const [checkedRadioBtn1, setCheckedRadioBtn1] = useState(false);
   const [checkedRadioBtn2, setCheckedRadioBtn2] = useState(false);
   const [checkedRadioBtn3, setCheckedRadioBtn3] = useState(false);
-  // const [searchButtonDisabled, setSearchButtonDisabled] = useState(false);
+
   const { pathname } = useLocation();
   const {
     setFilteredSearch,
@@ -121,7 +121,6 @@ export default function SearchBar() {
         type="submit"
         data-testid="exec-search-btn"
         onClick={ () => handleSearchClick() }
-        // disabled={ searchButtonDisabled }
       >
         Search
       </button>
