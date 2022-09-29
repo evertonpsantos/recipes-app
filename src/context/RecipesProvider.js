@@ -7,7 +7,7 @@ export default function RecipesProvider({ children }) {
     email: '',
   });
   const [searchInput, setSearchInput] = useState('');
-  const [filteredSearch, setFilteredSearch] = useState(null);
+  const [filteredSearch, setFilteredSearch] = useState([]);
   const [recipe, setRecipe] = useState({ meals: [], drinks: [] });
   const contextValue = useMemo(() => ({
     user,
