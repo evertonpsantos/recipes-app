@@ -9,6 +9,9 @@ import { allDrinkCat, allMealCat, setCategoryBtn } from '../helpers/categoriesIc
 import '../style/Recipes.css';
 
 function Recipes() {
+  const noRecipesFoundPartial = 'Sorry, we haven';
+  const noRecipesFoundAlert = `${
+    noRecipesFoundPartial}'t found any recipes for these filters.`;
   const MAX_RECIPE = 12;
   const MAX_CATEGORIES = 5;
   const { pathname } = useLocation();
@@ -91,7 +94,7 @@ function Recipes() {
           ))}
       </form>
 
-      {filteredSearch !== null
+      { filteredSearch !== null && filteredSearch.length !== 0
         ? filteredSearch.filter((_, index) => index < MAX_RECIPE)
           .map((e, i) => (
             <Link
@@ -142,7 +145,7 @@ function Recipes() {
 
       {filteredSearch && filteredSearch.length === 1 && pathname === '/drinks'
       && <Redirect to={ `/drinks/${filteredSearch[0].idDrink}` } /> }
-
+      { filteredSearch === null && global.alert(noRecipesFoundAlert)}
     </div>
   );
 }

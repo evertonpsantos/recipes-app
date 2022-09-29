@@ -5,10 +5,10 @@ import '../style/SearchBar.css';
 
 export default function SearchBar() {
   const [url, setUrl] = useState('');
-  const noRecipesFound = 't found any recipes for these filters.';
   const [checkedRadioBtn1, setCheckedRadioBtn1] = useState(false);
   const [checkedRadioBtn2, setCheckedRadioBtn2] = useState(false);
   const [checkedRadioBtn3, setCheckedRadioBtn3] = useState(false);
+
   const { pathname } = useLocation();
   const {
     setFilteredSearch,
@@ -63,11 +63,7 @@ export default function SearchBar() {
   const handleSearchClick = async () => {
     const response = await fetch(url);
     const result = await response.json();
-    console.log(result);
-    if (searchInput.length === 0) {
-      setFilteredSearch('oi');
-      global.alert(noRecipesFound);
-    }
+
     return pathname === '/meals'
       ? setFilteredSearch(result.meals)
       : setFilteredSearch(result.drinks);
