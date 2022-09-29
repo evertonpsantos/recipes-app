@@ -3,6 +3,11 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from './helpers/renderwithRouter';
 
+const mealsByIngredient = require('../../cypress/mocks/mealIngredients');
+// const drinksByIngredient = require('../../cypress/mocks/drinksByIngredient');
+// const oneDrink = require('../../cypress/mocks/oneDrink');
+// const oneMeal = require('../../cypress/mocks/oneMeal');
+
 const INGREDIENT_DATA_TESTID = 'ingredient-search-radio';
 const RECIPE_NAME_DATA_TESTID = 'name-search-radio';
 const FIRST_LETTER_DATA_TESTID = 'first-letter-search-radio';
@@ -37,6 +42,21 @@ describe('SearchBar page tests', () => {
     ];
 
     elements.forEach((el) => expect(el).toBeInTheDocument());
+  });
+  test('If when an radio input is selected, the others inputs are not selected', () => {
+    renderWithRouter(<App />, '/meals');
+
+    const searchImgButton = screen.getByTestId(SEARCH_ICON_IMAGE);
+    userEvent.click(searchImgButton);
+
+    const ingredientRadio = screen.getByTestId(INGREDIENT_DATA_TESTID);
+    const recipeNameRadio = screen.getByTestId(RECIPE_NAME_DATA_TESTID);
+    const firstLetterRadio = screen.getByTestId(FIRST_LETTER_DATA_TESTID);
+
+    userEvent.click(recipeNameRadio);
+    expect(recipeNameRadio).toHaveValue(true);
+    expect(ingredientRadio).toHaveValue(false);
+    expect(firstLetterRadio).toHaveValue(false);
   });
   test(' in Meals page if when typed in search input and select the ingredient radio input, the correct element appears when search button is clicked', async () => {
     renderWithRouter(<App />, '/meals');
@@ -80,7 +100,7 @@ describe('SearchBar page tests', () => {
       expect(await screen.getAllByTestId(/recipe-card/)).toHaveLength(2);
     });
   });
-  test('If when first letter radio is selected and typed more than one letter, an alert appears on the screen', () => {
+  test('In Drinks page if when first letter radio is selected and typed more than one letter, an alert appears on the screen', () => {
     renderWithRouter(<App />, '/drinks');
     global.alert = jest.fn(() => 'Your search must have only 1 (one) character');
 
@@ -92,6 +112,21 @@ describe('SearchBar page tests', () => {
 
     userEvent.click(firstLetterRadio);
     userEvent.type(searchInput, 'ya');
+
+    expect(global.alert).toHaveBeenCalled();
+  });
+  test('In Meals page if when first letter radio is selected and typed more than one letter, an alert appears on the screen', () => {
+    renderWithRouter(<App />, '/meals');
+    global.alert = jest.fn(() => 'Your search must have only 1 (one) character');
+
+    const searchImgButton = screen.getByTestId(SEARCH_ICON_IMAGE);
+    userEvent.click(searchImgButton);
+
+    const firstLetterRadio = screen.getByTestId(FIRST_LETTER_DATA_TESTID);
+    const searchInput = screen.getByTestId(SEARCH_INPUT_DATA_TESTID);
+
+    userEvent.click(firstLetterRadio);
+    userEvent.type(searchInput, 'ch');
 
     expect(global.alert).toHaveBeenCalled();
   });
@@ -109,12 +144,15 @@ describe('SearchBar page tests', () => {
     userEvent.click(ingredientRadio);
     userEvent.type(searchInput, 'fish');
     userEvent.click(searchButton);
-
     expect(global.alert).toHaveBeenCalled();
   });
-  test(' If when user select a radio button and searches for a recipe, the API is requested', () => {
+  test(' in Meals page if when user select a radio button and searches for a recipe, the API is requested', () => {
     renderWithRouter(<App />, '/meals');
-    global.fetch = jest.spy(() => fetch);
+
+    jest.spyOn(global, 'fetch');
+    global.fetch = jest.fn().mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValue(mealsByIngredient),
+    });
 
     const searchImgButton = screen.getByTestId(SEARCH_ICON_IMAGE);
     userEvent.click(searchImgButton);
@@ -124,9 +162,51 @@ describe('SearchBar page tests', () => {
     const searchButton = screen.getByTestId(SEARCH_BUTTON_DATA_TESTID);
 
     userEvent.click(ingredientRadio);
-    userEvent.type(searchInput, 'fish');
+    userEvent.type(searchInput, 'chicken');
     userEvent.click(searchButton);
 
-    expect(global.alert).toHaveBeenCalled();
+    expect(global.fetch).toHaveBeenCalled();
   });
+  // test(' in Drinks page if when user select a radio button and searches for a recipe, the API is requested', () => {
+  //   renderWithRouter(<App />, '/drinks');
+
+  //   jest.spyOn(global, 'fetch');
+  //   global.fetch = jest.fn().mockResolvedValueOnce({
+  //     json: jest.fn().mockResolvedValue(drinksByIngredient),
+  //   });
+
+  //   const searchImgButton = screen.getByTestId(SEARCH_ICON_IMAGE);
+  //   userEvent.click(searchImgButton);
+
+  //   const ingredientRadio = screen.getByTestId(INGREDIENT_DATA_TESTID);
+  //   const searchInput = screen.getByTestId(SEARCH_INPUT_DATA_TESTID);
+  //   const searchButton = screen.getByTestId(SEARCH_BUTTON_DATA_TESTID);
+
+  //   userEvent.click(ingredientRadio);
+  //   userEvent.type(searchInput, 'Light rum');
+  //   userEvent.click(searchButton);
+
+  //   expect(global.fetch).toHaveBeenCalled();
+  // });
+  // test(' in Drinks page if when user select a radio button and searches for a recipe, the API is requested', () => {
+  //   renderWithRouter(<App />, '/drinks');
+
+  //   jest.spyOn(global, 'fetch');
+  //   global.fetch = jest.fn().mockResolvedValueOnce({
+  //     json: jest.fn().mockResolvedValue(oneDrink),
+  //   });
+
+  //   const searchImgButton = screen.getByTestId(SEARCH_ICON_IMAGE);
+  //   userEvent.click(searchImgButton);
+
+  //   const recipeNameRadio = screen.getByTestId(RECIPE_NAME_DATA_TESTID);
+  //   const searchInput = screen.getByTestId(SEARCH_INPUT_DATA_TESTID);
+  //   const searchButton = screen.getByTestId(SEARCH_BUTTON_DATA_TESTID);
+
+  //   userEvent.click(recipeNameRadio);
+  //   userEvent.type(searchInput, 'Aquamarine');
+  //   userEvent.click(searchButton);
+
+  //   expect(global.fetch).toHaveBeenCalled();
+  // });
 });
