@@ -1,17 +1,24 @@
 const FAVORITE_RECIPES = 'favoriteRecipes';
 const IN_PROGRESS_RECIPES = 'inProgressRecipes';
 
-const saveRecipe = (newRecipe) => {
-  const arrayStorage = JSON.parse(localStorage.getItem(FAVORITE_RECIPES));
-  if (!arrayStorage) {
-    localStorage.setItem(FAVORITE_RECIPES, JSON.stringify([]));
-    const oldArray = JSON.parse(localStorage.getItem(FAVORITE_RECIPES));
-    const newArray = oldArray.concat(newRecipe);
-
-    return localStorage.setItem(FAVORITE_RECIPES, JSON.stringify(newArray));
+export const readRecipe = () => {
+  if (!JSON.parse(localStorage.getItem(FAVORITE_RECIPES))) {
+    return localStorage.setItem(FAVORITE_RECIPES, JSON.stringify([]));
   }
-  const newArray = arrayStorage.concat(newRecipe);
+  return JSON.parse(localStorage.getItem(FAVORITE_RECIPES));
+};
+
+const saveRecipe = (newRecipe) => {
+  const arrayStorage = readRecipe();
+  const newArray = [...arrayStorage, newRecipe];
   localStorage.setItem(FAVORITE_RECIPES, JSON.stringify(newArray));
+};
+
+export const removeRecipe = (recipe) => {
+  const id = recipe[0]['idMeal' || 'idDrink'];
+  const localStorageRecipes = readRecipe();
+  const filteredArray = localStorageRecipes.filter((e) => e.id !== id);
+  localStorage.setItem(FAVORITE_RECIPES, JSON.stringify(filteredArray));
 };
 
 export const readProgress = () => (

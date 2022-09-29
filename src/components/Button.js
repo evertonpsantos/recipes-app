@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
-import saveRecipe from '../helpers/recipeLocalStorage';
+import saveRecipe, { readRecipe, removeRecipe } from '../helpers/recipeLocalStorage';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -11,15 +11,13 @@ const copy = require('clipboard-copy');
 export default function Button() {
   const { id } = useParams();
   const { pathname } = useLocation();
+  const path = pathname.split('/')[1];
   const history = useHistory();
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [inProgressRecipes, setInProgress] = useState([]);
   const [copyMessage, setCopyMessage] = useState('');
   const [isFavorite, setIsFavorite] = useState(false);
   const { recipe } = useContext(RecipesContext);
-  const { drinks, meals } = recipe;
-
-  const mealsPath = pathname.includes('meals');
 
   useEffect(() => {
     const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
@@ -40,75 +38,45 @@ export default function Button() {
   }, [id]);
 
   const handleShareButton = () => {
-    const path = `http://localhost:3000${pathname}`;
-    const regex = path.replace(/\/in-progress+$/g, '');
+    const pathNa = `http://localhost:3000${pathname}`;
+    const regex = pathNa.replace(/\/in-progress+$/g, '');
     copy(regex);
     setCopyMessage('Link copied!');
   };
 
   const handleFavoriting = () => {
     if (isFavorite) {
-      if (mealsPath) {
-        const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes'));
-        const filteredArray = favoriteArray
-          .filter((savedRecipe) => savedRecipe.id !== meals[0].idMeal);
-        localStorage.setItem('favoriteRecipes', JSON.stringify(filteredArray));
-        return setIsFavorite(false);
-      }
-
-      const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes'));
-      const filteredArray = favoriteArray
-        .filter((savedRecipe) => savedRecipe.id !== drinks[0].idDrink);
-      localStorage.setItem('favoriteRecipes', JSON.stringify(filteredArray));
+      removeRecipe(recipe[path]);
       return setIsFavorite(false);
     }
 
-    if (mealsPath && meals.length !== 0) {
-      const { idMeal, strArea, strCategory,
-        strMeal, strMealThumb, strAlcoholic } = meals[0];
+    if (recipe[path].length !== 0) {
+      const recipeNew = recipe[path][0];
+      const checkPath = path === 'meals';
 
       const newRecipe = {
-        id: idMeal,
-        type: 'meal',
-        nationality: strArea,
-        category: strCategory,
-        alcoholicOrNot: strAlcoholic || '',
-        name: strMeal,
-        image: strMealThumb,
+        id: recipeNew[checkPath ? 'idMeal' : 'idDrink'],
+        type: checkPath ? 'meal' : 'drink',
+        nationality: !checkPath ? '' : recipeNew.strArea,
+        category: recipeNew.strCategory,
+        alcoholicOrNot: checkPath ? '' : recipeNew.strAlcoholic,
+        name: recipeNew[checkPath ? 'strMeal' : 'strDrink'],
+        image: recipeNew[checkPath ? 'strMealThumb' : 'strDrinkThumb'],
       };
 
       saveRecipe(newRecipe);
       return setIsFavorite(true);
     }
-
-    const { idDrink, strArea, strCategory,
-      strDrink, strDrinkThumb, strAlcoholic } = drinks[0];
-
-    const newRecipe = {
-      id: idDrink,
-      type: 'drink',
-      nationality: strArea || '',
-      category: strCategory,
-      alcoholicOrNot: strAlcoholic,
-      name: strDrink,
-      image: strDrinkThumb,
-    };
-
-    saveRecipe(newRecipe);
-    return setIsFavorite(true);
   };
 
   useEffect(() => {
-    if (mealsPath && meals.length !== 0) {
-      const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    const favoriteArray = readRecipe() || [];
+    if (recipe[path].length !== 0) {
       return setIsFavorite(favoriteArray
-        .some((savedRecipe) => savedRecipe.id === meals[0].idMeal));
+        .some((savedRecipe) => savedRecipe
+          .id === recipe[path][0][path === 'meals' ? 'idMeal' : 'idDrink']));
     }
-
-    const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
-    return setIsFavorite(favoriteArray
-      .some((savedRecipe) => savedRecipe.id === drinks[0].idDrink));
-  }, [recipe]);
+  }, [recipe, path]);
 
   if (!doneRecipes) return <p>Loading...</p>;
 
