@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import { saveProgress, readProgress } from '../helpers/recipeLocalStorage';
 import Button from './Button';
@@ -9,6 +9,7 @@ export default function DrinkProgress() {
   const { recipe } = useContext(RecipesContext);
   const { drinks } = recipe;
 
+  const history = useHistory();
   const [check, setCheck] = useState([]);
 
   useEffect(() => {
@@ -27,6 +28,8 @@ export default function DrinkProgress() {
       setCheck([...check, target.id]);
     }
   };
+
+  const handleClick = () => history.push('/done-recipes');
 
   let itemsToRender;
   if (drinks.length > 0) {
@@ -72,6 +75,7 @@ export default function DrinkProgress() {
         type="button"
         className="recipe-status-btn"
         disabled={ itemsToRender.length !== check.length }
+        onClick={ handleClick }
         data-testid="finish-recipe-btn"
       >
         Finish Recipe
