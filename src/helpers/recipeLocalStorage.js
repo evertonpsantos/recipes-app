@@ -21,6 +21,12 @@ export const removeRecipe = (recipe) => {
   localStorage.setItem(FAVORITE_RECIPES, JSON.stringify(filteredArray));
 };
 
+export const removeRecipeFromFavPage = (id) => {
+  const localStorageRecipes = readRecipe();
+  const filteredArray = localStorageRecipes.filter((e) => e.id !== id);
+  localStorage.setItem(FAVORITE_RECIPES, JSON.stringify(filteredArray));
+};
+
 export const readProgress = () => (
   JSON.parse(localStorage.getItem(IN_PROGRESS_RECIPES))
     ? JSON.parse(localStorage.getItem(IN_PROGRESS_RECIPES))
