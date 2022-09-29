@@ -98,18 +98,6 @@ export default function Button() {
     return setIsFavorite(true);
   };
 
-  const renderBtn = (param) => {
-    if (inProgressRecipes.includes(param)) {
-      return 'Continue Recipe';
-    }
-    return pathname.includes('in-progress') ? 'Finish Recipe' : 'Start Recipe';
-  };
-
-  const setTestId = () => {
-    if (pathname.includes('in-progress')) return 'finish-recipe-btn';
-    return 'start-recipe-btn';
-  };
-
   useEffect(() => {
     if (mealsPath && meals.length !== 0) {
       const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
@@ -128,16 +116,19 @@ export default function Button() {
     <div>
       { !doneRecipes.some((doneRecipe) => doneRecipe.id === id) && (
         <div className="recipe-button-container">
-          <button
-            type="button"
-            data-testid={ setTestId() }
-            className="recipe-status-btn"
-            onClick={ () => history.push(`${pathname}/in-progress`) }
-          >
-            {
-              renderBtn(id)
-            }
-          </button>
+          {
+            !pathname.includes('in-progress') && (
+              <button
+                type="button"
+                data-testid="start-recipe-btn"
+                className="recipe-status-btn"
+                onClick={ () => history.push(`${pathname}/in-progress`) }
+              >
+                {
+                  inProgressRecipes.includes(id) ? 'Continue Recipe' : 'Start Recipe'
+                }
+              </button>)
+          }
         </div>
       )}
 

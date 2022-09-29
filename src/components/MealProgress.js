@@ -16,6 +16,10 @@ export default function MealProgress() {
     if (checkedItems) setCheck(checkedItems[id]);
   }, []);
 
+  useEffect(() => {
+    saveProgress({ [id]: check });
+  }, [check]);
+
   const handleCheck = ({ target }) => {
     if (check.includes(target.id)) {
       setCheck(check.filter((el) => el !== target.id));
@@ -24,9 +28,12 @@ export default function MealProgress() {
     }
   };
 
-  useEffect(() => {
-    saveProgress({ [id]: check });
-  }, [check]);
+  let itemsToRender;
+  if (meals.length > 0) {
+    itemsToRender = Object.entries(meals[0])
+      .filter((el) => el[0].includes('strIngredient'))
+      .filter((el) => el[1] !== '' && el[1] !== null);
+  }
 
   if (meals.length === 0) return <h1>Loading...</h1>;
   return (
@@ -41,9 +48,7 @@ export default function MealProgress() {
       <h3 data-testid="recipe-category">{meals[0].strCategory}</h3>
       <div>
         {
-          Object.entries(meals[0])
-            .filter((el) => el[0].includes('strIngredient'))
-            .filter((el) => el[1] !== '' && el[1] !== null)
+          itemsToRender
             .map((el, index) => (
               <label
                 key={ index }
@@ -63,6 +68,14 @@ export default function MealProgress() {
       </div>
       <p data-testid="instructions">{meals[0].strInstructions}</p>
       <Button />
+      <button
+        type="button"
+        className="recipe-status-btn"
+        disabled={ itemsToRender.length !== check.length }
+        data-testid="finish-recipe-btn"
+      >
+        Finish Recipe
+      </button>
     </div>
   );
 }
