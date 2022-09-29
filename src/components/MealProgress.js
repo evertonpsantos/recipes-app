@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import { saveProgress, readProgress } from '../helpers/recipeLocalStorage';
+import Button from './Button';
 
 export default function MealProgress() {
   const { id } = useParams();
@@ -37,18 +38,6 @@ export default function MealProgress() {
         data-testid="recipe-photo"
       />
       <h1 data-testid="recipe-title">{meals[0].strMeal}</h1>
-      <button
-        type="button"
-        data-testid="share-btn"
-      >
-        Share
-      </button>
-      <button
-        type="button"
-        data-testid="favorite-btn"
-      >
-        Favorite
-      </button>
       <h3 data-testid="recipe-category">{meals[0].strCategory}</h3>
       <div>
         {
@@ -73,7 +62,7 @@ export default function MealProgress() {
         }
       </div>
       <p data-testid="instructions">{meals[0].strInstructions}</p>
-      <button type="button" data-testid="finish-recipe-btn">Finish</button>
+      <Button />
     </div>
   );
 }

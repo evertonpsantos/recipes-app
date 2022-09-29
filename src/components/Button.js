@@ -17,6 +17,9 @@ export default function Button() {
   const [copyMessage, setCopyMessage] = useState('');
   const [isFavorite, setIsFavorite] = useState(false);
   const { recipe } = useContext(RecipesContext);
+  const { drinks, meals } = recipe;
+
+  const mealsPath = pathname.includes('meals');
 
   useEffect(() => {
     const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
@@ -37,30 +40,32 @@ export default function Button() {
   }, [id]);
 
   const handleShareButton = () => {
-    copy(`http://localhost:3000${pathname}`);
+    const path = `http://localhost:3000${pathname}`;
+    const regex = path.replace(/\/in-progress+$/g, '');
+    copy(regex);
     setCopyMessage('Link copied!');
   };
 
   const handleFavoriting = () => {
     if (isFavorite) {
-      if (pathname.includes('meals')) {
+      if (mealsPath) {
         const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes'));
         const filteredArray = favoriteArray
-          .filter((savedRecipe) => savedRecipe.id !== recipe.meals[0].idMeal);
+          .filter((savedRecipe) => savedRecipe.id !== meals[0].idMeal);
         localStorage.setItem('favoriteRecipes', JSON.stringify(filteredArray));
         return setIsFavorite(false);
       }
 
       const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes'));
       const filteredArray = favoriteArray
-        .filter((savedRecipe) => savedRecipe.id !== recipe.drinks[0].idDrink);
+        .filter((savedRecipe) => savedRecipe.id !== drinks[0].idDrink);
       localStorage.setItem('favoriteRecipes', JSON.stringify(filteredArray));
       return setIsFavorite(false);
     }
 
-    if (recipe.meals.length !== 0) {
+    if (mealsPath && meals.length !== 0) {
       const { idMeal, strArea, strCategory,
-        strMeal, strMealThumb, strAlcoholic } = recipe.meals[0];
+        strMeal, strMealThumb, strAlcoholic } = meals[0];
 
       const newRecipe = {
         id: idMeal,
@@ -77,7 +82,7 @@ export default function Button() {
     }
 
     const { idDrink, strArea, strCategory,
-      strDrink, strDrinkThumb, strAlcoholic } = recipe.drinks[0];
+      strDrink, strDrinkThumb, strAlcoholic } = drinks[0];
 
     const newRecipe = {
       id: idDrink,
@@ -93,19 +98,31 @@ export default function Button() {
     return setIsFavorite(true);
   };
 
+  const renderBtn = (param) => {
+    if (inProgressRecipes.includes(param)) {
+      return 'Continue Recipe';
+    }
+    return pathname.includes('in-progress') ? 'Finish Recipe' : 'Start Recipe';
+  };
+
+  const setTestId = () => {
+    if (pathname.includes('in-progress')) return 'finish-recipe-btn';
+    return 'start-recipe-btn';
+  };
+
   useEffect(() => {
-    if (recipe.meals.length !== 0) {
+    if (mealsPath && meals.length !== 0) {
       const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
       return setIsFavorite(favoriteArray
-        .some((savedRecipe) => savedRecipe.id === recipe.meals[0].idMeal));
+        .some((savedRecipe) => savedRecipe.id === meals[0].idMeal));
     }
 
     const favoriteArray = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
     return setIsFavorite(favoriteArray
-      .some((savedRecipe) => savedRecipe.id === recipe.drinks[0].idDrink));
+      .some((savedRecipe) => savedRecipe.id === drinks[0].idDrink));
   }, [recipe]);
 
-  if (!doneRecipes) return <p>...</p>;
+  if (!doneRecipes) return <p>Loading...</p>;
 
   return (
     <div>
@@ -113,11 +130,13 @@ export default function Button() {
         <div className="recipe-button-container">
           <button
             type="button"
-            data-testid="start-recipe-btn"
+            data-testid={ setTestId() }
             className="recipe-status-btn"
             onClick={ () => history.push(`${pathname}/in-progress`) }
           >
-            { inProgressRecipes.includes(id) ? 'Continue Recipe' : 'Start Recipe' }
+            {
+              renderBtn(id)
+            }
           </button>
         </div>
       )}
