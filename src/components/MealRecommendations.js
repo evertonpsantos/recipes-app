@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Slider from 'react-slick';
+// import Slider from 'react-slick';
 import mealsAPI from '../helpers/mealsAPI';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import settings from '../helpers/carouselSettings';
+// import 'slick-carousel/slick/slick.css';
+// import 'slick-carousel/slick/slick-theme.css';
+// import settings from '../helpers/carouselSettings';
 
 export default function Recommendations() {
   const [recommendations, setRecommendations] = useState({});
@@ -16,18 +16,27 @@ export default function Recommendations() {
 
   if (recommendations.meals) {
     return (
-      <Slider { ...settings }>
+      // <Slider { ...settings }>
+      <div
+        style={ {
+          display: 'flex',
+          overflowX: 'scroll',
+        } }
+      >
         {
           recommendations.meals.slice(0, SIX).map((meal, i) => (
             <div
               data-testid={ `${i}-recommendation-card` }
               key={ i }
+              style={ {
+                display: 'flex',
+                width: '200px',
+              } }
             >
               <img
-                className="d-block w-100"
                 src={ meal.strMealThumb }
                 alt={ meal.strMeal }
-                style={ { width: '200px' } }
+                style={ { width: '200px !important' } }
               />
               <div>
                 <h3 data-testid={ `${i}-recommendation-title` }>{ meal.strMeal }</h3>
@@ -36,7 +45,8 @@ export default function Recommendations() {
             </div>
           ))
         }
-      </Slider>
+      </div>
+      // </Slider>
     );
   }
   return null;

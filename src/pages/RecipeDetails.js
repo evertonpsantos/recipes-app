@@ -5,34 +5,34 @@ import { fetchDrinkRecipe } from '../helpers/drinksAPI';
 import MealDetails from '../components/MealDetails';
 import DrinkDetails from '../components/DrinkDetails';
 import RecipesContext from '../context/RecipesContext';
+import '../style/RecipeDetails.css';
 
 export default function RecipeDetails() {
   const { pathname } = useLocation();
   const { id } = useParams();
-
   const { recipe, setRecipe } = useContext(RecipesContext);
 
+  const path = pathname.split('/')[1];
+
   useEffect(() => {
-    (async () => (
-      pathname.includes('meals')
-        ? setRecipe(await fetchMealRecipe(id))
-        : setRecipe(await fetchDrinkRecipe(id))
-    ))();
-  }, [pathname, id]);
+    (async () => {
+      setRecipe(path === 'meals' ? ({ ...await fetchMealRecipe(id), drinks: [] })
+        : ({ ...await fetchDrinkRecipe(id), meals: [] }));
+    })();
+  }, [id, path, setRecipe]);
 
-  if (recipe) {
-    if (pathname.includes('meals')) {
-      return (
-        <div>
-          <MealDetails />
-        </div>
-      );
-    }
-
+  if (recipe[path].length === 0) return <h1>Loading...</h1>;
+  if (pathname.includes('meals')) {
     return (
       <div>
-        <DrinkDetails />
+        <MealDetails />
       </div>
     );
   }
+
+  return (
+    <div>
+      <DrinkDetails />
+    </div>
+  );
 }

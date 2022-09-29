@@ -74,3 +74,32 @@ describe('Testing MealDetails component', () => {
     expect(recommendedDrink).toBeInTheDocument();
   });
 });
+
+describe('Testing Buttons component', () => {
+  beforeEach(async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch = jest.fn(() => mockPromise);
+
+    await act(async () => renderWithRouter(<App />, '/meals'));
+    const currMeal = await screen.findByText(/corba/i);
+    expect(currMeal).toBeInTheDocument();
+    userEvent.click(currMeal);
+    const startRecipeBtn = await screen.findByTestId('start-recipe-btn');
+    expect(startRecipeBtn).toBeInTheDocument();
+  });
+
+  it('1 - Should render buttons', async () => {
+    const shareBtn = screen.getByTestId('share-btn');
+    const favoriteBtn = screen.getByTestId('favorite-btn');
+    expect(shareBtn).toBeInTheDocument();
+    expect(favoriteBtn).toBeInTheDocument();
+  });
+
+  it('2 - Should show "Link copied!" after clicking on share button', async () => {
+    window.document.execCommand = jest.fn(() => true);
+    const shareBtn = screen.getByTestId('share-btn');
+    userEvent.click(shareBtn);
+    const linkMessage = await screen.findByText('Link copied!');
+    expect(linkMessage).toBeInTheDocument();
+  });
+});
