@@ -15,11 +15,11 @@ export default function MealProgress() {
   useEffect(() => {
     const checkedItems = readProgress();
     if (checkedItems) setCheck(checkedItems[id]);
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     saveProgress({ [id]: check });
-  }, [check]);
+  }, [check, id]);
 
   const handleCheck = ({ target }) => {
     if (check.includes(target.id)) {

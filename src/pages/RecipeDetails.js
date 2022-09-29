@@ -15,14 +15,10 @@ export default function RecipeDetails() {
   const path = pathname.split('/')[1];
 
   useEffect(() => {
-    let loading = true;
-    if (loading) {
-      (async () => {
-        setRecipe(path === 'meals' ? ({ ...await fetchMealRecipe(id), drinks: [] })
-          : ({ ...await fetchDrinkRecipe(id), meals: [] }));
-        loading = false;
-      })();
-    }
+    (async () => {
+      setRecipe(path === 'meals' ? ({ ...await fetchMealRecipe(id), drinks: [] })
+        : ({ ...await fetchDrinkRecipe(id), meals: [] }));
+    })();
   }, [id, path, setRecipe]);
 
   if (recipe[path].length === 0) return <h1>Loading...</h1>;

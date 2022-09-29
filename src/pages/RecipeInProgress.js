@@ -13,12 +13,13 @@ export default function RecipeInProgress() {
   const { setRecipe } = useContext(RecipesContext);
 
   useEffect(() => {
-    (async () => (
-      pathname.includes('meals')
-        ? setRecipe(await fetchMealRecipe(id))
-        : setRecipe(await fetchDrinkRecipe(id))
-    ))();
-  }, [pathname, id]);
+    let fetching = true;
+    if (fetching) {
+      (async () => setRecipe(pathname.includes('meals') ? await fetchMealRecipe(id)
+        : await fetchDrinkRecipe(id)))();
+      fetching = false;
+    }
+  }, [pathname, id, setRecipe]);
 
   return pathname.includes('meals')
     ? <MealProgress />
