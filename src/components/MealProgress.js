@@ -1,9 +1,31 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
+import { saveProgress, readProgress } from '../helpers/recipeLocalStorage';
 
 export default function MealProgress() {
+  const { id } = useParams();
   const { recipe } = useContext(RecipesContext);
   const { meals } = recipe;
+
+  const [check, setCheck] = useState([]);
+
+  useEffect(() => {
+    const checkedItems = readProgress();
+    if (checkedItems) setCheck(checkedItems[id]);
+  }, []);
+
+  const handleCheck = ({ target }) => {
+    if (check.includes(target.id)) {
+      setCheck(check.filter((el) => el !== target.id));
+    } else {
+      setCheck([...check, target.id]);
+    }
+  };
+
+  useEffect(() => {
+    saveProgress({ [id]: check });
+  }, [check]);
 
   if (meals.length === 0) return <h1>Loading...</h1>;
   return (
@@ -37,11 +59,13 @@ export default function MealProgress() {
               <label
                 key={ index }
                 data-testid={ `${index}-ingredient-step` }
-                htmlFor={ `${index}-ingredient-step` }
+                htmlFor={ el[1] }
               >
                 <input
                   type="checkbox"
-                  id={ `${index}-ingredient` }
+                  id={ el[1] }
+                  checked={ check.includes(el[1]) }
+                  onChange={ handleCheck }
                 />
                 {el[1]}
               </label>
