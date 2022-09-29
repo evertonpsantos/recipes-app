@@ -9,7 +9,6 @@ export default function SearchBar() {
   const [checkedRadioBtn1, setCheckedRadioBtn1] = useState(false);
   const [checkedRadioBtn2, setCheckedRadioBtn2] = useState(false);
   const [checkedRadioBtn3, setCheckedRadioBtn3] = useState(false);
-  // const [searchButtonDisabled, setSearchButtonDisabled] = useState(false);
   const { pathname } = useLocation();
   const {
     setFilteredSearch,
@@ -61,10 +60,6 @@ export default function SearchBar() {
     }
   };
 
-  // const searchInputChange = (value) => (searchInput.length > 0
-  //   ? setSearchInput(value)
-  //   : setSearchButtonDisabled(true));
-
   const handleSearchClick = async () => {
     const response = await fetch(url);
     const result = await response.json();
@@ -79,61 +74,64 @@ export default function SearchBar() {
   };
 
   return (
-    <div>
-
-      <div className="radio-btn">
-
-        <label htmlFor="ingredient">
-          <input
-            type="radio"
-            data-testid="ingredient-search-radio"
-            id="ingredient"
-            checked={ checkedRadioBtn1 }
-            onChange={ (e) => checkRadioBtn(e) }
-          />
-          Ingredient
-        </label>
-
-        <label htmlFor="recipe-name">
-          <input
-            type="radio"
-            data-testid="name-search-radio"
-            id="recipe-name"
-            checked={ checkedRadioBtn2 }
-            onChange={ (e) => checkRadioBtn(e) }
-          />
-          Recipe Name
-        </label>
-
-        <label htmlFor="first-letter">
-          <input
-            type="radio"
-            data-testid="first-letter-search-radio"
-            id="first-letter"
-            checked={ checkedRadioBtn3 }
-            onChange={ (e) => checkRadioBtn(e) }
-          />
-          First Letter
-        </label>
-
-      </div>
+    <div className="search-container">
 
       <input
-        type="text"
-        placeholder="Search recipe"
+        className="search-input"
         data-testid="search-input"
-        value={ searchInput }
         onChange={ (e) => setSearchInput(e.target.value) }
+        placeholder="Search"
+        type="text"
+        value={ searchInput }
       />
+      <div className="search-radio-button-container">
 
-      <button
-        type="submit"
-        data-testid="exec-search-btn"
-        onClick={ () => handleSearchClick() }
-        // disabled={ searchButtonDisabled }
-      >
-        Search
-      </button>
+        <div className="search-radio-container">
+
+          <label htmlFor="ingredient">
+            <input
+              checked={ checkedRadioBtn1 }
+              data-testid="ingredient-search-radio"
+              id="ingredient"
+              onChange={ (e) => checkRadioBtn(e) }
+              type="radio"
+            />
+            Ingredient
+          </label>
+
+          <label htmlFor="recipe-name">
+            <input
+              checked={ checkedRadioBtn2 }
+              data-testid="name-search-radio"
+              id="recipe-name"
+              onChange={ (e) => checkRadioBtn(e) }
+              type="radio"
+            />
+            Name
+          </label>
+
+          <label htmlFor="first-letter">
+            <input
+              checked={ checkedRadioBtn3 }
+              data-testid="first-letter-search-radio"
+              id="first-letter"
+              onChange={ (e) => checkRadioBtn(e) }
+              type="radio"
+            />
+            First Letter
+          </label>
+
+        </div>
+
+        <button
+          className="search-button"
+          data-testid="exec-search-btn"
+          onClick={ () => handleSearchClick() }
+          type="submit"
+        >
+          SEARCH
+        </button>
+      </div>
 
     </div>
   );

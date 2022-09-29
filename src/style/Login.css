@@ -49,6 +49,7 @@
 .login-input {
   border: 0.5px solid #41197f;
   color: #41197f;
+  outline-color: #42197f38;
 }
 
 .login-input::placeholder {

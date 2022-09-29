@@ -75,7 +75,6 @@ export default function Header() {
                 <img src={ searchIcon2 } alt="search-icon" data-testid="search-top-btn" />
               </button>
             )}
-          { showSearchBar && <SearchBar /> }
           <button
             className="header-button"
             type="button"
@@ -97,6 +96,8 @@ export default function Header() {
         alt={ `${pathname} logo` }
         className="header-component-logo"
       />
+
+      { showSearchBar && <SearchBar /> }
 
     </header>
   );
