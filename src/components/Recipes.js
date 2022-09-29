@@ -6,8 +6,6 @@ import drinksAPI, { drinksCategories,
 import mealsAPI, { mealsCategories, mealsFilterByCategories } from '../helpers/mealsAPI';
 
 function Recipes() {
-  // const noRecipesFound1 = 'Sorry, we haven';
-
   const MAX_RECIPE = 12;
   const MAX_CATEGORIES = 5;
   const { pathname } = useLocation();

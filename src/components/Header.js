@@ -3,9 +3,13 @@ import { useHistory, useLocation } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import profileIcon2 from '../images/profileIcon2.svg';
 import searchIcon2 from '../images/searchIcon2.svg';
-import mealsLogo from '../images/mealsLogo.svg';
-import foodCoverLogo from '../images/foodCoverLogo.svg';
 import writtenLogo from '../images/writtenLogo.svg';
+import foodCoverLogo from '../images/foodCoverLogo.svg';
+import mealsIcon from '../images/mealsIcon.svg';
+import drinksIcon from '../images/drinksIcon.svg';
+import favoriteLogo from '../images/favoriteIcon.svg';
+import doneIcon from '../images/doneIcon.svg';
+import profileHeaderIcon from '../images/profileHeaderIcon.svg';
 import '../style/Header.css';
 
 export default function Header() {
@@ -13,6 +17,10 @@ export default function Header() {
   const { pathname } = useLocation();
   const history = useHistory();
 
+  const DONE_RECIPES = '/done-recipes';
+  const FAVORITE_RECIPES = '/favorite-recipes';
+
+  // tirar dps dos 100% ( e o header que renderiza isso )
   const defineTitle = (props) => {
     switch (props) {
     case '/meals':
@@ -21,16 +29,33 @@ export default function Header() {
       return 'Drinks';
     case '/profile':
       return 'Profile';
-    case '/done-recipes':
+    case DONE_RECIPES:
       return 'Done Recipes';
-    case '/favorite-recipes':
+    case FAVORITE_RECIPES:
       return 'Favorite Recipes';
     default:
       return 'Header';
     }
   };
 
-  const notRenderSearchIcon = ['/profile', '/done-recipes', '/favorite-recipes'];
+  const defineLogo = (props) => {
+    switch (props) {
+    case '/meals':
+      return mealsIcon;
+    case '/drinks':
+      return drinksIcon;
+    case '/profile':
+      return profileHeaderIcon;
+    case DONE_RECIPES:
+      return doneIcon;
+    case FAVORITE_RECIPES:
+      return favoriteLogo;
+    default:
+      return 'Header';
+    }
+  };
+
+  const notRenderSearchIcon = ['/profile', DONE_RECIPES, FAVORITE_RECIPES];
 
   return (
     <header className="header-container">
@@ -67,7 +92,11 @@ export default function Header() {
         {defineTitle(pathname)}
 
       </h1>
-      <img src={ mealsLogo } alt="meals logo" className="header-meals-logo" />
+      <img
+        src={ defineLogo(pathname) }
+        alt={ `${pathname} logo` }
+        className="header-component-logo"
+      />
 
     </header>
   );
