@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
 export default function Header() {
   const [showSearchBar, setShowBar] = useState(false);
@@ -47,9 +48,7 @@ export default function Header() {
           </button>
         )}
 
-      {showSearchBar && (
-        <input type="text" placeholder="Search recipe" data-testid="search-input" />
-      )}
+      { showSearchBar && <SearchBar /> }
     </>
   );
 }
