@@ -4,6 +4,9 @@ import RecipesContext from '../context/RecipesContext';
 import drinksAPI, { drinksCategories,
   drinksFilterByCategories } from '../helpers/drinksAPI';
 import mealsAPI, { mealsCategories, mealsFilterByCategories } from '../helpers/mealsAPI';
+import { allDrinkCat, allMealCat, setCategoryBtn } from '../helpers/categoriesIcons';
+
+import '../style/Recipes.css';
 
 function Recipes() {
   const MAX_RECIPE = 12;
@@ -50,8 +53,8 @@ function Recipes() {
 
   if (recipes.length === 0) return <h1>Loading...</h1>;
   return (
-    <div>
-      <form>
+    <div className="recipes-container">
+      <form className="category-button-container">
         <button
           data-testid="All-category-filter"
           type="button"
@@ -61,7 +64,13 @@ function Recipes() {
             setRecipes(data[checkPath() ? 'meals' : 'drinks']);
           } }
         >
-          ALL
+          <div className="category-card-container">
+            <img
+              src={ pathname === '/meals' ? allMealCat : allDrinkCat }
+              alt="all category"
+            />
+            <p>All</p>
+          </div>
         </button>
         {categories.filter((_, i) => i < MAX_CATEGORIES)
           .map(({ strCategory }, index) => (
@@ -71,7 +80,13 @@ function Recipes() {
               key={ index }
               onClick={ () => handleClick(strCategory) }
             >
-              {strCategory}
+              <div className="category-card-container">
+                <img
+                  src={ setCategoryBtn(strCategory) }
+                  alt={ `${strCategory} logo` }
+                />
+                <p>{strCategory === 'Other/Unknown' ? 'Other/ Unknown' : strCategory}</p>
+              </div>
             </button>
           ))}
       </form>
