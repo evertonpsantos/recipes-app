@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import drinksAPI, { drinksCategories,
   drinksFilterByCategories } from '../helpers/drinksAPI';
 import mealsAPI, { mealsCategories, mealsFilterByCategories } from '../helpers/mealsAPI';
 
 function Recipes() {
+  // const noRecipesFound1 = 'Sorry, we haven';
+
   const MAX_RECIPE = 12;
   const MAX_CATEGORIES = 5;
   const { pathname } = useLocation();
@@ -76,7 +78,8 @@ function Recipes() {
             </button>
           ))}
       </form>
-      { filteredSearch !== null
+
+      {filteredSearch !== null
         ? filteredSearch.filter((_, index) => index < MAX_RECIPE)
           .map((e, i) => (
             <Link
@@ -121,6 +124,13 @@ function Recipes() {
               </div>
             </Link>
           ))}
+
+      {filteredSearch && filteredSearch.length === 1 && pathname === '/meals'
+        && <Redirect to={ `/meals/${filteredSearch[0].idMeal}` } />}
+
+      {filteredSearch && filteredSearch.length === 1 && pathname === '/drinks'
+      && <Redirect to={ `/drinks/${filteredSearch[0].idDrink}` } /> }
+
     </div>
   );
 }

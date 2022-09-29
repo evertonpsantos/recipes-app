@@ -4,13 +4,18 @@ import RecipesContext from '../context/RecipesContext';
 import '../style/SearchBar.css';
 
 export default function SearchBar() {
-  const [searchInput, setSearchInput] = useState('');
   const [url, setUrl] = useState('');
+  const noRecipesFound = 't found any recipes for these filters.';
   const [checkedRadioBtn1, setCheckedRadioBtn1] = useState(false);
   const [checkedRadioBtn2, setCheckedRadioBtn2] = useState(false);
   const [checkedRadioBtn3, setCheckedRadioBtn3] = useState(false);
-  const { setFilteredSearch } = useContext(RecipesContext);
+  // const [searchButtonDisabled, setSearchButtonDisabled] = useState(false);
   const { pathname } = useLocation();
+  const {
+    setFilteredSearch,
+    searchInput,
+    setSearchInput,
+  } = useContext(RecipesContext);
 
   const mealsPath = useCallback(() => {
     if (checkedRadioBtn1) setUrl(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`);
@@ -25,7 +30,7 @@ export default function SearchBar() {
     if (checkedRadioBtn1) setUrl(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchInput}`);
     else if (checkedRadioBtn2) setUrl(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`);
     else if (checkedRadioBtn3 && searchInput.length === 1) setUrl(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchInput}`);
-    else if (checkedRadioBtn3 && searchInput.length > 1) {
+    else if (checkedRadioBtn3 && (searchInput.length > 1 || searchInput.length < 1)) {
       global.alert('Your search must have only 1 (one) character');
     }
   }, [checkedRadioBtn1, checkedRadioBtn2, checkedRadioBtn3, searchInput]);
@@ -56,10 +61,18 @@ export default function SearchBar() {
     }
   };
 
+  // const searchInputChange = (value) => (searchInput.length > 0
+  //   ? setSearchInput(value)
+  //   : setSearchButtonDisabled(true));
+
   const handleSearchClick = async () => {
     const response = await fetch(url);
     const result = await response.json();
     console.log(result);
+    if (searchInput.length === 0) {
+      setFilteredSearch('oi');
+      global.alert(noRecipesFound);
+    }
     return pathname === '/meals'
       ? setFilteredSearch(result.meals)
       : setFilteredSearch(result.drinks);
@@ -114,9 +127,10 @@ export default function SearchBar() {
       />
 
       <button
-        type="button"
+        type="submit"
         data-testid="exec-search-btn"
         onClick={ () => handleSearchClick() }
+        // disabled={ searchButtonDisabled }
       >
         Search
       </button>
