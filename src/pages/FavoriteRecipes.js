@@ -4,6 +4,10 @@ import Header from '../components/Header';
 import { readRecipe, removeRecipeFromFavPage } from '../helpers/recipeLocalStorage';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import allAll from '../images/allAll.svg';
+import allMealCat from '../images/allMealCat.svg';
+import allDrinkCat from '../images/allDrinkCat.svg';
+import '../style/FavoriteRecipes.css';
 
 const copy = require('clipboard-copy');
 
@@ -37,16 +41,22 @@ export default function FavoriteRecipes() {
   };
 
   return (
-    <div>
+    <div className="favorite-page-container">
       <Header />
-      <form>
+      <form className="category-button-container favorite-category">
         <button
           data-testid="filter-by-all-btn"
           type="button"
           name="ALL"
           onClick={ handleFilter }
         >
-          ALL
+          <div className="category-card-container">
+            <img
+              src={ allAll }
+              alt="all F&B icon"
+            />
+            <p>All</p>
+          </div>
         </button>
         <button
           data-testid="filter-by-meal-btn"
@@ -54,7 +64,13 @@ export default function FavoriteRecipes() {
           name="meal"
           onClick={ handleFilter }
         >
-          Meals
+          <div className="category-card-container">
+            <img
+              src={ allMealCat }
+              alt="food icon"
+            />
+            <p>Food</p>
+          </div>
         </button>
         <button
           data-testid="filter-by-drink-btn"
@@ -62,53 +78,62 @@ export default function FavoriteRecipes() {
           name="drink"
           onClick={ handleFilter }
         >
-          Drinks
+          <div className="category-card-container">
+            <img
+              src={ allDrinkCat }
+              alt="drink icon"
+            />
+            <p>Drink</p>
+          </div>
         </button>
       </form>
-      {favorites.length !== 0 && (
-        favorites.map((e, index) => (
-          <div key={ index }>
-            <Link to={ `/${e.type}s/${e.id}` }>
-              <img
-                data-testid={ `${index}-horizontal-image` }
-                src={ e.image }
-                alt={ e.name }
-                style={ {
-                  width: '200px',
-                } }
-              />
-              <h2 data-testid={ `${index}-horizontal-name` }>{e.name}</h2>
-            </Link>
-            <h5
-              data-testid={ `${index}-horizontal-top-text` }
-            >
-              {`${e.type === 'drink' ? e.alcoholicOrNot : e.nationality} - ${e.category}`}
-            </h5>
-            <button
-              type="button"
-              data-testid={ `${index}-horizontal-share-btn` }
-              onClick={ () => handleShareButton(e.type, e.id) }
-              className="details-button"
-              src={ shareIcon }
-            >
-              <img src={ shareIcon } alt="share-icon" />
-            </button>
-            { copyMessage && <p>{copyMessage}</p>}
-            <button
-              type="button"
-              data-testid={ `${index}-horizontal-favorite-btn` }
-              onClick={ () => handleUnFavoriting(e.id) }
-              className="favorite"
-              src={ blackHeartIcon }
-            >
-              <img
-                src={ blackHeartIcon }
-                alt="share-icon"
-              />
-            </button>
-          </div>
-        ))
-      )}
+      <div className="favorite-card-container">
+        {favorites.length !== 0 && (
+          favorites.map((e, index) => (
+            <div className="favorite-card" key={ index }>
+              <Link className="image-link" to={ `/${e.type}s/${e.id}` }>
+                <img
+                  data-testid={ `${index}-horizontal-image` }
+                  src={ e.image }
+                  alt={ e.name }
+                />
+              </Link>
+              <Link className="link" to={ `/${e.type}s/${e.id}` }>
+                <h2 data-testid={ `${index}-horizontal-name` }>{e.name}</h2>
+                <h5
+                  data-testid={ `${index}-horizontal-top-text` }
+                >
+                  {`${e.type === 'drink'
+                    ? e.alcoholicOrNot
+                    : e.nationality} - ${e.category}`}
+                </h5>
+              </Link>
+              <div className="favorite-button-container">
+                <button
+                  type="button"
+                  data-testid={ `${index}-horizontal-share-btn` }
+                  onClick={ () => handleShareButton(e.type, e.id) }
+                  src={ shareIcon }
+                >
+                  <img src={ shareIcon } alt="share-icon" />
+                </button>
+                { copyMessage && <p>{copyMessage}</p>}
+                <button
+                  type="button"
+                  data-testid={ `${index}-horizontal-favorite-btn` }
+                  onClick={ () => handleUnFavoriting(e.id) }
+                  src={ blackHeartIcon }
+                >
+                  <img
+                    src={ blackHeartIcon }
+                    alt="share-icon"
+                  />
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 }
