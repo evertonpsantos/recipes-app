@@ -14,7 +14,6 @@ export default function FavoriteRecipes() {
 
   useEffect(() => {
     const localStorageFav = readRecipe();
-    console.log(localStorageFav);
     if (localStorageFav !== undefined) {
       setFavorites(localStorageFav
         .filter(({ type }) => (filter === 'ALL' ? true : type === filter)));

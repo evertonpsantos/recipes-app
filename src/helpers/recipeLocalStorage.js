@@ -16,7 +16,6 @@ const saveRecipe = (newRecipe) => {
 
 export const removeRecipe = (recipe, path) => {
   const id = recipe[path][0][path === 'meals' ? 'idMeal' : 'idDrink'];
-  console.log(id);
   const localStorageRecipes = readRecipe();
   const filteredArray = localStorageRecipes.filter((e) => e.id !== id);
   localStorage.setItem(FAVORITE_RECIPES, JSON.stringify(filteredArray));
