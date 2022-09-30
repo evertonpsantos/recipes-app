@@ -1,14 +1,18 @@
 import { useCallback, useEffect, useContext, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import '../style/SearchBar.css';
 
 export default function SearchBar() {
+  const noRecipesFoundPartial = 'Sorry, we haven';
+  const noRecipesFoundAlert = `${
+    noRecipesFoundPartial}'t found any recipes for these filters.`;
   const [url, setUrl] = useState('');
   const [checkedRadioBtn1, setCheckedRadioBtn1] = useState(false);
   const [checkedRadioBtn2, setCheckedRadioBtn2] = useState(false);
   const [checkedRadioBtn3, setCheckedRadioBtn3] = useState(false);
 
+  const history = useHistory();
   const { pathname } = useLocation();
   const {
     setFilteredSearch,
@@ -63,10 +67,20 @@ export default function SearchBar() {
   const handleSearchClick = async () => {
     const response = await fetch(url);
     const result = await response.json();
+    const path = pathname.split('/')[1];
 
-    return pathname === '/meals'
-      ? setFilteredSearch(result.meals)
-      : setFilteredSearch(result.drinks);
+    if (result[path] !== null && result[path].length === 1) {
+      history.push(`/${path}/${result[path][0][path === 'meals' ? 'idMeal'
+        : 'idDrink']}`);
+      return setFilteredSearch([]);
+    }
+
+    if (result[path] === null) {
+      global.alert(noRecipesFoundAlert);
+      console.log('ola');
+    }
+
+    return setFilteredSearch(result[path]);
   };
 
   return (

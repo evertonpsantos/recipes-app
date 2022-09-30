@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link, Redirect, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import drinksAPI, { drinksCategories,
   drinksFilterByCategories } from '../helpers/drinksAPI';
@@ -9,9 +9,6 @@ import { allDrinkCat, allMealCat, setCategoryIcon } from '../helpers/categoriesI
 import '../style/Recipes.css';
 
 function Recipes() {
-  const noRecipesFoundPartial = 'Sorry, we haven';
-  const noRecipesFoundAlert = `${
-    noRecipesFoundPartial}'t found any recipes for these filters.`;
   const MAX_RECIPE = 12;
   const MAX_CATEGORIES = 5;
   const { pathname } = useLocation();
@@ -135,13 +132,6 @@ function Recipes() {
               </Link>
             ))}
       </div>
-
-      {filteredSearch && filteredSearch.length === 1 && pathname === '/meals'
-        && <Redirect to={ `/meals/${filteredSearch[0].idMeal}` } />}
-
-      {filteredSearch && filteredSearch.length === 1 && pathname === '/drinks'
-      && <Redirect to={ `/drinks/${filteredSearch[0].idDrink}` } /> }
-      { filteredSearch === null && global.alert(noRecipesFoundAlert)}
     </div>
   );
 }

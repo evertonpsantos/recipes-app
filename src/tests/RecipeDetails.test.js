@@ -9,6 +9,8 @@ const mockPromise = Promise.resolve({
   json: () => Promise.resolve(mockAPI),
 });
 
+const FAVORITE_BTN = 'favorite-btn';
+
 describe('Testing DrinkDetails component', () => {
   beforeEach(async () => {
     jest.spyOn(global, 'fetch');
@@ -76,6 +78,8 @@ describe('Testing MealDetails component', () => {
 });
 
 describe('Testing Buttons component', () => {
+  const FAVORITE_RECIPES = 'favoriteRecipes';
+
   beforeEach(async () => {
     jest.spyOn(global, 'fetch');
     global.fetch = jest.fn(() => mockPromise);
@@ -90,7 +94,7 @@ describe('Testing Buttons component', () => {
 
   it('1 - Should render buttons', async () => {
     const shareBtn = screen.getByTestId('share-btn');
-    const favoriteBtn = screen.getByTestId('favorite-btn');
+    const favoriteBtn = screen.getByTestId(FAVORITE_BTN);
     expect(shareBtn).toBeInTheDocument();
     expect(favoriteBtn).toBeInTheDocument();
   });
@@ -101,5 +105,42 @@ describe('Testing Buttons component', () => {
     userEvent.click(shareBtn);
     const linkMessage = await screen.findByText('Link copied!');
     expect(linkMessage).toBeInTheDocument();
+  });
+  it('1 - Should unfavorite the selected recipes', async () => {
+    expect(screen.getByTestId('share-btn')).toBeInTheDocument();
+    expect(screen.getByTestId(FAVORITE_BTN)).toBeInTheDocument();
+
+    userEvent.click(screen.getByTestId(FAVORITE_BTN));
+
+    expect(JSON.parse(localStorage.getItem(FAVORITE_RECIPES))).toHaveLength(1);
+
+    userEvent.click(screen.getByTestId(FAVORITE_BTN));
+
+    expect(JSON.parse(localStorage.getItem(FAVORITE_RECIPES))).toHaveLength(0);
+  });
+});
+
+describe('Test the Buttons inside the drinks path', () => {
+  const FAVORITE_RECIPES = 'favoriteRecipes';
+
+  beforeEach(async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch = jest.fn(() => mockPromise);
+
+    await act(async () => renderWithRouter(<App />, '/drinks'));
+    const currDrink = await screen.findByText(/GG/i);
+    expect(currDrink).toBeInTheDocument();
+    userEvent.click(currDrink);
+    const startRecipeBtn = await screen.findByTestId('start-recipe-btn');
+    expect(startRecipeBtn).toBeInTheDocument();
+  });
+  it('Should unfavorite the selected drink', () => {
+    userEvent.click(screen.getByTestId(FAVORITE_BTN));
+
+    expect(JSON.parse(localStorage.getItem(FAVORITE_RECIPES))).toHaveLength(1);
+
+    userEvent.click(screen.getByTestId(FAVORITE_BTN));
+
+    expect(JSON.parse(localStorage.getItem(FAVORITE_RECIPES))).toHaveLength(0);
   });
 });

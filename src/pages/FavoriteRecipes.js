@@ -13,7 +13,7 @@ const copy = require('clipboard-copy');
 
 export default function FavoriteRecipes() {
   const [favorites, setFavorites] = useState([]);
-  const [copyMessage, setCopyMessage] = useState('');
+  const [copyMessage, setCopyMessage] = useState({});
   const [filter, setFilter] = useState('ALL');
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function FavoriteRecipes() {
   const handleShareButton = (type, id) => {
     const path = `http://localhost:3000/${type}s/${id}`;
     copy(path);
-    setCopyMessage('Link copied!');
+    setCopyMessage({ [id]: 'Link copied!' });
   };
 
   const handleUnFavoriting = (id) => {
@@ -117,7 +117,7 @@ export default function FavoriteRecipes() {
                 >
                   <img src={ shareIcon } alt="share-icon" />
                 </button>
-                { copyMessage && <p>{copyMessage}</p>}
+                { Object.keys(copyMessage) !== null && <p>{copyMessage[e.id]}</p>}
                 <button
                   type="button"
                   data-testid={ `${index}-horizontal-favorite-btn` }
