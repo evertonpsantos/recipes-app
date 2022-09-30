@@ -64,6 +64,11 @@
   font-weight: 700;
 }
 
+.login-button:disabled {
+  background: #fde19b;
+  border: 0.5px solid #fde19b;
+}
+
 
 @media only screen and ( max-width : 376px ) {
 
