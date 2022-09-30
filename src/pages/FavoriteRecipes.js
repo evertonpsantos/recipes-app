@@ -21,6 +21,8 @@ export default function FavoriteRecipes() {
     if (localStorageFav !== undefined) {
       setFavorites(localStorageFav
         .filter(({ type }) => (filter === 'ALL' ? true : type === filter)));
+      console.log(localStorageFav
+        .filter(({ type }) => (filter === 'ALL' ? true : type === filter)));
     }
   }, [filter]);
 
@@ -36,8 +38,9 @@ export default function FavoriteRecipes() {
     setFavorites(newFav);
   };
 
-  const handleFilter = ({ target: { name } }) => {
+  const handleFilter = (name) => {
     setFilter(name);
+    console.log(name);
   };
 
   return (
@@ -48,7 +51,7 @@ export default function FavoriteRecipes() {
           data-testid="filter-by-all-btn"
           type="button"
           name="ALL"
-          onClick={ handleFilter }
+          onClick={ () => handleFilter('ALL') }
         >
           <div className="category-card-container">
             <img
@@ -62,7 +65,7 @@ export default function FavoriteRecipes() {
           data-testid="filter-by-meal-btn"
           type="button"
           name="meal"
-          onClick={ handleFilter }
+          onClick={ () => handleFilter('meal') }
         >
           <div className="category-card-container">
             <img
@@ -76,7 +79,7 @@ export default function FavoriteRecipes() {
           data-testid="filter-by-drink-btn"
           type="button"
           name="drink"
-          onClick={ handleFilter }
+          onClick={ () => handleFilter('drink') }
         >
           <div className="category-card-container">
             <img
