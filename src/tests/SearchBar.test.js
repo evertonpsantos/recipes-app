@@ -69,7 +69,7 @@ describe('SearchBar page tests', () => {
     }).mockResolvedValueOnce({
       json: jest.fn().mockResolvedValue(chickenMeals),
     });
-    
+
     renderWithRouter(<App />, '/meals');
 
     const searchImgButton = screen.getByTestId(SEARCH_ICON_IMAGE);
