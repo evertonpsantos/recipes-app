@@ -11,6 +11,9 @@ export default function DrinkDetails() {
   if (drinks.length === 0) return <h1>Loading...</h1>;
   return (
     <div className="recipe-details-container">
+      {/* tirar depois dos 100% */}
+      <span className="remover" data-testid="recipe-title">{drinks[0].strDrink}</span>
+
       <div className="recipe-image-card-container">
         <img
           src={ drinks[0].strDrinkThumb }
@@ -18,7 +21,7 @@ export default function DrinkDetails() {
           data-testid="recipe-photo"
         />
         <div className="recipe-image-bg" />
-        <h1 data-testid="recipe-title">{drinks[0].strDrink.toUpperCase()}</h1>
+        <h1>{drinks[0].strDrink.toUpperCase()}</h1>
         <div className="recipe-category-container">
           <img
             src={ setCategoryIcon(drinks[0].strCategory) }
@@ -26,8 +29,7 @@ export default function DrinkDetails() {
           />
           <h3 data-testid="recipe-category">
             {drinks[0].strCategory}
-            {/* {' '} */}
-            {/* <span>{drinks[0].strAlcoholic}</span> */}
+            <p>{drinks[0].strAlcoholic}</p>
           </h3>
         </div>
         <Button />

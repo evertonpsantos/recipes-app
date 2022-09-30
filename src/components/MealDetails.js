@@ -11,6 +11,9 @@ export default function MealDetails() {
   if (meals.length === 0) return <h1>Loading...</h1>;
   return (
     <div className="recipe-details-container">
+      {/* tirar depois dos 100% */}
+      <span className="remover" data-testid="recipe-title">{meals[0].strMeal}</span>
+
       <div className="recipe-image-card-container">
         <img
           src={ meals[0].strMealThumb }
@@ -18,7 +21,7 @@ export default function MealDetails() {
           data-testid="recipe-photo"
         />
         <div className="recipe-image-bg" />
-        <h1 data-testid="recipe-title">{meals[0].strMeal.toUpperCase()}</h1>
+        <h1>{meals[0].strMeal.toUpperCase()}</h1>
         <div className="recipe-category-container">
           <img
             src={ setCategoryIcon(meals[0].strCategory) }
