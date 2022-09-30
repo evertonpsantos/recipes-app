@@ -1,3 +1,4 @@
+import allAll from '../images/allAll.svg';
 import allDrinkCat from '../images/allDrinkCat.svg';
 import allMealCat from '../images/allMealCat.svg';
 import beefCat from '../images/beefCat.svg';
@@ -13,7 +14,7 @@ import shakeCat from '../images/shakeCat.svg';
 
 export { allDrinkCat, allMealCat };
 
-export const setCategoryBtn = (cat) => {
+export const setCategoryIcon = (cat) => {
   switch (cat) {
   case 'Ordinary Drink':
     return ordinaryCat;
@@ -36,6 +37,6 @@ export const setCategoryBtn = (cat) => {
   case 'Goat':
     return lambCat;
   default:
-    return cat;
+    return allAll;
   }
 };

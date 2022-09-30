@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import RecipesContext from '../context/RecipesContext';
 import Button from './Button';
 import DrinkRecommendations from './DrinkRecommendations';
+import { setCategoryIcon } from '../helpers/categoriesIcons';
 
 export default function MealDetails() {
   const { recipe } = useContext(RecipesContext);
@@ -9,15 +10,24 @@ export default function MealDetails() {
 
   if (meals.length === 0) return <h1>Loading...</h1>;
   return (
-    <div>
-      <img
-        src={ meals[0].strMealThumb }
-        alt={ meals[0].strMeal }
-        data-testid="recipe-photo"
-        style={ { width: '200px' } }
-      />
-      <h1 data-testid="recipe-title">{meals[0].strMeal}</h1>
-      <h3 data-testid="recipe-category">{meals[0].strCategory}</h3>
+    <div className="recipe-details-container">
+      <div className="recipe-image-card-container">
+        <img
+          src={ meals[0].strMealThumb }
+          alt={ meals[0].strMeal }
+          data-testid="recipe-photo"
+        />
+        <div className="recipe-image-bg" />
+        <h1 data-testid="recipe-title">{meals[0].strMeal.toUpperCase()}</h1>
+        <div className="recipe-category-container">
+          <img
+            src={ setCategoryIcon(meals[0].strCategory) }
+            alt={ `${meals[0].strCategory} category logo` }
+          />
+          <h3 data-testid="recipe-category">{meals[0].strCategory}</h3>
+        </div>
+        <Button />
+      </div>
       <table>
         <thead>
           <tr>
@@ -64,7 +74,6 @@ export default function MealDetails() {
       />
 
       <DrinkRecommendations />
-      <Button />
     </div>
   );
 }

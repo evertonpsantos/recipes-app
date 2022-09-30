@@ -4,7 +4,7 @@ import RecipesContext from '../context/RecipesContext';
 import drinksAPI, { drinksCategories,
   drinksFilterByCategories } from '../helpers/drinksAPI';
 import mealsAPI, { mealsCategories, mealsFilterByCategories } from '../helpers/mealsAPI';
-import { allDrinkCat, allMealCat, setCategoryBtn } from '../helpers/categoriesIcons';
+import { allDrinkCat, allMealCat, setCategoryIcon } from '../helpers/categoriesIcons';
 
 import '../style/Recipes.css';
 
@@ -85,7 +85,7 @@ function Recipes() {
             >
               <div className="category-card-container">
                 <img
-                  src={ setCategoryBtn(strCategory) }
+                  src={ setCategoryIcon(strCategory) }
                   alt={ `${strCategory} logo` }
                 />
                 <p>{strCategory === 'Other/Unknown' ? 'Other/ Unknown' : strCategory}</p>

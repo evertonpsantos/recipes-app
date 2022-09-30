@@ -100,28 +100,29 @@ export default function Button() {
         </div>
       )}
 
-      <button
-        type="button"
-        data-testid="share-btn"
-        onClick={ handleShareButton }
-        className="details-button"
-      >
-        <img src={ shareIcon } alt="share-icon" />
-      </button>
-      { copyMessage && <p>{copyMessage}</p>}
-
-      <button
-        type="button"
-        data-testid="favorite-btn"
-        onClick={ handleFavoriting }
-        className="favorite"
-        src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-      >
-        <img
+      <div className="recipe-details-button-container">
+        <button
+          type="button"
+          data-testid="share-btn"
+          onClick={ handleShareButton }
+          className="button-icon"
+        >
+          <img src={ shareIcon } alt="share-icon" />
+        </button>
+        { copyMessage && <p>{copyMessage}</p>}
+        <button
+          type="button"
+          data-testid="favorite-btn"
+          onClick={ handleFavoriting }
+          className="button-icon"
           src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-          alt="share-icon"
-        />
-      </button>
+        >
+          <img
+            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+            alt="share-icon"
+          />
+        </button>
+      </div>
     </div>
   );
 }

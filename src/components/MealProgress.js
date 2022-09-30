@@ -61,7 +61,7 @@ export default function MealProgress() {
                 <input
                   type="checkbox"
                   id={ el[1] }
-                  checked={ check.includes(el[1]) }
+                  value={ check.includes(el[1]) }
                   onChange={ handleCheck }
                 />
                 {el[1]}

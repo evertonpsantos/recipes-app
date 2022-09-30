@@ -1,22 +1,81 @@
+.button-icon {
+  background-color: transparent;
+  border: none;
+}
+
+/* .recipe-details-container {
+
+
+} */
+
+.recipe-image-card-container {
+  height: 250px;
+  position: relative;
+  width: 100%;
+}
+
+.recipe-image-card-container img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+  z-index: 1;
+}
+
+.recipe-image-bg {
+  background-color: rgba(0, 0, 0, 0.468);
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.recipe-image-card-container h1 {
+  color: white;
+  font-size: 30px;
+  font-weight: 900;
+  left: 0;
+  margin: 130px auto 0;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+}
+
+.recipe-category-container {
+  align-items: center;
+  display: flex;
+  gap: 0.8em;
+  left: 6%;
+  position: absolute;
+  top: 8%;
+  width: 100%;
+}
+
+.recipe-category-container > img {
+  width: 13%;
+}
+
+.recipe-category-container > h3 {
+  color: #fcc436;
+  font-weight: 700;
+  margin: 0;
+}
+
+.recipe-details-button-container {
+  display: flex;
+  gap: 1.1em;
+  height: 15%;
+  position: absolute;
+  right: 7%;
+  top: 11%;
+}
+
 .recipe-status-btn {
   bottom: 0;
   height: 50px;
   left: 40%;
   position: fixed;
   width: 100px;
-}
-
-.details-button {
-  bottom: 0;
-  height: 50px;
-  position: sticky;
-  width: 50px;
-}
-
-.favorite {
-  bottom: 0;
-  height: 50px;
-  left: 12px;
-  position: sticky;
-  width: 50px;
 }
