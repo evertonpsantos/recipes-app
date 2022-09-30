@@ -14,8 +14,14 @@ const saveRecipe = (newRecipe) => {
   localStorage.setItem(FAVORITE_RECIPES, JSON.stringify(newArray));
 };
 
-export const removeRecipe = (recipe) => {
-  const id = recipe[0]['idMeal' || 'idDrink'];
+export const removeRecipe = (recipe, path) => {
+  const id = recipe[path][0][path === 'meals' ? 'idMeal' : 'idDrink'];
+  const localStorageRecipes = readRecipe();
+  const filteredArray = localStorageRecipes.filter((e) => e.id !== id);
+  localStorage.setItem(FAVORITE_RECIPES, JSON.stringify(filteredArray));
+};
+
+export const removeRecipeFromFavPage = (id) => {
   const localStorageRecipes = readRecipe();
   const filteredArray = localStorageRecipes.filter((e) => e.id !== id);
   localStorage.setItem(FAVORITE_RECIPES, JSON.stringify(filteredArray));

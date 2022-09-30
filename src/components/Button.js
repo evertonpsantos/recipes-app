@@ -46,7 +46,7 @@ export default function Button() {
 
   const handleFavoriting = () => {
     if (isFavorite) {
-      removeRecipe(recipe[path]);
+      removeRecipe(recipe, path);
       return setIsFavorite(false);
     }
 
