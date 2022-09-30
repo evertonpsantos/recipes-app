@@ -61,7 +61,16 @@ export default function Header() {
     <header className="header-container">
       <nav className="navbar-container">
         <div className="header-logo-container">
-          <img src={ foodCoverLogo } alt="food cover logo" />
+          <button
+            className="header-button"
+            onClick={ () => history.push('/meals') }
+            type="button"
+          >
+            <img
+              src={ foodCoverLogo }
+              alt="food cover logo"
+            />
+          </button>
           <img src={ writtenLogo } alt="recipes app" className="header-written-logo" />
         </div>
         <div className="header-button-container">
