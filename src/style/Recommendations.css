@@ -1,0 +1,40 @@
+.scroller {
+  display: flex;
+  margin-bottom: 4em;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  width: 100%;
+}
+
+.item {
+  min-width: 51%;
+  scroll-snap-align: center;
+}
+
+.image {
+  min-width: 100%;
+  position: relative;
+}
+
+.image img {
+  width: 100%;
+}
+
+.image h3, .image p {
+  color: white;
+  font-weight: 700;
+  left: 4%;
+  position: absolute;
+  text-shadow: 1px 1px rgb(144, 144, 144);
+  width: 100%;
+}
+
+.image h3 {
+  bottom: 9%;
+  font-size: 20px;
+}
+
+.image p {
+  bottom: -6%;
+  font-size: 14px;
+}

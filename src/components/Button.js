@@ -93,7 +93,7 @@ export default function Button() {
                 onClick={ () => history.push(`${pathname}/in-progress`) }
               >
                 {
-                  inProgressRecipes.includes(id) ? 'Continue Recipe' : 'Start Recipe'
+                  inProgressRecipes.includes(id) ? 'Continue Recipe' : 'START RECIPE'
                 }
               </button>)
           }

@@ -8,11 +8,25 @@ export default function DrinkDetails() {
   const { recipe } = useContext(RecipesContext);
   const { drinks } = recipe;
 
+  let renderAll;
+  if (drinks.length > 0) {
+    const data = Object.entries(drinks[0]).filter((el) => el[1] !== '' && el[1] !== null);
+    const renderIngredients = data.filter((el) => el[0].includes('strIngredient'));
+    const renderMeasurement = data.filter((el) => el[0].includes('strMeasure'));
+
+    renderAll = renderIngredients
+      .map((el, ind) => el[1].concat(' - ', renderMeasurement[ind][1]));
+  }
+
   if (drinks.length === 0) return <h1>Loading...</h1>;
   return (
     <div className="recipe-details-container">
+
       {/* tirar depois dos 100% */}
       <span className="remover" data-testid="recipe-title">{drinks[0].strDrink}</span>
+      <p className="remover" data-testid="instructions">
+        {drinks[0].strInstructions}
+      </p>
 
       <div className="recipe-image-card-container">
         <img
@@ -32,44 +46,28 @@ export default function DrinkDetails() {
             <p>{drinks[0].strAlcoholic}</p>
           </h3>
         </div>
-        <Button />
-      </div>
-      <table>
-        <thead>
-          <tr>
-            {
-              Object.entries(drinks[0])
-                .filter((el) => el[0].includes('strIngredient'))
-                .filter((ele) => ele[1] !== '')
-                .map((el, index) => (
-                  <td
-                    key={ index }
-                    data-testid={ `${index}-ingredient-name-and-measure` }
-                  >
-                    {el[1]}
-                  </td>
-                ))
-            }
-          </tr>
-        </thead>
-        <tbody>
-          {
-            Object.entries(drinks[0])
-              .filter((el) => el[0].includes('strMeasure'))
-              .filter((ele) => ele[1] !== '')
-              .map((el, index) => (
-                <tr
-                  key={ index }
-                  data-testid={ `${index}-ingredient-name-and-measure` }
-                >
-                  <td>{el[1]}</td>
-                </tr>
-              ))
-          }
-        </tbody>
-      </table>
-      <p data-testid="instructions">{drinks[0].strInstructions}</p>
 
+        <Button />
+
+      </div>
+      <h1 className="recipe-title ingredients">Ingredients</h1>
+      <ul className="ingredients-container">
+        { renderAll.map((el, index) => (
+          <li
+            className="ingredient-list-item"
+            data-testid={ `${index}-ingredient-name-and-measure` }
+            key={ index }
+          >
+            {el}
+          </li>
+        )) }
+      </ul>
+      <h1 className="recipe-title">Instructions</h1>
+      <div className="recipe-instructions">
+        {
+          drinks[0].strInstructions.split('.').map((el, i) => <p key={ i }>{el}</p>)
+        }
+      </div>
       <MealRecommendations />
     </div>
   );
