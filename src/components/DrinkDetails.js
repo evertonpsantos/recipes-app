@@ -10,15 +10,14 @@ export default function DrinkDetails() {
   const [renderedItems, setRenderedItems] = useState([]);
 
   useEffect(() => {
-    const data = Object.entries(drinks[0]).filter((el) => el[1] !== '' && el[1] !== null);
+    const data = Object.entries(drinks[0])
+      .filter((el) => el[1] !== '' && el[1] !== null);
     const renderIngredients = data.filter((el) => el[0].includes('strIngredient'));
-    const renderMeasurement = data.filter((el) => el[0].includes('strMeasure'));
+    const renderMeasurement = data.filter((el) => el[0].includes('strMeasure'))
+      .map((i) => i[1]);
     setRenderedItems(renderIngredients
-      .map((el, ind) => {
-        console.log(renderMeasurement[ind][1]);
-        console.log(el[1]);
-        return el[1].concat(' - ', renderMeasurement[ind][1]);
-      }));
+      .map((el, i) => (renderMeasurement[i] === undefined ? el[1]
+        : `${el[1]} - ${renderMeasurement[i]}`)));
   }, [drinks]);
 
   if (drinks.length === 0) return <h1>Loading...</h1>;
