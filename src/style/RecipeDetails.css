@@ -136,7 +136,6 @@ iframe {
 }
 
 .recipe-button-container {
-  background: blue;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -146,23 +145,13 @@ iframe {
   background-color: #fcc436;
   border: 0.5px solid #fcc436;
   border-radius: 7px;
-  bottom: 0;
-
-  /* descomentar dps dos 100% */
-
-  /* bottom: 1%; */
+  bottom: 1%;
   color: white;
   font-weight: 700;
   height: 50px;
   position: fixed;
   width: 89%;
-}
-
-
-.remover {
-  color: white;
-  position: absolute;
-  z-index: -1;
+  z-index: 1;
 }
 
 @media only screen and ( max-width : 376px ) {

@@ -4,7 +4,9 @@ import RecipesContext from '../context/RecipesContext';
 import drinksAPI, { drinksCategories,
   drinksFilterByCategories } from '../helpers/drinksAPI';
 import mealsAPI, { mealsCategories, mealsFilterByCategories } from '../helpers/mealsAPI';
-import { allDrinkCat, allMealCat, setCategoryIcon } from '../helpers/categoriesIcons';
+import { setCategoryIcon } from '../helpers/categoriesIcons';
+import allMealCat from '../images/allMealCat.svg';
+import allDrinkCat from '../images/allDrinkCat.svg';
 
 import '../style/Recipes.css';
 

@@ -24,12 +24,6 @@ export default function DrinkDetails() {
   return (
     <div className="recipe-details-container">
 
-      {/* tirar depois dos 100% */}
-      <span className="remover" data-testid="recipe-title">{drinks[0].strDrink}</span>
-      <p className="remover" data-testid="instructions">
-        {drinks[0].strInstructions}
-      </p>
-
       <div className="recipe-image-card-container">
         <img
           src={ drinks[0].strDrinkThumb }

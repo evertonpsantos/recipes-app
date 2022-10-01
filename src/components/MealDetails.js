@@ -21,11 +21,6 @@ export default function MealDetails() {
   if (meals.length === 0) return <h1>Loading...</h1>;
   return (
     <div className="recipe-details-container">
-      {/* tirar depois dos 100% */}
-      <span className="remover" data-testid="recipe-title">{meals[0].strMeal}</span>
-      <p className="remover" data-testid="instructions">
-        {meals[0].strInstructions}
-      </p>
 
       <div className="recipe-image-card-container">
         <img

@@ -95,4 +95,8 @@
   .favorite-category {
     gap: 1em;
   }
+
+  .favorite-button-container {
+    right: 4em;
+  }
 }

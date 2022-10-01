@@ -21,8 +21,6 @@ export default function FavoriteRecipes() {
     if (localStorageFav !== undefined) {
       setFavorites(localStorageFav
         .filter(({ type }) => (filter === 'ALL' ? true : type === filter)));
-      console.log(localStorageFav
-        .filter(({ type }) => (filter === 'ALL' ? true : type === filter)));
     }
   }, [filter]);
 
@@ -38,10 +36,7 @@ export default function FavoriteRecipes() {
     setFavorites(newFav);
   };
 
-  const handleFilter = (name) => {
-    setFilter(name);
-    console.log(name);
-  };
+  const handleFilter = (name) => setFilter(name);
 
   return (
     <div className="favorite-page-container">

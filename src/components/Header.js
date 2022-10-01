@@ -20,24 +20,6 @@ export default function Header() {
   const DONE_RECIPES = '/done-recipes';
   const FAVORITE_RECIPES = '/favorite-recipes';
 
-  // tirar dps dos 100% ( e o header que renderiza isso )
-  const defineTitle = (props) => {
-    switch (props) {
-    case '/meals':
-      return 'Meals';
-    case '/drinks':
-      return 'Drinks';
-    case '/profile':
-      return 'Profile';
-    case DONE_RECIPES:
-      return 'Done Recipes';
-    case FAVORITE_RECIPES:
-      return 'Favorite Recipes';
-    default:
-      return 'Header';
-    }
-  };
-
   const defineLogo = (props) => {
     switch (props) {
     case '/meals':
@@ -93,13 +75,6 @@ export default function Header() {
           </button>
         </div>
       </nav>
-      <h1
-        className="header-title"
-        data-testid="page-title"
-      >
-        {defineTitle(pathname)}
-
-      </h1>
       <img
         src={ defineLogo(pathname) }
         alt={ `${pathname} logo` }
