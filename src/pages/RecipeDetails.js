@@ -5,6 +5,7 @@ import { fetchDrinkRecipe } from '../helpers/drinksAPI';
 import MealDetails from '../components/MealDetails';
 import DrinkDetails from '../components/DrinkDetails';
 import RecipesContext from '../context/RecipesContext';
+import Loading from '../components/Loading';
 import '../style/RecipeDetails.css';
 
 export default function RecipeDetails() {
@@ -21,7 +22,7 @@ export default function RecipeDetails() {
     })();
   }, [id, path, setRecipe]);
 
-  if (recipe[path].length === 0) return <h1>Loading...</h1>;
+  if (recipe[path].length === 0) return <Loading />;
   if (pathname.includes('meals')) {
     return (
       <div>

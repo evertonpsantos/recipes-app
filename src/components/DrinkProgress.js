@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import { saveProgress, readProgress } from '../helpers/recipeLocalStorage';
 import Button from './Button';
+import Loading from './Loading';
 
 export default function DrinkProgress() {
   const { id } = useParams();
@@ -49,7 +50,7 @@ export default function DrinkProgress() {
 
   const handleClick = () => history.push('/done-recipes');
 
-  if (loading) return <h1>Loading...</h1>;
+  if (loading) return <Loading />;
   return (
     <div>
       <img

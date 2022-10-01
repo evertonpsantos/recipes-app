@@ -5,6 +5,7 @@ import { fetchDrinkRecipe } from '../helpers/drinksAPI';
 import RecipesContext from '../context/RecipesContext';
 import MealProgress from '../components/MealProgress';
 import DrinkProgress from '../components/DrinkProgress';
+import Loading from '../components/Loading';
 
 export default function RecipeInProgress() {
   const { pathname } = useLocation();
@@ -19,7 +20,7 @@ export default function RecipeInProgress() {
     setLoading(false);
   }, [pathname, id, setRecipe]);
 
-  if (loading) return <h1>Loading...</h1>;
+  if (loading) return <Loading />;
   return pathname.includes('meals')
     ? <MealProgress />
     : <DrinkProgress />;

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import RecipesContext from '../context/RecipesContext';
 import Button from './Button';
 import MealRecommendations from './MealRecommendations';
+import Loading from './Loading';
 import { setCategoryIcon } from '../helpers/categoriesIcons';
 
 export default function DrinkDetails() {
@@ -20,7 +21,7 @@ export default function DrinkDetails() {
         : `${el[1]} - ${renderMeasurement[i]}`)));
   }, [drinks]);
 
-  if (drinks.length === 0) return <h1>Loading...</h1>;
+  if (drinks.length === 0) return <Loading />;
   return (
     <div className="recipe-details-container">
 

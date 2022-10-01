@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import { saveProgress, readProgress } from '../helpers/recipeLocalStorage';
 import Button from './Button';
+import Loading from './Loading';
 
 export default function MealProgress() {
   const { id } = useParams();
@@ -38,7 +39,7 @@ export default function MealProgress() {
       .filter((el) => el[1] !== '' && el[1] !== null);
   }
 
-  if (meals.length === 0) return <h1>Loading...</h1>;
+  if (meals.length === 0) return <Loading />;
   return (
     <div>
       <img

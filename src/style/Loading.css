@@ -1,0 +1,38 @@
+@keyframes fadeIn {
+
+  from { opacity: 0; }
+}
+
+.loading-container {
+  align-items: center;
+  animation: fadeIn 0.8s infinite alternate;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+  height: 100vh;
+  justify-content: center;
+}
+
+.loading-image {
+  background-color: #fcdc36;
+  border-radius: 7px;
+  height: 90px;
+  position: relative;
+  width: 90px;
+}
+
+.loading-image img {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  vertical-align: center;
+  width: 80px;
+}
+
+.loading-container h1 {
+  font-weight: 700;
+}

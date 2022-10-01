@@ -3,6 +3,7 @@ import RecipesContext from '../context/RecipesContext';
 import Button from './Button';
 import DrinkRecommendations from './DrinkRecommendations';
 import { setCategoryIcon } from '../helpers/categoriesIcons';
+import Loading from './Loading';
 
 export default function MealDetails() {
   const { recipe } = useContext(RecipesContext);
@@ -18,7 +19,7 @@ export default function MealDetails() {
       .map((el, ind) => el[1].concat(' - ', renderMeasurement[ind][1]));
   }
 
-  if (meals.length === 0) return <h1>Loading...</h1>;
+  if (meals.length === 0) return <Loading />;
   return (
     <div className="recipe-details-container">
 

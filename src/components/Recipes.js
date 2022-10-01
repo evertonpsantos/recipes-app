@@ -9,6 +9,7 @@ import allMealCat from '../images/allMealCat.svg';
 import allDrinkCat from '../images/allDrinkCat.svg';
 
 import '../style/Recipes.css';
+import Loading from './Loading';
 
 function Recipes() {
   const MAX_RECIPE = 12;
@@ -53,7 +54,7 @@ function Recipes() {
     return setRecipes(data[checkPath() ? 'meals' : 'drinks']);
   };
 
-  if (recipes.length === 0) return <h1>Loading...</h1>;
+  if (recipes.length === 0) return <Loading />;
   return (
     <div className="recipes-container">
       <form className="category-button-container">
