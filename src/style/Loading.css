@@ -4,12 +4,23 @@
 }
 
 .loading-container {
+  background: rgba(255, 255, 255, 0.673);
+  bottom: 0;
+  height: 100vh;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 10;
+}
+
+.loading-animation {
   align-items: center;
   animation: fadeIn 0.8s infinite alternate;
   display: flex;
   flex-direction: column;
   gap: 1.2em;
-  height: 100vh;
+  height: 100%;
   justify-content: center;
 }
 

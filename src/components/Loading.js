@@ -5,10 +5,12 @@ import '../style/Loading.css';
 export default function Loading() {
   return (
     <div className="loading-container">
-      <div className="loading-image">
-        <img src={ foodCoverLogo } alt="cloche cover" />
+      <div className="loading-animation">
+        <div className="loading-image">
+          <img src={ foodCoverLogo } alt="cloche cover" />
+        </div>
+        <h1>Loading</h1>
       </div>
-      <h1>Loading</h1>
     </div>
   );
 }
