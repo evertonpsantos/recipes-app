@@ -6,11 +6,12 @@ import Button from './Button';
 
 export default function DrinkProgress() {
   const { id } = useParams();
-  const { recipe } = useContext(RecipesContext);
+  const { recipe, loading, setLoading } = useContext(RecipesContext);
   const { drinks } = recipe;
 
   const history = useHistory();
   const [check, setCheck] = useState([]);
+  const [renderedItems, setRenderedItems] = useState([]);
 
   useEffect(() => {
     const checkedItems = readProgress();
@@ -21,6 +22,18 @@ export default function DrinkProgress() {
     saveProgress({ [id]: check });
   }, [check, id]);
 
+  useEffect(() => {
+    const data = Object.entries(drinks[0])
+      .filter((el) => el[1] !== '' && el[1] !== null);
+    const renderIngredients = data.filter((el) => el[0].includes('strIngredient'));
+    const renderMeasurement = data.filter((el) => el[0].includes('strMeasure'))
+      .map((i) => i[1]);
+    setRenderedItems(renderIngredients
+      .map((el, i) => (renderMeasurement[i] === undefined ? el[1]
+        : `${el[1]} - ${renderMeasurement[i]}`)));
+    setLoading(false);
+  }, [drinks]);
+
   const handleCheck = ({ target }) => {
     if (check.includes(target.id)) {
       setCheck(check.filter((el) => el !== target.id));
@@ -29,16 +42,14 @@ export default function DrinkProgress() {
     }
   };
 
+  useEffect(() => {
+    console.log(recipe);
+    console.log(drinks);
+  }, [renderedItems]);
+
   const handleClick = () => history.push('/done-recipes');
 
-  let itemsToRender;
-  if (drinks.length > 0) {
-    itemsToRender = Object.entries(drinks[0])
-      .filter((el) => el[0].includes('strIngredient'))
-      .filter((el) => el[1] !== '' && el[1] !== null);
-  }
-
-  if (drinks.length === 0) return <h1>Loading...</h1>;
+  if (loading) return <h1>Loading...</h1>;
   return (
     <div>
       <img
@@ -51,20 +62,20 @@ export default function DrinkProgress() {
       <h3 data-testid="recipe-category">{drinks[0].strCategory}</h3>
       <div>
         {
-          itemsToRender
+          renderedItems
             .map((el, index) => (
               <label
                 key={ index }
                 data-testid={ `${index}-ingredient-step` }
-                htmlFor={ el[1] }
+                htmlFor={ `drink${index}` }
               >
                 <input
                   type="checkbox"
-                  id={ el[1] }
-                  checked={ check.includes(el[1]) }
+                  id={ `drink${index}` }
+                  checked={ check.includes(el) }
                   onChange={ handleCheck }
                 />
-                {el[1]}
+                {el}
               </label>
             ))
         }
@@ -74,7 +85,7 @@ export default function DrinkProgress() {
       <button
         type="button"
         className="recipe-status-btn"
-        disabled={ itemsToRender.length !== check.length }
+        disabled={ renderedItems.length !== check.length }
         onClick={ handleClick }
         data-testid="finish-recipe-btn"
       >

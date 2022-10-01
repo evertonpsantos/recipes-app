@@ -44,6 +44,11 @@
   width: 100%;
 }
 
+.test {
+  background: blue;
+  width: 100%;
+}
+
 .favorite-button-container button {
   background-color: transparent;
   border: none;
@@ -71,6 +76,7 @@
 
 .favorite-button-container {
   bottom: 1.4em;
+  display: flex;
   position: absolute;
   right: 5.5em;
 }
