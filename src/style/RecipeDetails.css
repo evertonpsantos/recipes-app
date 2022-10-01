@@ -154,6 +154,55 @@ iframe {
   z-index: 1;
 }
 
+.modal-container {
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
+  height: 100%;
+  left: 0;
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.modal-content {
+  align-items: center;
+  background: #6b6b6b;
+  border-radius: 7px;
+  display: flex;
+  height: 7%;
+  margin: 20% auto;
+  padding: 1em 0.6em;
+  position: relative;
+  width: 30%;
+}
+
+.modal-content p, .modal-close {
+  left: 0;
+  margin: 0;
+  position: absolute;
+  right: 0;
+}
+
+.modal-content p {
+  color: white;
+  text-align: center;
+  top: 20%;
+}
+
+.modal-close {
+  bottom: 8%;
+  color: rgb(194, 194, 194);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.modal-close:active {
+  color: rgb(82, 82, 82);
+  text-decoration: none;
+}
+
 @media only screen and ( max-width : 376px ) {
 
   .recipe-image-card-container {

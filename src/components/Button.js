@@ -9,15 +9,17 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 const copy = require('clipboard-copy');
 
 export default function Button() {
+  const history = useHistory();
   const { id } = useParams();
   const { pathname } = useLocation();
-  const path = pathname.split('/')[1];
-  const history = useHistory();
+  const { recipe } = useContext(RecipesContext);
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [inProgressRecipes, setInProgress] = useState([]);
   const [copyMessage, setCopyMessage] = useState('');
   const [isFavorite, setIsFavorite] = useState(false);
-  const { recipe } = useContext(RecipesContext);
+  const [modalDisplay, setModalDisplay] = useState({ display: 'none' });
+
+  const path = pathname.split('/')[1];
 
   useEffect(() => {
     const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
@@ -42,7 +44,10 @@ export default function Button() {
     const regex = pathNa.replace(/\/in-progress+$/g, '');
     copy(regex);
     setCopyMessage('Link copied!');
+    setModalDisplay({ display: 'block' });
   };
+
+  const closeModal = () => setModalDisplay({ display: 'none' });
 
   const handleFavoriting = () => {
     if (isFavorite) {
@@ -93,7 +98,7 @@ export default function Button() {
                 onClick={ () => history.push(`${pathname}/in-progress`) }
               >
                 {
-                  inProgressRecipes.includes(id) ? 'Continue Recipe' : 'START RECIPE'
+                  inProgressRecipes.includes(id) ? 'CONTINUE RECIPE' : 'START RECIPE'
                 }
               </button>)
           }
@@ -109,7 +114,23 @@ export default function Button() {
         >
           <img src={ shareIcon } alt="share-icon" />
         </button>
-        { copyMessage && <p>{copyMessage}</p>}
+        { copyMessage && (
+          <div
+            className="modal-container"
+            style={ modalDisplay }
+          >
+            <div className="modal-content">
+              <button
+                className="modal-close button-icon"
+                type="button"
+                onClick={ closeModal }
+              >
+                &times;
+              </button>
+              <p>{copyMessage}</p>
+            </div>
+          </div>
+        )}
         <button
           type="button"
           data-testid="favorite-btn"
