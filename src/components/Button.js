@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
-import saveRecipe, { readRecipe, removeRecipe } from '../helpers/recipeLocalStorage';
+import { saveRecipe, readRecipe, removeRecipe } from '../helpers/recipeLocalStorage';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -46,7 +46,7 @@ export default function Button() {
 
   const handleFavoriting = () => {
     if (isFavorite) {
-      removeRecipe(recipe, path);
+      removeRecipe('favoriteRecipes', recipe, path);
       return setIsFavorite(false);
     }
 
@@ -64,13 +64,13 @@ export default function Button() {
         image: recipeNew[checkPath ? 'strMealThumb' : 'strDrinkThumb'],
       };
 
-      saveRecipe(newRecipe);
+      saveRecipe('favoriteRecipes', newRecipe);
       return setIsFavorite(true);
     }
   };
 
   useEffect(() => {
-    const favoriteArray = readRecipe() || [];
+    const favoriteArray = readRecipe('favoriteRecipes') || [];
     if (recipe[path].length !== 0) {
       return setIsFavorite(favoriteArray.some((savedRecipe) => savedRecipe
         .id === recipe[path][0][path === 'meals' ? 'idMeal' : 'idDrink']));

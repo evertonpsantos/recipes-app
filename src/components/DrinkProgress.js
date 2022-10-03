@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
-import { saveProgress, readProgress } from '../helpers/recipeLocalStorage';
+import { saveProgress, readRecipe } from '../helpers/recipeLocalStorage';
 import Button from './Button';
 
 export default function DrinkProgress() {
@@ -13,7 +13,7 @@ export default function DrinkProgress() {
   const [check, setCheck] = useState([]);
 
   useEffect(() => {
-    const checkedItems = readProgress();
+    const checkedItems = readRecipe('inProgressRecipes');
     if (checkedItems) setCheck(checkedItems[id]);
   }, [id]);
 

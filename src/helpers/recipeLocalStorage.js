@@ -1,39 +1,30 @@
-const FAVORITE_RECIPES = 'favoriteRecipes';
 const IN_PROGRESS_RECIPES = 'inProgressRecipes';
 
-export const readRecipe = () => {
-  if (!JSON.parse(localStorage.getItem(FAVORITE_RECIPES))) {
-    return localStorage.setItem(FAVORITE_RECIPES, JSON.stringify([]));
+export const readRecipe = (key) => {
+  if (!JSON.parse(localStorage.getItem(key))) {
+    return localStorage.setItem(key, JSON.stringify([]));
   }
-  return JSON.parse(localStorage.getItem(FAVORITE_RECIPES));
+  return JSON.parse(localStorage.getItem(key));
 };
 
-const saveRecipe = (newRecipe) => {
-  const arrayStorage = readRecipe();
+export const saveRecipe = (key, newRecipe) => {
+  const arrayStorage = readRecipe(key);
   const newArray = [...arrayStorage, newRecipe];
-  localStorage.setItem(FAVORITE_RECIPES, JSON.stringify(newArray));
+  localStorage.setItem(key, JSON.stringify(newArray));
 };
 
-export const removeRecipe = (recipe, path) => {
+export const removeRecipe = (key, recipe, path) => {
   const id = recipe[path][0][path === 'meals' ? 'idMeal' : 'idDrink'];
-  const localStorageRecipes = readRecipe();
+  const localStorageRecipes = readRecipe(key);
   const filteredArray = localStorageRecipes.filter((e) => e.id !== id);
-  localStorage.setItem(FAVORITE_RECIPES, JSON.stringify(filteredArray));
+  localStorage.setItem(key, JSON.stringify(filteredArray));
 };
 
-export const removeRecipeFromFavPage = (id) => {
-  const localStorageRecipes = readRecipe();
+export const removeRecipeFromFavPage = (key, id) => {
+  const localStorageRecipes = readRecipe(key);
   const filteredArray = localStorageRecipes.filter((e) => e.id !== id);
-  localStorage.setItem(FAVORITE_RECIPES, JSON.stringify(filteredArray));
+  localStorage.setItem(key, JSON.stringify(filteredArray));
 };
-
-export const readProgress = () => (
-  JSON.parse(localStorage.getItem(IN_PROGRESS_RECIPES))
-    ? JSON.parse(localStorage.getItem(IN_PROGRESS_RECIPES))
-    : localStorage.setItem(IN_PROGRESS_RECIPES, JSON.stringify([]))
-);
 
 export const saveProgress = (recipe) => localStorage
   .setItem(IN_PROGRESS_RECIPES, JSON.stringify(recipe));
-
-export default saveRecipe;

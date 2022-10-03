@@ -1,19 +1,23 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
-import { saveProgress, readProgress } from '../helpers/recipeLocalStorage';
+import { saveProgress, readRecipe, saveRecipe }
+  from '../helpers/recipeLocalStorage';
 import Button from './Button';
 
 export default function MealProgress() {
   const { id } = useParams();
+  const { pathname } = useLocation();
   const { recipe } = useContext(RecipesContext);
   const { meals } = recipe;
 
+  const path = pathname.split('/')[1];
   const history = useHistory();
   const [check, setCheck] = useState([]);
 
   useEffect(() => {
-    const checkedItems = readProgress();
+    const checkedItems = readRecipe('inProgressRecipes');
+    readRecipe('doneRecipes');
     if (checkedItems) setCheck(checkedItems[id]);
   }, [id]);
 
@@ -29,7 +33,26 @@ export default function MealProgress() {
     }
   };
 
-  const handleClick = () => history.push('/done-recipes');
+  const handleClick = () => {
+    const recipeNew = recipe[path][0];
+    const mealPath = path === 'meals';
+    const dateCompleted = new Date().toDateString();
+    const tags = recipeNew.strTags.split(', ');
+
+    const newRecipe = {
+      id: recipeNew[mealPath ? 'idMeal' : 'idDrink'],
+      type: mealPath ? 'meal' : 'drink',
+      nationality: !mealPath ? '' : recipeNew.strArea,
+      category: recipeNew.strCategory,
+      alcoholicOrNot: mealPath ? '' : recipeNew.strAlcoholic,
+      name: recipeNew[mealPath ? 'strMeal' : 'strDrink'],
+      image: recipeNew[mealPath ? 'strMealThumb' : 'strDrinkThumb'],
+      dateCompleted,
+      tags,
+    };
+    saveRecipe('doneRecipes', newRecipe);
+    history.push('/done-recipes');
+  };
 
   let itemsToRender;
   if (meals.length > 0) {

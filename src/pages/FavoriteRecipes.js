@@ -13,7 +13,7 @@ export default function FavoriteRecipes() {
   const [filter, setFilter] = useState('ALL');
 
   useEffect(() => {
-    const localStorageFav = readRecipe();
+    const localStorageFav = readRecipe('favoriteRecipes');
     if (localStorageFav !== undefined) {
       setFavorites(localStorageFav
         .filter(({ type }) => (filter === 'ALL' ? true : type === filter)));
@@ -27,8 +27,8 @@ export default function FavoriteRecipes() {
   };
 
   const handleUnFavoriting = (id) => {
-    removeRecipeFromFavPage(id);
-    const newFav = readRecipe();
+    removeRecipeFromFavPage('favoriteRecipes', id);
+    const newFav = readRecipe('favoriteRecipes');
     setFavorites(newFav);
   };
 
