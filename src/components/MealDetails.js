@@ -3,7 +3,6 @@ import RecipesContext from '../context/RecipesContext';
 import Button from './Button';
 import DrinkRecommendations from './DrinkRecommendations';
 import { setCategoryIcon } from '../helpers/categoriesIcons';
-import Loading from './Loading';
 
 export default function MealDetails() {
   const { recipe } = useContext(RecipesContext);
