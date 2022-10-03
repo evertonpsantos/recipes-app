@@ -29,6 +29,13 @@ export const saveInProgress = (inProgress) => {
   localStorage.setItem(IN_PROGRESS_RECIPES, JSON.stringify(newObject));
 };
 
+export const removeRecipeFromInProgress = (id) => {
+  const arrayStorage = readInProgress();
+  const newObject = Object.fromEntries(Object
+    .entries(arrayStorage).filter((e) => e[0] !== id));
+  localStorage.setItem(IN_PROGRESS_RECIPES, JSON.stringify(newObject));
+};
+
 export const removeRecipe = (key, recipe, path) => {
   const id = recipe[path][0][path === 'meals' ? 'idMeal' : 'idDrink'];
   const localStorageRecipes = readRecipe(key);

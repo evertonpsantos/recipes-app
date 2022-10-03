@@ -14,7 +14,10 @@ export default function DoneRecipes() {
 
   useEffect(() => {
     const recipes = readRecipe('doneRecipes');
-    setDoneRecipes(recipes);
+    const recipesFiltered = recipes.filter((item, index, array) => index === array
+      .findIndex((obj) => obj.id === item.id));
+    console.log(recipes);
+    setDoneRecipes(recipesFiltered);
   }, []);
 
   useEffect(() => {
@@ -32,6 +35,11 @@ export default function DoneRecipes() {
 
   const handleFilter = ({ target: { name } }) => {
     setFilter(name);
+  };
+
+  const handleDones = (id) => {
+    const recipes = readRecipe('doneRecipes');
+    return recipes.filter((e) => e.id === id).length;
   };
 
   return (
@@ -76,7 +84,11 @@ export default function DoneRecipes() {
                   width: '200px',
                 } }
               />
-              <h2 data-testid={ `${index}-horizontal-name` }>{el.name}</h2>
+              <h2
+                data-testid={ `${index}-horizontal-name` }
+              >
+                {`${el.name} - done ${handleDones(el.id)} time(s)`}
+              </h2>
             </Link>
             <h5
               data-testid={ `${index}-horizontal-top-text` }

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
-import { saveProgress, readRecipe, saveRecipe }
+import { readRecipe, saveRecipe, saveInProgress, removeRecipeFromInProgress }
   from '../helpers/recipeLocalStorage';
 import { setCategoryIcon } from '../helpers/categoriesIcons';
 import Button from './Button';
@@ -10,7 +10,7 @@ import Loading from './Loading';
 export default function DrinkProgress() {
   const { id } = useParams();
   const { pathname } = useLocation();
-  const { recipe, loading, setLoading } = useContext(RecipesContext);
+  const { recipe, setLoading } = useContext(RecipesContext);
   const { drinks } = recipe;
 
   const path = pathname.split('/')[1];
@@ -26,19 +26,21 @@ export default function DrinkProgress() {
   }, [id]);
 
   useEffect(() => {
-    saveProgress({ [id]: check });
+    saveInProgress({ [id]: check });
   }, [check, id]);
 
   useEffect(() => {
-    const data = Object.entries(drinks[0])
-      .filter((el) => el[1] !== '' && el[1] !== null);
-    const renderIngredients = data.filter((el) => el[0].includes('strIngredient'));
-    const renderMeasurement = data.filter((el) => el[0].includes('strMeasure'))
-      .map((i) => i[1]);
-    setRenderedItems(renderIngredients
-      .map((el, i) => (renderMeasurement[i] === undefined ? el[1]
-        : `${el[1]} - ${renderMeasurement[i]}`)));
-    setLoading(false);
+    if (drinks.length !== 0) {
+      const data = Object.entries(drinks[0])
+        .filter((el) => el[1] !== '' && el[1] !== null);
+      const renderIngredients = data.filter((el) => el[0].includes('strIngredient'));
+      const renderMeasurement = data.filter((el) => el[0].includes('strMeasure'))
+        .map((i) => i[1]);
+      setRenderedItems(renderIngredients
+        .map((el, i) => (renderMeasurement[i] === undefined ? el[1]
+          : `${el[1]} - ${renderMeasurement[i]}`)));
+      setLoading(false);
+    }
   }, [drinks]);
 
   const handleCheck = ({ target }) => {
@@ -77,10 +79,11 @@ export default function DrinkProgress() {
       tags,
     };
     saveRecipe('doneRecipes', newRecipe);
+    removeRecipeFromInProgress(recipeNew.idDrink);
     history.push('/done-recipes');
   };
 
-  if (loading) return <Loading />;
+  if (drinks.length === 0) return <Loading />;
   return (
     <div className="recipe-details-container">
       <div className="recipe-image-card-container">
@@ -92,10 +95,12 @@ export default function DrinkProgress() {
         <div className="recipe-image-bg" />
         <h1 data-testid="recipe-title">{ drinks[0].strDrink.toUpperCase() }</h1>
         <div className="recipe-category-container">
-          <img
-            src={ setCategoryIcon(drinks[0].strCategory) }
-            alt={ `${drinks[0].strCategory} category logo` }
-          />
+          <Link to={ `/drinks/${drinks[0].idDrink}` } style={ { width: '40px' } }>
+            <img
+              src={ setCategoryIcon(drinks[0].strCategory) }
+              alt={ `${drinks[0].strCategory} category logo` }
+            />
+          </Link>
           <h3 data-testid="recipe-category">{drinks[0].strCategory}</h3>
         </div>
         <Button />
