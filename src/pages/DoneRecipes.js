@@ -18,8 +18,10 @@ export default function DoneRecipes() {
   }, []);
 
   useEffect(() => {
-    setRenderedItems(doneRecipes
-      .filter(({ type }) => (filter === 'All' ? true : type === filter)));
+    if (doneRecipes) {
+      setRenderedItems(doneRecipes
+        .filter(({ type }) => (filter === 'All' ? true : type === filter)));
+    }
   }, [doneRecipes, filter]);
 
   const handleShareButton = (type, id) => {
@@ -63,7 +65,7 @@ export default function DoneRecipes() {
           </button>
         </div>
 
-        { renderedItems ? renderedItems.map((el, index) => (
+        { renderedItems.length > 0 && renderedItems.map((el, index) => (
           <div className="done-img-card-container" key={ index }>
             <Link to={ `/${el.type}s/${el.id}` }>
               <img
@@ -93,11 +95,11 @@ export default function DoneRecipes() {
               <img src={ shareIcon } alt="share-icon" />
             </button>
             { Object.keys(copyMessage) !== null && <p>{copyMessage[el.id]}</p>}
-            { el.tags ? el.tags.map((tag) => (
+            { el.tags && el.tags.map((tag) => (
               <p key={ tag } data-testid={ `${index}-${tag}-horizontal-tag` }>{tag}</p>
-            )) : ''}
+            )) }
           </div>
-        )) : ''}
+        )) }
       </div>
     </div>
   );

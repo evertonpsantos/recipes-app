@@ -18,7 +18,7 @@ export default function MealProgress() {
   useEffect(() => {
     const checkedItems = readRecipe('inProgressRecipes');
     readRecipe('doneRecipes');
-    if (checkedItems[id]) setCheck(checkedItems[id]);
+    if (checkedItems) setCheck(checkedItems[id]);
   }, [id]);
 
   useEffect(() => {

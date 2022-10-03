@@ -13,20 +13,20 @@ export default function Button() {
   const { pathname } = useLocation();
   const path = pathname.split('/')[1];
   const history = useHistory();
-  const [doneRecipes, setDoneRecipes] = useState([]);
+  // const [doneRecipes, setDoneRecipes] = useState([]);
   const [inProgressRecipes, setInProgress] = useState([]);
   const [copyMessage, setCopyMessage] = useState('');
   const [isFavorite, setIsFavorite] = useState(false);
   const { recipe } = useContext(RecipesContext);
 
   useEffect(() => {
-    const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
+    // const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
     const inProgressRecipesStorage = JSON
       .parse(localStorage.getItem('inProgressRecipes'));
 
-    if (doneRecipesStorage) {
-      setDoneRecipes(doneRecipesStorage);
-    }
+    // if (doneRecipesStorage) {
+    //   setDoneRecipes(doneRecipesStorage);
+    // }
 
     if (inProgressRecipesStorage) {
       const recipesInProgress = [
@@ -49,7 +49,6 @@ export default function Button() {
       removeRecipe('favoriteRecipes', recipe, path);
       return setIsFavorite(false);
     }
-
     if (recipe[path].length !== 0) {
       const recipeNew = recipe[path][0];
       const checkPath = path === 'meals';
@@ -77,27 +76,27 @@ export default function Button() {
     }
   }, [recipe, path]);
 
-  if (!doneRecipes) return <p>Loading...</p>;
+  // if (!doneRecipes) return <p>Loading...</p>;
 
   return (
     <div>
-      { !doneRecipes.some((doneRecipe) => doneRecipe.id === id) && (
-        <div className="recipe-button-container">
-          {
-            !pathname.includes('in-progress') && (
-              <button
-                type="button"
-                data-testid="start-recipe-btn"
-                className="recipe-status-btn"
-                onClick={ () => history.push(`${pathname}/in-progress`) }
-              >
-                {
-                  inProgressRecipes.includes(id) ? 'Continue Recipe' : 'Start Recipe'
-                }
-              </button>)
-          }
-        </div>
-      )}
+      {/* { !doneRecipes.some((doneRecipe) => doneRecipe.id === id) && ( */}
+      <div className="recipe-button-container">
+        {
+          !pathname.includes('in-progress') && (
+            <button
+              type="button"
+              data-testid="start-recipe-btn"
+              className="recipe-status-btn"
+              onClick={ () => history.push(`${pathname}/in-progress`) }
+            >
+              {
+                inProgressRecipes.includes(id) ? 'Continue Recipe' : 'Start Recipe'
+              }
+            </button>)
+        }
+      </div>
+      {/* )} */}
 
       <button
         type="button"
