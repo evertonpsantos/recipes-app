@@ -85,6 +85,7 @@ export default function MealProgress() {
                   onChange={ handleCheck }
                   type="checkbox"
                 />
+                <div className="new-checkbox" />
                 {el}
               </label>
             ))

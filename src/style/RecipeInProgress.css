@@ -1,0 +1,50 @@
+.recipe-status-btn:disabled {
+  background-color: #fde19b;
+  border: 0.5px solid #fde19b;
+}
+
+.ingredient-checklist-item {
+  display: block;
+  margin: 0.5em 0;
+  padding-left: 35px;
+  position: relative;
+  user-select: none;
+}
+
+.ingredient-checklist-item input {
+  margin: 0 -1em;
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+}
+
+
+.ingredient-checklist-item .new-checkbox {
+  background-color: white;
+  border: 2px solid #fcc436;
+  border-radius: 3px;
+  height: 18px;
+  left: 0;
+  position: absolute;
+  top: 4px;
+  transition: background-color 0.25s ease;
+  width: 18px;
+}
+
+.ingredient-checklist-item .new-checkbox:after {
+  border: solid #e6b332;
+  border-width: 0 2px 2px 0;
+  content: '';
+  height: 10px;
+  left: 5px;
+  opacity: 0;
+  position: absolute;
+  top: 1px;
+  transform: rotate(45deg);
+  transition: opacity 0.25s ease;
+  width: 5px;
+}
+
+.ingredient-checklist-item input:checked ~ .new-checkbox:after {
+  opacity: 1;
+}

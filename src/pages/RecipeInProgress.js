@@ -6,6 +6,7 @@ import RecipesContext from '../context/RecipesContext';
 import MealProgress from '../components/MealProgress';
 import DrinkProgress from '../components/DrinkProgress';
 import Loading from '../components/Loading';
+import '../style/RecipeInProgress.css';
 
 export default function RecipeInProgress() {
   const { pathname } = useLocation();
