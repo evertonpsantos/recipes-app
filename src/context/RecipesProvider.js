@@ -9,9 +9,13 @@ export default function RecipesProvider({ children }) {
   const [searchInput, setSearchInput] = useState('');
   const [filteredSearch, setFilteredSearch] = useState([]);
   const [recipe, setRecipe] = useState({ meals: [], drinks: [] });
+  const [loading, setLoading] = useState(true);
+
   const contextValue = useMemo(() => ({
     user,
     setUser,
+    loading,
+    setLoading,
     recipe,
     setRecipe,
     filteredSearch,

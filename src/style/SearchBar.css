@@ -1,5 +1,83 @@
-.radio-btn {
-  display: flexbox;
-  justify-content: space-evenly;
+.search-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-input {
+  border: 1px solid #b1b1b1;
+  border-radius: 10px;
+  color: rgb(69, 69, 69);
+  margin-bottom: -1.5em;
+  outline-color: #b1b1b181;
+  padding: 0.6em;
+  width: 95%;
+  z-index: 0;
+}
+
+.search-radio-button-container {
+  align-items: center;
+  background-color: #41197f;
+  border-radius: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 2.2em 0 0.6em;
+  width: 95%;
+}
+
+.search-radio-container {
+  display: flex;
+  justify-content: space-between;
   padding: 5px;
+  width: 70%;
+}
+
+.search-radio-container > label {
+  display: flex;
+  font-size: 14px;
+  gap: 0.4em;
+}
+
+.search-radio-container > label > input {
+  align-self: center;
+  appearance: none;
+  background-color: white;
+  border: 3px solid white;
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+}
+
+.search-radio-container > label > input:checked {
+  background-color: #fcc436;
+  border: 3px solid white;
+}
+
+.search-button {
+  background-color: #fcc436;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  color: white;
+  font-weight: 700;
+  padding: 0.3em;
+  width: 70%;
+}
+
+@media only screen and ( max-width : 376px ) {
+
+  .search-input {
+    padding: 0.4em 0.6em;
+  }
+
+  .search-radio-button-container {
+    gap: 0.6em;
+    padding: 2.2em 0 0.6em;
+    width: 95%;
+  }
+
+  .search-radio-container, .search-button {
+    width: 75%;
+  }
 }

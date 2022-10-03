@@ -1,54 +1,88 @@
 import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import profileIcon from '../images/profileIcon.svg';
-import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
+import profileIcon2 from '../images/profileIcon2.svg';
+import searchIcon2 from '../images/searchIcon2.svg';
+import writtenLogo from '../images/writtenLogo.svg';
+import foodCoverLogo from '../images/foodCoverLogo.svg';
+import mealsIcon from '../images/mealsIcon.svg';
+import drinksIcon from '../images/drinksIcon.svg';
+import favoriteLogo from '../images/favoriteIcon.svg';
+import doneIcon from '../images/doneIcon.svg';
+import profileHeaderIcon from '../images/profileHeaderIcon.svg';
+import '../style/Header.css';
 
 export default function Header() {
   const [showSearchBar, setShowBar] = useState(false);
   const { pathname } = useLocation();
   const history = useHistory();
 
-  const defineTitle = (props) => {
+  const DONE_RECIPES = '/done-recipes';
+  const FAVORITE_RECIPES = '/favorite-recipes';
+
+  const defineLogo = (props) => {
     switch (props) {
     case '/meals':
-      return 'Meals';
+      return mealsIcon;
     case '/drinks':
-      return 'Drinks';
+      return drinksIcon;
     case '/profile':
-      return 'Profile';
-    case '/done-recipes':
-      return 'Done Recipes';
-    case '/favorite-recipes':
-      return 'Favorite Recipes';
+      return profileHeaderIcon;
+    case DONE_RECIPES:
+      return doneIcon;
+    case FAVORITE_RECIPES:
+      return favoriteLogo;
     default:
       return 'Header';
     }
   };
 
-  const notRenderSearchIcon = ['/profile', '/done-recipes', '/favorite-recipes'];
+  const notRenderSearchIcon = ['/profile', DONE_RECIPES, FAVORITE_RECIPES];
 
   return (
-    <>
-      <h1 data-testid="page-title">{defineTitle(pathname)}</h1>
-      <button
-        type="button"
-        onClick={ () => history.push('/profile') }
-      >
-        <img src={ profileIcon } alt="profile-icon" data-testid="profile-top-btn" />
-      </button>
-
-      {notRenderSearchIcon.includes(pathname)
-        ? '' : (
+    <header className="header-container">
+      <nav className="navbar-container">
+        <div className="header-logo-container">
           <button
+            className="header-button"
+            onClick={ () => history.push('/meals') }
             type="button"
-            onClick={ () => setShowBar(!showSearchBar) }
           >
-            <img src={ searchIcon } alt="search-icon" data-testid="search-top-btn" />
+            <img
+              src={ foodCoverLogo }
+              alt="food cover logo"
+            />
           </button>
-        )}
+          <img src={ writtenLogo } alt="recipes app" className="header-written-logo" />
+        </div>
+        <div className="header-button-container">
+          {notRenderSearchIcon.includes(pathname)
+            ? '' : (
+              <button
+                className="header-button"
+                type="button"
+                onClick={ () => setShowBar(!showSearchBar) }
+              >
+                <img src={ searchIcon2 } alt="search-icon" data-testid="search-top-btn" />
+              </button>
+            )}
+          <button
+            className="header-button"
+            type="button"
+            onClick={ () => history.push('/profile') }
+          >
+            <img src={ profileIcon2 } alt="profile-icon" data-testid="profile-top-btn" />
+          </button>
+        </div>
+      </nav>
+      <img
+        src={ defineLogo(pathname) }
+        alt={ `${pathname} logo` }
+        className="header-component-logo"
+      />
 
       { showSearchBar && <SearchBar /> }
-    </>
+
+    </header>
   );
 }

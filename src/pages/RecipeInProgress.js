@@ -5,6 +5,8 @@ import { fetchDrinkRecipe } from '../helpers/drinksAPI';
 import RecipesContext from '../context/RecipesContext';
 import MealProgress from '../components/MealProgress';
 import DrinkProgress from '../components/DrinkProgress';
+import Loading from '../components/Loading';
+import '../style/RecipeInProgress.css';
 
 export default function RecipeInProgress() {
   const { pathname } = useLocation();
@@ -13,12 +15,13 @@ export default function RecipeInProgress() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    (async () => setRecipe(pathname.includes('meals') ? await fetchMealRecipe(id)
+    (async () => setRecipe(pathname.includes('meals')
+      ? await fetchMealRecipe(id)
       : await fetchDrinkRecipe(id)))();
     setLoading(false);
   }, [pathname, id, setRecipe]);
 
-  if (loading) return <h1>Loading...</h1>;
+  if (loading) return <Loading />;
   return pathname.includes('meals')
     ? <MealProgress />
     : <DrinkProgress />;

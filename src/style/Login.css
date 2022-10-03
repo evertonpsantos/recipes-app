@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@;300;500;700;900&display=swap') ;
+
+* {
+  box-sizing: border-box;
+  font-family: Epilogue , sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.login-container {
+  background: linear-gradient(to bottom, #41197f 0%, #41197f 52%, white 50%, white 100%);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+}
+
+.login-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-logo {
+  align-self: center;
+  margin: 5em 0 0;
+
+}
+
+.login-form {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.login-title {
+  color: #41197f;
+  font-size: 22px;
+  font-style: italic;
+  letter-spacing: 0.2em;
+}
+
+.login-input, .login-button {
+  border-radius: 5px;
+  padding: 0.8em;
+  width: 70%;
+}
+
+.login-input {
+  border: 0.5px solid #41197f;
+  color: #41197f;
+  outline-color: #42197f38;
+}
+
+.login-input::placeholder {
+  color: #41197f;
+  font-weight: 300;
+}
+
+.login-button {
+  background: #fcc436;
+  border: 0.5px solid #fcc436;
+  color: white;
+  font-weight: 700;
+}
+
+.login-button:disabled {
+  background: #fde19b;
+  border: 0.5px solid #fde19b;
+}
+
+
+@media only screen and ( max-width : 376px ) {
+
+  .login-logo {
+    margin: 2em 0 1em;
+    width: 50%;
+  }
+
+  .login-tomato {
+    margin-bottom: -1em;
+    width: 70%;
+  }
+
+  .login-form {
+    gap: 0.4em;
+  }
+
+  .login-input, .login-button {
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 0.6em;
+    width: 65%;
+  }
+}

@@ -9,15 +9,16 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 const copy = require('clipboard-copy');
 
 export default function Button() {
+  const history = useHistory();
   const { id } = useParams();
   const { pathname } = useLocation();
-  const path = pathname.split('/')[1];
-  const history = useHistory();
-  // const [doneRecipes, setDoneRecipes] = useState([]);
+  const { recipe } = useContext(RecipesContext);
   const [inProgressRecipes, setInProgress] = useState([]);
   const [copyMessage, setCopyMessage] = useState('');
   const [isFavorite, setIsFavorite] = useState(false);
-  const { recipe } = useContext(RecipesContext);
+  const [modalDisplay, setModalDisplay] = useState({ display: 'none' });
+
+  const path = pathname.split('/')[1];
 
   useEffect(() => {
     // const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
@@ -42,7 +43,10 @@ export default function Button() {
     const regex = pathNa.replace(/\/in-progress+$/g, '');
     copy(regex);
     setCopyMessage('Link copied!');
+    setModalDisplay({ display: 'block' });
   };
+
+  const closeModal = () => setModalDisplay({ display: 'none' });
 
   const handleFavoriting = () => {
     if (isFavorite) {
@@ -76,11 +80,8 @@ export default function Button() {
     }
   }, [recipe, path]);
 
-  // if (!doneRecipes) return <p>Loading...</p>;
-
   return (
     <div>
-      {/* { !doneRecipes.some((doneRecipe) => doneRecipe.id === id) && ( */}
       <div className="recipe-button-container">
         {
           !pathname.includes('in-progress') && (
@@ -91,35 +92,51 @@ export default function Button() {
               onClick={ () => history.push(`${pathname}/in-progress`) }
             >
               {
-                inProgressRecipes.includes(id) ? 'Continue Recipe' : 'Start Recipe'
+                inProgressRecipes.includes(id) ? 'CONTINUE RECIPE' : 'START RECIPE'
               }
             </button>)
         }
       </div>
-      {/* )} */}
 
-      <button
-        type="button"
-        data-testid="share-btn"
-        onClick={ handleShareButton }
-        className="details-button"
-      >
-        <img src={ shareIcon } alt="share-icon" />
-      </button>
-      { copyMessage && <p>{copyMessage}</p>}
-
-      <button
-        type="button"
-        data-testid="favorite-btn"
-        onClick={ handleFavoriting }
-        className="favorite"
-        src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-      >
-        <img
+      <div className="recipe-details-button-container">
+        <button
+          type="button"
+          data-testid="share-btn"
+          onClick={ handleShareButton }
+          className="button-icon"
+        >
+          <img src={ shareIcon } alt="share-icon" />
+        </button>
+        { copyMessage && (
+          <div
+            className="modal-container"
+            style={ modalDisplay }
+          >
+            <div className="modal-content">
+              <button
+                className="modal-close button-icon"
+                type="button"
+                onClick={ closeModal }
+              >
+                &times;
+              </button>
+              <p>{copyMessage}</p>
+            </div>
+          </div>
+        )}
+        <button
+          type="button"
+          data-testid="favorite-btn"
+          onClick={ handleFavoriting }
+          className="button-icon"
           src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-          alt="share-icon"
-        />
-      </button>
+        >
+          <img
+            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+            alt="share-icon"
+          />
+        </button>
+      </div>
     </div>
   );
 }

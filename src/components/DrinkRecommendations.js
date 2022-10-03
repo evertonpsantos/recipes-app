@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import drinksAPI from '../helpers/drinksAPI';
-// import settings from '../helpers/carouselSettings';
+import '../style/Recommendations.css';
 
 export default function Recommendations() {
   const [recommendations, setRecommendations] = useState({});
@@ -13,26 +13,19 @@ export default function Recommendations() {
 
   if (recommendations.drinks) {
     return (
-      <div
-        style={ {
-          display: 'flex',
-          overflowX: 'scroll',
-        } }
-      >
+      <div className="scroller">
         {
           recommendations.drinks.slice(0, SIX).map((drink, i) => (
             <div
+              className="item"
               data-testid={ `${i}-recommendation-card` }
               key={ i }
             >
-              <img
-                src={ drink.strDrinkThumb }
-                alt={ drink.strDrink }
-                style={ {
-                  width: '200px',
-                } }
-              />
-              <div>
+              <div className="image">
+                <img
+                  src={ drink.strDrinkThumb }
+                  alt={ drink.strDrink }
+                />
                 <h3 data-testid={ `${i}-recommendation-title` }>{ drink.strDrink }</h3>
                 <p>{ drink.strCategory }</p>
               </div>
