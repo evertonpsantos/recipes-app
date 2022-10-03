@@ -2,25 +2,40 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import { saveProgress, readProgress } from '../helpers/recipeLocalStorage';
+import { setCategoryIcon } from '../helpers/categoriesIcons';
 import Button from './Button';
 import Loading from './Loading';
 
 export default function MealProgress() {
   const { id } = useParams();
-  const { recipe } = useContext(RecipesContext);
+  const { recipe, loading, setLoading } = useContext(RecipesContext);
   const { meals } = recipe;
 
   const history = useHistory();
   const [check, setCheck] = useState([]);
+  const [renderedItems, setRenderedItems] = useState([]);
 
   useEffect(() => {
     const checkedItems = readProgress();
-    if (checkedItems) setCheck(checkedItems[id]);
+    if (checkedItems[id]) setCheck(checkedItems[id]);
+    else setCheck([]);
   }, [id]);
 
   useEffect(() => {
     saveProgress({ [id]: check });
   }, [check, id]);
+
+  useEffect(() => {
+    const data = Object.entries(meals[0])
+      .filter((el) => el[1] !== '' && el[1] !== null);
+    const renderIngredients = data.filter((el) => el[0].includes('strIngredient'));
+    const renderMeasurement = data.filter((el) => el[0].includes('strMeasure'))
+      .map((i) => i[1]);
+    setRenderedItems(renderIngredients
+      .map((el, i) => (renderMeasurement[i] === undefined ? el[1]
+        : `${el[1]} - ${renderMeasurement[i]}`)));
+    setLoading(false);
+  }, [meals]);
 
   const handleCheck = ({ target }) => {
     if (check.includes(target.id)) {
@@ -32,54 +47,63 @@ export default function MealProgress() {
 
   const handleClick = () => history.push('/done-recipes');
 
-  let itemsToRender;
-  if (meals.length > 0) {
-    itemsToRender = Object.entries(meals[0])
-      .filter((el) => el[0].includes('strIngredient'))
-      .filter((el) => el[1] !== '' && el[1] !== null);
-  }
-
-  if (meals.length === 0) return <Loading />;
+  if (loading) return <Loading />;
   return (
-    <div>
-      <img
-        src={ meals[0].strMealThumb }
-        alt={ meals[0].strMeal }
-        style={ { width: '200px' } }
-        data-testid="recipe-photo"
-      />
-      <h1 data-testid="recipe-title">{meals[0].strMeal}</h1>
-      <h3 data-testid="recipe-category">{meals[0].strCategory}</h3>
-      <div>
+    <div className="recipe-details-container">
+      <div className="recipe-image-card-container">
+        <img
+          src={ meals[0].strMealThumb }
+          alt={ meals[0].strMeal }
+          data-testid="recipe-photo"
+        />
+        <div className="recipe-image-bg" />
+        <h1 data-testid="recipe-title">{meals[0].strMeal.toUpperCase()}</h1>
+        <div className="recipe-category-container">
+          <img
+            src={ setCategoryIcon(meals[0].strCategory) }
+            alt={ `${meals[0].strCategory} category logo` }
+          />
+          <h3 data-testid="recipe-category">{meals[0].strCategory}</h3>
+        </div>
+        <Button />
+      </div>
+      <h1 className="recipe-title ingredients">Ingredients</h1>
+      <div className="ingredients-container">
         {
-          itemsToRender
+          renderedItems
             .map((el, index) => (
               <label
-                key={ index }
+                className="ingredient-checklist-item"
                 data-testid={ `${index}-ingredient-step` }
-                htmlFor={ el[1] }
+                htmlFor={ `meals${index}` }
+                key={ index }
               >
                 <input
-                  type="checkbox"
-                  id={ el[1] }
-                  checked={ check.includes(el[1]) }
+                  checked={ check.includes(el) }
+                  className="ingredient-checkbox"
+                  id={ el }
                   onChange={ handleCheck }
+                  type="checkbox"
                 />
-                {el[1]}
+                {el}
               </label>
             ))
         }
       </div>
-      <p data-testid="instructions">{meals[0].strInstructions}</p>
-      <Button />
+      <h1 className="recipe-title">Instructions</h1>
+      <div className="recipe-instructions">
+        {
+          meals[0].strInstructions.split('.').map((el, i) => <p key={ i }>{el}</p>)
+        }
+      </div>
       <button
-        type="button"
         className="recipe-status-btn"
-        disabled={ itemsToRender.length !== check.length }
-        onClick={ handleClick }
         data-testid="finish-recipe-btn"
+        disabled={ renderedItems.length !== check.length }
+        onClick={ handleClick }
+        type="button"
       >
-        Finish Recipe
+        FINISH RECIPE
       </button>
     </div>
   );

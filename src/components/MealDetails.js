@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import RecipesContext from '../context/RecipesContext';
 import Button from './Button';
 import DrinkRecommendations from './DrinkRecommendations';
@@ -8,16 +8,18 @@ import Loading from './Loading';
 export default function MealDetails() {
   const { recipe } = useContext(RecipesContext);
   const { meals } = recipe;
+  const [renderedItems, setRenderedItems] = useState([]);
 
-  let renderAll;
-  if (meals.length > 0) {
-    const data = Object.entries(meals[0]).filter((el) => el[1] !== '' && el[1] !== null);
+  useEffect(() => {
+    const data = Object.entries(meals[0])
+      .filter((el) => el[1] !== '' && el[1] !== null);
     const renderIngredients = data.filter((el) => el[0].includes('strIngredient'));
-    const renderMeasurement = data.filter((el) => el[0].includes('strMeasure'));
-
-    renderAll = renderIngredients
-      .map((el, ind) => el[1].concat(' - ', renderMeasurement[ind][1]));
-  }
+    const renderMeasurement = data.filter((el) => el[0].includes('strMeasure'))
+      .map((i) => i[1]);
+    setRenderedItems(renderIngredients
+      .map((el, i) => (renderMeasurement[i] === undefined ? el[1]
+        : `${el[1]} - ${renderMeasurement[i]}`)));
+  }, [meals]);
 
   if (meals.length === 0) return <Loading />;
   return (
@@ -42,7 +44,7 @@ export default function MealDetails() {
       </div>
       <h1 className="recipe-title ingredients">Ingredients</h1>
       <ul className="ingredients-container">
-        { renderAll.map((el, index) => (
+        { renderedItems.map((el, index) => (
           <li
             className="ingredient-list-item"
             data-testid={ `${index}-ingredient-name-and-measure` }
