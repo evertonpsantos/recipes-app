@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
-import { saveProgress, readRecipe, saveRecipe }
+import { readRecipe, saveRecipe, readInProgress, saveInProgress }
   from '../helpers/recipeLocalStorage';
 import { setCategoryIcon } from '../helpers/categoriesIcons';
 import Button from './Button';
@@ -19,14 +19,13 @@ export default function MealProgress() {
   const [renderedItems, setRenderedItems] = useState([]);
 
   useEffect(() => {
-    const checkedItems = readRecipe('inProgressRecipes');
+    const checkedItems = readInProgress();
     readRecipe('doneRecipes');
-    if (checkedItems[id]) setCheck(checkedItems[id]);
-    else setCheck([]);
+    if (checkedItems[id] !== undefined) setCheck(checkedItems[id]);
   }, [id]);
 
   useEffect(() => {
-    saveProgress({ [id]: check });
+    saveInProgress({ [id]: check });
   }, [check, id]);
 
   useEffect(() => {

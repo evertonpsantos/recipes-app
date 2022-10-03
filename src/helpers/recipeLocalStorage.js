@@ -7,10 +7,26 @@ export const readRecipe = (key) => {
   return JSON.parse(localStorage.getItem(key));
 };
 
+export const readInProgress = () => {
+  if (!JSON.parse(localStorage.getItem(IN_PROGRESS_RECIPES))) {
+    return localStorage.setItem(IN_PROGRESS_RECIPES, JSON.stringify({}));
+  }
+  return JSON.parse(localStorage.getItem(IN_PROGRESS_RECIPES));
+};
+
 export const saveRecipe = (key, newRecipe) => {
   const arrayStorage = readRecipe(key);
   const newArray = [...arrayStorage, newRecipe];
   localStorage.setItem(key, JSON.stringify(newArray));
+};
+
+export const saveInProgress = (inProgress) => {
+  const arrayStorage = readInProgress();
+  const newObject = {
+    ...arrayStorage,
+    ...inProgress,
+  };
+  localStorage.setItem(IN_PROGRESS_RECIPES, JSON.stringify(newObject));
 };
 
 export const removeRecipe = (key, recipe, path) => {
