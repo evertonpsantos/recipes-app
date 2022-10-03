@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import Button from './Button';
 import MealRecommendations from './MealRecommendations';
@@ -34,10 +35,17 @@ export default function DrinkDetails() {
         <div className="recipe-image-bg" />
         <h1>{drinks[0].strDrink.toUpperCase()}</h1>
         <div className="recipe-category-container">
-          <img
-            src={ setCategoryIcon(drinks[0].strCategory) }
-            alt={ `${drinks[0].strCategory} category logo` }
-          />
+          <Link
+            to="/drinks"
+            style={ {
+              width: '40px',
+            } }
+          >
+            <img
+              src={ setCategoryIcon(drinks[0].strCategory) }
+              alt={ `${drinks[0].strCategory} category logo` }
+            />
+          </Link>
           <h3 data-testid="recipe-category">
             {drinks[0].strCategory}
             <p>{drinks[0].strAlcoholic}</p>

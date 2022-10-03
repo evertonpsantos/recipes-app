@@ -86,7 +86,7 @@ export default function FavoriteRecipes() {
         </button>
       </form>
       <div className="favorite-card-container">
-        {favorites.length !== 0 && (
+        { favorites.length !== 0 && (
           favorites.map((e, index) => (
             <div className="favorite-card" key={ index }>
               <Link className="image-link" to={ `/${e.type}s/${e.id}` }>
@@ -130,7 +130,7 @@ export default function FavoriteRecipes() {
               </div>
             </div>
           ))
-        )}
+        ) }
       </div>
     </div>
   );

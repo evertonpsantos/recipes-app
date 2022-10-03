@@ -1,0 +1,103 @@
+.done-btn-container {
+  display: flex;
+  gap: 2em;
+  justify-content: center;
+  margin: 0 0 1.4em;
+  width: 100%;
+}
+
+.done-btn-filter {
+  align-items: center;
+  display: flex;
+  gap: 0.6em;
+  width: 17%;
+}
+
+.done-btn-filter > img {
+  width: 100%;
+}
+
+.done-btn-filter > p {
+  color: #63676e;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.done-card {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4em;
+}
+
+
+.done-card-container {
+  align-self: center;
+  border: 0.5px solid #b1b1b1a9;
+  border-radius: 7px;
+  justify-self: center;
+  position: relative;
+  width: 90%;
+}
+
+.done-card-img-container {
+  background: black;
+  width: 50%;
+}
+
+.done-card-img-container > img {
+  width: 200px;
+}
+
+.done-link {
+  margin: 1.6em 1em;
+  position: absolute;
+  text-decoration: none;
+}
+
+.done-link > h2 {
+  color: black;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.done-link > h5 {
+  color: #797d86;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.done-date {
+  font-size: 10px;
+  position: absolute;
+  right: 17%;
+  top: 60%;
+}
+
+.done-card-container > button {
+  bottom: 9%;
+  position: absolute;
+  right: 5%;
+  width: 25px;
+}
+
+.done-card-container > button > img {
+  width: 110%;
+}
+
+.done-tag-container {
+  bottom: 0;
+  display: flex;
+  gap: 0.3em;
+  left: 57%;
+  position: absolute;
+  width: 41%;
+}
+
+.done-tag {
+  background-color: #d9d9d9;
+  border-radius: 10px;
+  color: #797d86;
+  font-size: 9px;
+  padding: 2px 3px;
+}
