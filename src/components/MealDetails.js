@@ -7,7 +7,7 @@ export default function MealDetails() {
   const { recipe } = useContext(RecipesContext);
   const { meals } = recipe;
 
-  if (meals.length === 0) return <h1>Loading...</h1>;
+  // if (meals.length === 0) return <h1>Loading...</h1>;
   return (
     <div>
       <img
