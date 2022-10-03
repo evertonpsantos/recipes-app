@@ -35,7 +35,7 @@ export default function DoneRecipes() {
           </button>
         </div>
 
-        { doneRecipes.map((el, index) => (
+        { doneRecipes ? doneRecipes.map((el, index) => (
           <div className="done-img-card-container" key={ index }>
 
             <img
@@ -47,7 +47,9 @@ export default function DoneRecipes() {
             <h5
               data-testid={ `${index}-horizontal-top-text` }
             >
-              { el.nationality ? `${el.nationality} - ${el.category}` : el.category }
+              { el.nationality
+                ? `${el.nationality} - ${el.category}`
+                : `${el.alcoholicOrNot} - ${el.category}` }
             </h5>
             <p data-testid={ `${index}-horizontal-done-date` }>{el.doneDate}</p>
             <button
@@ -61,7 +63,7 @@ export default function DoneRecipes() {
               <p key={ tag } data-testid={ `${index}-${tag}-horizontal-tag` }>{tag}</p>
             )) : ''}
           </div>
-        )) }
+        )) : ''}
       </div>
     </div>
   );
