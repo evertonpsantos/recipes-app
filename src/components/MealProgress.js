@@ -5,11 +5,12 @@ import { readRecipe, saveRecipe, readInProgress, saveInProgress }
   from '../helpers/recipeLocalStorage';
 import { setCategoryIcon } from '../helpers/categoriesIcons';
 import Button from './Button';
+import Loading from './Loading';
 
 export default function MealProgress() {
   const { id } = useParams();
   const { pathname } = useLocation();
-  const { recipe, setLoading } = useContext(RecipesContext);
+  const { recipe, loading, setLoading } = useContext(RecipesContext);
   const { meals } = recipe;
 
   const path = pathname.split('/')[1];
@@ -60,7 +61,7 @@ export default function MealProgress() {
 
     let tags;
     if (recipeNew.strTags) {
-      tags = recipeNew.strTags.split(', ');
+      tags = recipeNew.strTags.split(',');
     }
     const doneDate = newDate();
 
@@ -78,6 +79,7 @@ export default function MealProgress() {
     history.push('/done-recipes');
   };
 
+  if (loading) return <Loading />;
   return (
     <div className="recipe-details-container">
       <div className="recipe-image-card-container">
