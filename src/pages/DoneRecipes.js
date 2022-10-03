@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import { readRecipe } from '../helpers/recipeLocalStorage';
+import shareIcon from '../images/shareIcon.svg';
 
 export default function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState([]);
@@ -43,17 +44,22 @@ export default function DoneRecipes() {
               alt={ el.name }
             />
             <h2 data-testid={ `${index}-horizontal-name` }>{el.name}</h2>
-            <h5 data-testid={ `${index}-horizontal-top-text` }>{el.category}</h5>
-            <p data-testid={ `${index}-horizontal-done-date` }>{el.completed}</p>
+            <h5
+              data-testid={ `${index}-horizontal-top-text` }
+            >
+              { el.nationality ? `${el.nationality} - ${el.category}` : el.category }
+            </h5>
+            <p data-testid={ `${index}-horizontal-done-date` }>{el.doneDate}</p>
             <button
               type="button"
               data-testid={ `${index}-horizontal-share-btn` }
+              src={ shareIcon }
             >
-              Share
+              <img src={ shareIcon } alt="share-icon" />
             </button>
-            { el.tags.map((tag) => (
+            { el.tags ? el.tags.map((tag) => (
               <p key={ tag } data-testid={ `${index}-${tag}-horizontal-tag` }>{tag}</p>
-            )) }
+            )) : ''}
           </div>
         )) }
       </div>

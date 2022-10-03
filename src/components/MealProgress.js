@@ -33,21 +33,27 @@ export default function MealProgress() {
     }
   };
 
+  const newDate = () => {
+    const today = new Date();
+    const day = today.getDate().toString().padStart(2, '0');
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const year = today.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   const handleClick = () => {
     const recipeNew = recipe[path][0];
-    const mealPath = path === 'meals';
-    const dateCompleted = new Date().toDateString();
     const tags = recipeNew.strTags.split(', ');
+    const doneDate = newDate();
 
     const newRecipe = {
-      id: recipeNew[mealPath ? 'idMeal' : 'idDrink'],
-      type: mealPath ? 'meal' : 'drink',
-      nationality: !mealPath ? '' : recipeNew.strArea,
+      id: recipeNew.idMeal,
+      type: 'meal',
+      nationality: recipeNew.strArea,
       category: recipeNew.strCategory,
-      alcoholicOrNot: mealPath ? '' : recipeNew.strAlcoholic,
-      name: recipeNew[mealPath ? 'strMeal' : 'strDrink'],
-      image: recipeNew[mealPath ? 'strMealThumb' : 'strDrinkThumb'],
-      dateCompleted,
+      name: recipeNew.strMeal,
+      image: recipeNew.strMealThumb,
+      doneDate,
       tags,
     };
     saveRecipe('doneRecipes', newRecipe);
