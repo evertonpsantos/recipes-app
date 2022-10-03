@@ -19,12 +19,12 @@ export default function Button() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [modalDisplay, setModalDisplay] = useState({ display: 'none' });
 
-  const path = pathname.split('/')[1];
+  const path = pathname.split('/');
 
   useEffect(() => {
     const inProgressRecipesStorage = readInProgress();
     setInProgress(inProgressRecipesStorage);
-  }, [id]);
+  }, []);
 
   const handleShareButton = () => {
     const pathNa = `http://localhost:3000${pathname}`;
@@ -38,12 +38,12 @@ export default function Button() {
 
   const handleFavoriting = () => {
     if (isFavorite) {
-      removeRecipe('favoriteRecipes', recipe, path);
+      removeRecipe('favoriteRecipes', recipe, path[1]);
       return setIsFavorite(false);
     }
-    if (recipe[path].length !== 0) {
-      const recipeNew = recipe[path][0];
-      const checkPath = path === 'meals';
+    if (recipe[path[1]].length !== 0) {
+      const recipeNew = recipe[path[1]][0];
+      const checkPath = path[1] === 'meals';
 
       const newRecipe = {
         id: recipeNew[checkPath ? 'idMeal' : 'idDrink'],
@@ -62,9 +62,9 @@ export default function Button() {
 
   useEffect(() => {
     const favoriteArray = readRecipe('favoriteRecipes') || [];
-    if (recipe[path].length !== 0) {
+    if (recipe[path[1]].length !== 0) {
       return setIsFavorite(favoriteArray.some((savedRecipe) => savedRecipe
-        .id === recipe[path][0][path === 'meals' ? 'idMeal' : 'idDrink']));
+        .id === recipe[path[1]][0][path === 'meals' ? 'idMeal' : 'idDrink']));
     }
   }, [recipe, path]);
 
@@ -72,7 +72,7 @@ export default function Button() {
     <div>
       <div className="recipe-button-container">
         {
-          !pathname.includes('in-progress') && (
+          (!pathname.includes('in-progress')) && (
             <button
               type="button"
               data-testid="start-recipe-btn"

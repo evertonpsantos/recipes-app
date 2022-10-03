@@ -22,8 +22,8 @@ export default function RecipeDetails() {
     })();
   }, [id, path, setRecipe]);
 
-  if (recipe[path].length === 0) return <Loading />;
-  if (pathname.includes('meals')) {
+  if (recipe[path] === undefined || recipe[path].length === 0) return <Loading />;
+  if (path === 'meals') {
     return (
       <div>
         <MealDetails />

@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
-import { readRecipe, saveRecipe, readInProgress, saveInProgress }
+import { readRecipe, saveRecipe,
+  readInProgress, saveInProgress, removeRecipeFromInProgress }
   from '../helpers/recipeLocalStorage';
 import { setCategoryIcon } from '../helpers/categoriesIcons';
 import Button from './Button';
@@ -10,7 +11,7 @@ import Loading from './Loading';
 export default function MealProgress() {
   const { id } = useParams();
   const { pathname } = useLocation();
-  const { recipe, loading, setLoading } = useContext(RecipesContext);
+  const { recipe, setLoading } = useContext(RecipesContext);
   const { meals } = recipe;
 
   const path = pathname.split('/')[1];
@@ -78,6 +79,7 @@ export default function MealProgress() {
       tags,
     };
     saveRecipe('doneRecipes', newRecipe);
+    removeRecipeFromInProgress(recipeNew.idMeal);
     history.push('/done-recipes');
   };
 

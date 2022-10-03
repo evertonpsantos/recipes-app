@@ -14,20 +14,19 @@ export default function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [copyMessage, setCopyMessage] = useState({});
   const [renderedItems, setRenderedItems] = useState([]);
-  const [filter, setFilter] = useState('All');
+  const [filter, setFilter] = useState('ALL');
 
   useEffect(() => {
     const recipes = readRecipe('doneRecipes');
     const recipesFiltered = recipes.filter((item, index, array) => index === array
       .findIndex((obj) => obj.id === item.id));
-    console.log(recipes);
     setDoneRecipes(recipesFiltered);
   }, []);
 
   useEffect(() => {
     if (doneRecipes) {
       setRenderedItems(doneRecipes
-        .filter(({ type }) => (filter === 'All' ? true : type === filter)));
+        .filter(({ type }) => (filter === 'ALL' ? true : type === filter)));
     }
   }, [doneRecipes, filter]);
 
@@ -37,9 +36,7 @@ export default function DoneRecipes() {
     setCopyMessage({ [id]: 'Link copied!' });
   };
 
-  const handleFilter = ({ target: { name } }) => {
-    setFilter(name);
-  };
+  const handleFilter = (name) => setFilter(name);
 
   const handleDones = (id) => {
     const recipes = readRecipe('doneRecipes');
@@ -54,8 +51,8 @@ export default function DoneRecipes() {
           <button
             className="done-btn-filter flex-column button-icon"
             data-testid="filter-by-all-btn"
-            name="All"
-            onClick={ handleFilter }
+            name="ALL"
+            onClick={ () => handleFilter('ALL') }
             type="button"
           >
             <img
@@ -68,7 +65,7 @@ export default function DoneRecipes() {
             className="done-btn-filter flex-column button-icon"
             data-testid="filter-by-meal-btn"
             name="meal"
-            onClick={ handleFilter }
+            onClick={ () => handleFilter('meal') }
             type="button"
           >
             <img
@@ -81,7 +78,7 @@ export default function DoneRecipes() {
             className="done-btn-filter flex-column button-icon"
             data-testid="filter-by-drink-btn"
             name="drink"
-            onClick={ handleFilter }
+            onClick={ () => handleFilter('drink') }
             type="button"
           >
             <img

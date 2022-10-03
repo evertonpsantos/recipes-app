@@ -10,6 +10,7 @@ import allDrinkCat from '../images/allDrinkCat.svg';
 
 import '../style/Recipes.css';
 import Loading from './Loading';
+import { readRecipe } from '../helpers/recipeLocalStorage';
 
 function Recipes() {
   const MAX_RECIPE = 12;
@@ -23,6 +24,8 @@ function Recipes() {
   });
 
   useEffect(() => {
+    readRecipe('favoriteRecipes');
+    readRecipe('inProgressRecipes');
     (async () => {
       if (pathname === '/meals') {
         const data = await mealsAPI();
