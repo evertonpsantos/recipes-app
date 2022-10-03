@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
-import { readRecipe, saveRecipe, readInProgress, saveInProgress, removeRecipeFromInProgress }
+import { readRecipe, saveRecipe,
+  readInProgress, saveInProgress, removeRecipeFromInProgress }
   from '../helpers/recipeLocalStorage';
 import { setCategoryIcon } from '../helpers/categoriesIcons';
 import Button from './Button';
