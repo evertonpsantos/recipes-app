@@ -72,9 +72,8 @@ export default function Button() {
   useEffect(() => {
     const favoriteArray = readRecipe() || [];
     if (recipe[path].length !== 0) {
-      return setIsFavorite(favoriteArray
-        .some((savedRecipe) => savedRecipe
-          .id === recipe[path][0][path === 'meals' ? 'idMeal' : 'idDrink']));
+      return setIsFavorite(favoriteArray.some((savedRecipe) => savedRecipe
+        .id === recipe[path][0][path === 'meals' ? 'idMeal' : 'idDrink']));
     }
   }, [recipe, path]);
 
