@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
-import { saveRecipe, readRecipe, removeRecipe } from '../helpers/recipeLocalStorage';
+import { saveRecipe,
+  readRecipe, removeRecipe, readInProgress } from '../helpers/recipeLocalStorage';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -13,7 +14,7 @@ export default function Button() {
   const { id } = useParams();
   const { pathname } = useLocation();
   const { recipe } = useContext(RecipesContext);
-  const [inProgressRecipes, setInProgress] = useState([]);
+  const [inProgressRecipes, setInProgress] = useState({});
   const [copyMessage, setCopyMessage] = useState('');
   const [isFavorite, setIsFavorite] = useState(false);
   const [modalDisplay, setModalDisplay] = useState({ display: 'none' });
@@ -21,21 +22,8 @@ export default function Button() {
   const path = pathname.split('/')[1];
 
   useEffect(() => {
-    // const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
-    const inProgressRecipesStorage = JSON
-      .parse(localStorage.getItem('inProgressRecipes'));
-
-    // if (doneRecipesStorage) {
-    //   setDoneRecipes(doneRecipesStorage);
-    // }
-
-    if (inProgressRecipesStorage) {
-      const recipesInProgress = [
-        ...Object.keys(inProgressRecipesStorage.drinks || {}),
-        ...Object.keys(inProgressRecipesStorage.meals || {}),
-      ];
-      setInProgress(recipesInProgress);
-    }
+    const inProgressRecipesStorage = readInProgress();
+    setInProgress(inProgressRecipesStorage);
   }, [id]);
 
   const handleShareButton = () => {
@@ -92,7 +80,8 @@ export default function Button() {
               onClick={ () => history.push(`${pathname}/in-progress`) }
             >
               {
-                inProgressRecipes.includes(id) ? 'CONTINUE RECIPE' : 'START RECIPE'
+                inProgressRecipes[id]
+                && inProgressRecipes[id].length !== 0 ? 'CONTINUE RECIPE' : 'START RECIPE'
               }
             </button>)
         }
