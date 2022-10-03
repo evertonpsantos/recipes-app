@@ -8,16 +8,27 @@ const copy = require('clipboard-copy');
 export default function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [copyMessage, setCopyMessage] = useState({});
+  const [renderedItems, setRenderedItems] = useState([]);
+  const [filter, setFilter] = useState('All');
 
   useEffect(() => {
     const recipes = readRecipe('doneRecipes');
     setDoneRecipes(recipes);
   }, []);
 
+  useEffect(() => {
+    setRenderedItems(doneRecipes
+      .filter(({ type }) => (filter === 'All' ? true : type === filter)));
+  }, [doneRecipes, filter]);
+
   const handleShareButton = (type, id) => {
     const path = `http://localhost:3000/${type}s/${id}`;
     copy(path);
     setCopyMessage({ [id]: 'Link copied!' });
+  };
+
+  const handleFilter = ({ target: { name } }) => {
+    setFilter(name);
   };
 
   return (
@@ -27,25 +38,31 @@ export default function DoneRecipes() {
         <div className="done-btn-container">
           <button
             data-testid="filter-by-all-btn"
+            name="All"
+            onClick={ handleFilter }
             type="button"
           >
             All
           </button>
           <button
             data-testid="filter-by-meal-btn"
+            name="meal"
+            onClick={ handleFilter }
             type="button"
           >
             Meals
           </button>
           <button
             data-testid="filter-by-drink-btn"
+            name="drink"
+            onClick={ handleFilter }
             type="button"
           >
             Drinks
           </button>
         </div>
 
-        { doneRecipes ? doneRecipes.map((el, index) => (
+        { renderedItems ? renderedItems.map((el, index) => (
           <div className="done-img-card-container" key={ index }>
 
             <img

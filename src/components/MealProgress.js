@@ -18,7 +18,7 @@ export default function MealProgress() {
   useEffect(() => {
     const checkedItems = readRecipe('inProgressRecipes');
     readRecipe('doneRecipes');
-    if (checkedItems) setCheck(checkedItems[id]);
+    if (checkedItems[id]) setCheck(checkedItems[id]);
   }, [id]);
 
   useEffect(() => {
@@ -43,7 +43,11 @@ export default function MealProgress() {
 
   const handleClick = () => {
     const recipeNew = recipe[path][0];
-    const tags = recipeNew.strTags.split(', ');
+
+    let tags;
+    if (recipeNew.strTags) {
+      tags = recipeNew.strTags.split(', ');
+    }
     const doneDate = newDate();
 
     const newRecipe = {

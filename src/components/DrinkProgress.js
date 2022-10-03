@@ -18,7 +18,7 @@ export default function DrinkProgress() {
   useEffect(() => {
     const checkedItems = readRecipe('inProgressRecipes');
     readRecipe('doneRecipes');
-    if (checkedItems) setCheck(checkedItems[id]);
+    if (checkedItems[id]) setCheck(checkedItems[id]);
   }, [id]);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ export default function DrinkProgress() {
 
     const newRecipe = {
       id: recipeNew.idDrink,
-      type: 'drinks',
+      type: 'drink',
       category: recipeNew.strCategory,
       alcoholicOrNot: recipeNew.strAlcoholic,
       name: recipeNew.strDrink,
