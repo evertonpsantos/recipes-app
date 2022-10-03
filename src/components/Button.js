@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
-import saveRecipe, { readRecipe, removeRecipe } from '../helpers/recipeLocalStorage';
+import { saveRecipe, readRecipe, removeRecipe } from '../helpers/recipeLocalStorage';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -13,7 +13,6 @@ export default function Button() {
   const { id } = useParams();
   const { pathname } = useLocation();
   const { recipe } = useContext(RecipesContext);
-  const [doneRecipes, setDoneRecipes] = useState([]);
   const [inProgressRecipes, setInProgress] = useState([]);
   const [copyMessage, setCopyMessage] = useState('');
   const [isFavorite, setIsFavorite] = useState(false);
@@ -22,13 +21,13 @@ export default function Button() {
   const path = pathname.split('/')[1];
 
   useEffect(() => {
-    const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
+    // const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
     const inProgressRecipesStorage = JSON
       .parse(localStorage.getItem('inProgressRecipes'));
 
-    if (doneRecipesStorage) {
-      setDoneRecipes(doneRecipesStorage);
-    }
+    // if (doneRecipesStorage) {
+    //   setDoneRecipes(doneRecipesStorage);
+    // }
 
     if (inProgressRecipesStorage) {
       const recipesInProgress = [
@@ -51,10 +50,9 @@ export default function Button() {
 
   const handleFavoriting = () => {
     if (isFavorite) {
-      removeRecipe(recipe, path);
+      removeRecipe('favoriteRecipes', recipe, path);
       return setIsFavorite(false);
     }
-
     if (recipe[path].length !== 0) {
       const recipeNew = recipe[path][0];
       const checkPath = path === 'meals';
@@ -69,41 +67,36 @@ export default function Button() {
         image: recipeNew[checkPath ? 'strMealThumb' : 'strDrinkThumb'],
       };
 
-      saveRecipe(newRecipe);
+      saveRecipe('favoriteRecipes', newRecipe);
       return setIsFavorite(true);
     }
   };
 
   useEffect(() => {
-    const favoriteArray = readRecipe() || [];
+    const favoriteArray = readRecipe('favoriteRecipes') || [];
     if (recipe[path].length !== 0) {
-      return setIsFavorite(favoriteArray
-        .some((savedRecipe) => savedRecipe
-          .id === recipe[path][0][path === 'meals' ? 'idMeal' : 'idDrink']));
+      return setIsFavorite(favoriteArray.some((savedRecipe) => savedRecipe
+        .id === recipe[path][0][path === 'meals' ? 'idMeal' : 'idDrink']));
     }
   }, [recipe, path]);
 
-  if (!doneRecipes) return <p>Loading...</p>;
-
   return (
     <div>
-      { !doneRecipes.some((doneRecipe) => doneRecipe.id === id) && (
-        <div className="recipe-button-container">
-          {
-            !pathname.includes('in-progress') && (
-              <button
-                type="button"
-                data-testid="start-recipe-btn"
-                className="recipe-status-btn"
-                onClick={ () => history.push(`${pathname}/in-progress`) }
-              >
-                {
-                  inProgressRecipes.includes(id) ? 'CONTINUE RECIPE' : 'START RECIPE'
-                }
-              </button>)
-          }
-        </div>
-      )}
+      <div className="recipe-button-container">
+        {
+          !pathname.includes('in-progress') && (
+            <button
+              type="button"
+              data-testid="start-recipe-btn"
+              className="recipe-status-btn"
+              onClick={ () => history.push(`${pathname}/in-progress`) }
+            >
+              {
+                inProgressRecipes.includes(id) ? 'CONTINUE RECIPE' : 'START RECIPE'
+              }
+            </button>)
+        }
+      </div>
 
       <div className="recipe-details-button-container">
         <button

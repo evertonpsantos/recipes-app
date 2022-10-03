@@ -1,22 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
-import { saveProgress, readProgress } from '../helpers/recipeLocalStorage';
+import { saveProgress, readRecipe, saveRecipe }
+  from '../helpers/recipeLocalStorage';
 import { setCategoryIcon } from '../helpers/categoriesIcons';
 import Button from './Button';
 import Loading from './Loading';
 
 export default function DrinkProgress() {
   const { id } = useParams();
+  const { pathname } = useLocation();
   const { recipe, loading, setLoading } = useContext(RecipesContext);
   const { drinks } = recipe;
 
+  const path = pathname.split('/')[1];
   const history = useHistory();
   const [check, setCheck] = useState([]);
   const [renderedItems, setRenderedItems] = useState([]);
 
   useEffect(() => {
-    const checkedItems = readProgress();
+    const checkedItems = readRecipe('inProgressRecipes');
+    readRecipe('doneRecipes');
     if (checkedItems[id]) setCheck(checkedItems[id]);
     else setCheck([]);
   }, [id]);
@@ -45,7 +49,36 @@ export default function DrinkProgress() {
     }
   };
 
-  const handleClick = () => history.push('/done-recipes');
+  const newDate = () => {
+    const today = new Date();
+    const day = today.getDate().toString().padStart(2, '0');
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const year = today.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  const handleClick = () => {
+    const recipeNew = recipe[path][0];
+
+    let tags;
+    if (recipeNew.strTags) {
+      tags = recipeNew.strTags.split(', ');
+    }
+    const doneDate = newDate();
+
+    const newRecipe = {
+      id: recipeNew.idDrink,
+      type: 'drink',
+      category: recipeNew.strCategory,
+      alcoholicOrNot: recipeNew.strAlcoholic,
+      name: recipeNew.strDrink,
+      image: recipeNew.strDrinkThumb,
+      doneDate,
+      tags,
+    };
+    saveRecipe('doneRecipes', newRecipe);
+    history.push('/done-recipes');
+  };
 
   if (loading) return <Loading />;
   return (

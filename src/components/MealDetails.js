@@ -21,7 +21,7 @@ export default function MealDetails() {
         : `${el[1]} - ${renderMeasurement[i]}`)));
   }, [meals]);
 
-  if (meals.length === 0) return <Loading />;
+  // if (meals.length === 0) return <Loading />;
   return (
     <div className="recipe-details-container">
 

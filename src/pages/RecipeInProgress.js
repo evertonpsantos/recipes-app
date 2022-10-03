@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { fetchMealRecipe } from '../helpers/mealsAPI';
 import { fetchDrinkRecipe } from '../helpers/drinksAPI';
@@ -11,8 +11,8 @@ import '../style/RecipeInProgress.css';
 export default function RecipeInProgress() {
   const { pathname } = useLocation();
   const { id } = useParams();
-
-  const { setRecipe, loading, setLoading } = useContext(RecipesContext);
+  const { setRecipe } = useContext(RecipesContext);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => setRecipe(pathname.includes('meals')

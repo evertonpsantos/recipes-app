@@ -1,22 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
-import { saveProgress, readProgress } from '../helpers/recipeLocalStorage';
+import { saveProgress, readRecipe, saveRecipe }
+  from '../helpers/recipeLocalStorage';
 import { setCategoryIcon } from '../helpers/categoriesIcons';
 import Button from './Button';
 import Loading from './Loading';
 
 export default function MealProgress() {
   const { id } = useParams();
+  const { pathname } = useLocation();
   const { recipe, loading, setLoading } = useContext(RecipesContext);
   const { meals } = recipe;
 
+  const path = pathname.split('/')[1];
   const history = useHistory();
   const [check, setCheck] = useState([]);
   const [renderedItems, setRenderedItems] = useState([]);
 
   useEffect(() => {
-    const checkedItems = readProgress();
+    const checkedItems = readRecipe('inProgressRecipes');
+    readRecipe('doneRecipes');
     if (checkedItems[id]) setCheck(checkedItems[id]);
     else setCheck([]);
   }, [id]);
@@ -45,9 +49,38 @@ export default function MealProgress() {
     }
   };
 
-  const handleClick = () => history.push('/done-recipes');
+  const newDate = () => {
+    const today = new Date();
+    const day = today.getDate().toString().padStart(2, '0');
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const year = today.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
 
-  if (loading) return <Loading />;
+  const handleClick = () => {
+    const recipeNew = recipe[path][0];
+
+    let tags;
+    if (recipeNew.strTags) {
+      tags = recipeNew.strTags.split(', ');
+    }
+    const doneDate = newDate();
+
+    const newRecipe = {
+      id: recipeNew.idMeal,
+      type: 'meal',
+      nationality: recipeNew.strArea,
+      category: recipeNew.strCategory,
+      name: recipeNew.strMeal,
+      image: recipeNew.strMealThumb,
+      doneDate,
+      tags,
+    };
+    saveRecipe('doneRecipes', newRecipe);
+    history.push('/done-recipes');
+  };
+
+  // if (loading) return <Loading />;
   return (
     <div className="recipe-details-container">
       <div className="recipe-image-card-container">
