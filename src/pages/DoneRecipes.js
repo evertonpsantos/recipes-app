@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { readRecipe } from '../helpers/recipeLocalStorage';
 import shareIcon from '../images/shareIcon.svg';
@@ -64,13 +65,17 @@ export default function DoneRecipes() {
 
         { renderedItems ? renderedItems.map((el, index) => (
           <div className="done-img-card-container" key={ index }>
-
-            <img
-              data-testid={ `${index}-horizontal-image` }
-              src={ el.image }
-              alt={ el.name }
-            />
-            <h2 data-testid={ `${index}-horizontal-name` }>{el.name}</h2>
+            <Link to={ `/${el.type}s/${el.id}` }>
+              <img
+                alt={ el.name }
+                data-testid={ `${index}-horizontal-image` }
+                src={ el.image }
+                style={ {
+                  width: '200px',
+                } }
+              />
+              <h2 data-testid={ `${index}-horizontal-name` }>{el.name}</h2>
+            </Link>
             <h5
               data-testid={ `${index}-horizontal-top-text` }
             >
