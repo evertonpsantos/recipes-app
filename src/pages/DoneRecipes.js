@@ -15,6 +15,7 @@ export default function DoneRecipes() {
   const [copyMessage, setCopyMessage] = useState({});
   const [renderedItems, setRenderedItems] = useState([]);
   const [filter, setFilter] = useState('ALL');
+  const [modalDisplay, setModalDisplay] = useState({ display: 'none' });
 
   useEffect(() => {
     const recipes = readRecipe('doneRecipes');
@@ -34,6 +35,7 @@ export default function DoneRecipes() {
     const path = `http://localhost:3000/${type}s/${id}`;
     copy(path);
     setCopyMessage({ [id]: 'Link copied!' });
+    setModalDisplay({ display: 'block' });
   };
 
   const handleFilter = (name) => setFilter(name);
@@ -42,6 +44,8 @@ export default function DoneRecipes() {
     const recipes = readRecipe('doneRecipes');
     return recipes.filter((e) => e.id === id).length;
   };
+
+  const closeModal = () => setModalDisplay({ display: 'none' });
 
   return (
     <div>
@@ -108,7 +112,7 @@ export default function DoneRecipes() {
               <h2
                 data-testid={ `${index}-horizontal-name` }
               >
-                {`${el.name} - done ${handleDones(el.id)} time(s)`}
+                {el.name}
               </h2>
               <h5
                 data-testid={ `${index}-horizontal-top-text` }
@@ -125,6 +129,12 @@ export default function DoneRecipes() {
               { `Done in: ${el.doneDate}` }
 
             </p>
+            <p
+              className="done-date done-times"
+            >
+              { `Done ${handleDones(el.id)} time(s)` }
+
+            </p>
             <button
               className="button-icon"
               data-testid={ `${index}-horizontal-share-btn` }
@@ -133,7 +143,24 @@ export default function DoneRecipes() {
             >
               <img src={ shareIcon } alt="share-icon" />
             </button>
-            { Object.keys(copyMessage) !== null && <p>{copyMessage[el.id]}</p>}
+            { Object.keys(copyMessage) !== null
+             && (
+               <div
+                 className="modal-container"
+                 style={ modalDisplay }
+               >
+                 <div className="modal-content">
+                   <button
+                     className="modal-close button-icon"
+                     type="button"
+                     onClick={ closeModal }
+                   >
+                     &times;
+                   </button>
+                   <p>{copyMessage[el.id]}</p>
+                 </div>
+               </div>
+             )}
             <div className="done-tag-container">
               { el.tags ? el.tags.map((tag) => (
                 <p
@@ -146,7 +173,12 @@ export default function DoneRecipes() {
               )) : ''}
             </div>
           </div>
-        )) : ''}
+        ))
+          : (
+            <p style={ { color: '#797d86' } }>
+              You haven&apos;t finished any recipe yet
+            </p>
+          )}
       </div>
     </div>
   );
