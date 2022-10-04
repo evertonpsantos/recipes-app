@@ -129,7 +129,7 @@ export default function FavoriteRecipes() {
                 >
                   <img
                     src={ blackHeartIcon }
-                    alt="share-icon"
+                    alt="full yellow heart"
                   />
                 </button>
               </div>

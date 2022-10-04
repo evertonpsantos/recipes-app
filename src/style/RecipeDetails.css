@@ -168,7 +168,7 @@ iframe {
 
 .modal-content {
   align-items: center;
-  background: #6b6b6b;
+  background: #dfdfdf;
   border-radius: 7px;
   display: flex;
   height: 10%;
@@ -186,14 +186,14 @@ iframe {
 }
 
 .modal-content p {
-  color: white;
+  color: rgb(110, 110, 110);
   text-align: center;
   top: 20%;
 }
 
 .modal-close {
-  bottom: 8%;
-  color: rgb(194, 194, 194);
+  bottom: 10%;
+  color: rgb(110, 110, 110);
   font-size: 18px;
   font-weight: 700;
 }

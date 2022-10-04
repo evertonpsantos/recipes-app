@@ -64,7 +64,7 @@ export default function DrinkProgress() {
 
     let tags;
     if (recipeNew.strTags) {
-      tags = recipeNew.strTags.split(', ');
+      tags = recipeNew.strTags.split(',');
     }
     const doneDate = newDate();
 
