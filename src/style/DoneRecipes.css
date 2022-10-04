@@ -57,13 +57,13 @@
 
 .done-link > h2 {
   color: black;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
 }
 
 .done-link > h5 {
   color: #797d86;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 300;
 }
 
@@ -72,6 +72,11 @@
   position: absolute;
   right: 17%;
   top: 60%;
+}
+
+.done-times {
+  right: 23.5%;
+  top: 70%;
 }
 
 .done-card-container > button {
@@ -100,4 +105,16 @@
   color: #797d86;
   font-size: 9px;
   padding: 2px 3px;
+}
+
+@media only screen and ( max-width : 376px ) {
+
+  .done-date {
+    right: 8%;
+  }
+
+  .done-times {
+    right: 15.5%;
+    top: 70%;
+  }
 }

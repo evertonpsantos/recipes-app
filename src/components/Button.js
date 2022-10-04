@@ -37,6 +37,7 @@ export default function Button() {
   const closeModal = () => setModalDisplay({ display: 'none' });
 
   const handleFavoriting = () => {
+    console.log(path[1]);
     if (isFavorite) {
       removeRecipe('favoriteRecipes', recipe, path[1]);
       return setIsFavorite(false);
@@ -118,13 +119,14 @@ export default function Button() {
           data-testid="favorite-btn"
           onClick={ handleFavoriting }
           className="button-icon"
-          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+          // src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
         >
           <img
             src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-            alt="share-icon"
+            alt={ isFavorite ? 'full heart' : 'empty heart' }
           />
         </button>
+        { console.log(isFavorite)}
       </div>
     </div>
   );
