@@ -26,6 +26,9 @@ function Recipes() {
   useEffect(() => {
     readRecipe('favoriteRecipes');
     readRecipe('inProgressRecipes');
+  }, []);
+
+  useEffect(() => {
     (async () => {
       if (pathname === '/meals') {
         const data = await mealsAPI();

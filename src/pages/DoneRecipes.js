@@ -17,6 +17,12 @@ export default function DoneRecipes() {
   const [filter, setFilter] = useState('ALL');
 
   useEffect(() => {
+    readRecipe('favoriteRecipes');
+    readRecipe('inProgressRecipes');
+    readRecipe('doneRecipes');
+  }, []);
+
+  useEffect(() => {
     const recipes = readRecipe('doneRecipes');
     const recipesFiltered = recipes.filter((item, index, array) => index === array
       .findIndex((obj) => obj.id === item.id));

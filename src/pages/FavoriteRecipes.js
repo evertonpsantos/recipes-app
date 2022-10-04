@@ -17,6 +17,11 @@ export default function FavoriteRecipes() {
   const [filter, setFilter] = useState('ALL');
 
   useEffect(() => {
+    readRecipe('favoriteRecipes');
+    readRecipe('inProgressRecipes');
+  }, []);
+
+  useEffect(() => {
     const localStorageFav = readRecipe('favoriteRecipes');
     if (localStorageFav !== undefined) {
       setFavorites(localStorageFav
