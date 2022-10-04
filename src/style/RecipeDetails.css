@@ -11,6 +11,7 @@
 
 .recipe-image-card-container {
   height: 250px;
+  overflow: hidden;
   position: relative;
   width: 100%;
 }
@@ -54,7 +55,7 @@
   width: 100%;
 }
 
-.recipe-category-container > img {
+.recipe-category-container > a {
   width: 12%;
 }
 
@@ -78,10 +79,15 @@
 .recipe-details-button-container {
   display: flex;
   gap: 1.1em;
-  height: 15%;
   position: absolute;
   right: 7%;
   top: 11%;
+  width: 25%;
+}
+
+.recipe-details-button-container > button {
+  height: 100%;
+  width: 100%;
 }
 
 .recipe-title {
@@ -194,7 +200,7 @@ iframe {
 .modal-close {
   bottom: 10%;
   color: rgb(110, 110, 110);
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
 }
 

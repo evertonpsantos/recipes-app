@@ -21,7 +21,6 @@ export default function MealDetails() {
         : `${el[1]} - ${renderMeasurement[i]}`)));
   }, [meals]);
 
-  // if (meals.length === 0) return <Loading />;
   return (
     <div className="recipe-details-container">
 
@@ -34,12 +33,7 @@ export default function MealDetails() {
         <div className="recipe-image-bg" />
         <h1>{meals[0].strMeal.toUpperCase()}</h1>
         <div className="recipe-category-container">
-          <Link
-            to="/meals"
-            style={ {
-              width: '40px',
-            } }
-          >
+          <Link to="/meals">
             <img
               src={ setCategoryIcon(meals[0].strCategory) }
               alt={ `${meals[0].strCategory} category logo` }

@@ -15,6 +15,7 @@ export default function FavoriteRecipes() {
   const [favorites, setFavorites] = useState([]);
   const [copyMessage, setCopyMessage] = useState({});
   const [filter, setFilter] = useState('ALL');
+  const [modalDisplay, setModalDisplay] = useState({ display: 'none' });
 
   useEffect(() => {
     readRecipe('favoriteRecipes');
@@ -33,6 +34,7 @@ export default function FavoriteRecipes() {
     const path = `http://localhost:3000/${type}s/${id}`;
     copy(path);
     setCopyMessage({ [id]: 'Link copied!' });
+    setModalDisplay({ display: 'block' });
   };
 
   const handleUnFavoriting = (id) => {
@@ -42,52 +44,50 @@ export default function FavoriteRecipes() {
   };
 
   const handleFilter = (name) => setFilter(name);
+  const closeModal = () => setModalDisplay({ display: 'none' });
 
   return (
     <div className="favorite-page-container">
       <Header />
-      <form className="category-button-container favorite-category">
+      <form className="done-btn-container">
         <button
+          className="done-btn-filter flex-column button-icon"
           data-testid="filter-by-all-btn"
           type="button"
           name="ALL"
           onClick={ () => handleFilter('ALL') }
         >
-          <div className="category-card-container">
-            <img
-              src={ allAll }
-              alt="all F&B icon"
-            />
-            <p>All</p>
-          </div>
+          <img
+            src={ allAll }
+            alt="all F&B icon"
+          />
+          <p>All</p>
         </button>
         <button
+          className="done-btn-filter flex-column button-icon"
           data-testid="filter-by-meal-btn"
           type="button"
           name="meal"
           onClick={ () => handleFilter('meal') }
         >
-          <div className="category-card-container">
-            <img
-              src={ allMealCat }
-              alt="food icon"
-            />
-            <p>Food</p>
-          </div>
+          <img
+            src={ allMealCat }
+            alt="food icon"
+          />
+          <p>Food</p>
         </button>
         <button
+          className="done-btn-filter flex-column button-icon"
           data-testid="filter-by-drink-btn"
           type="button"
           name="drink"
           onClick={ () => handleFilter('drink') }
         >
-          <div className="category-card-container">
-            <img
-              src={ allDrinkCat }
-              alt="drink icon"
-            />
-            <p>Drink</p>
-          </div>
+          <img
+            src={ allDrinkCat }
+            alt="drink icon"
+          />
+          <p>Drink</p>
         </button>
       </form>
       <div className="favorite-card-container">
@@ -120,7 +120,23 @@ export default function FavoriteRecipes() {
                 >
                   <img src={ shareIcon } alt="share-icon" />
                 </button>
-                { Object.keys(copyMessage) !== null && <p>{copyMessage[e.id]}</p>}
+                { Object.keys(copyMessage) && (
+                  <div
+                    className="modal-container"
+                    style={ modalDisplay }
+                  >
+                    <div className="modal-content">
+                      <p>Link copied!</p>
+                      <button
+                        className="modal-close button-icon"
+                        type="button"
+                        onClick={ closeModal }
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  </div>
+                )}
                 <button
                   type="button"
                   data-testid={ `${index}-horizontal-favorite-btn` }

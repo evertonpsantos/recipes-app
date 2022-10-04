@@ -149,24 +149,23 @@ export default function DoneRecipes() {
             >
               <img src={ shareIcon } alt="share-icon" />
             </button>
-            { Object.keys(copyMessage) !== null
-             && (
-               <div
-                 className="modal-container"
-                 style={ modalDisplay }
-               >
-                 <div className="modal-content">
-                   <button
-                     className="modal-close button-icon"
-                     type="button"
-                     onClick={ closeModal }
-                   >
-                     &times;
-                   </button>
-                   <p>{copyMessage[el.id]}</p>
-                 </div>
-               </div>
-             )}
+            { Object.keys(copyMessage) && (
+              <div
+                className="modal-container"
+                style={ modalDisplay }
+              >
+                <div className="modal-content">
+                  <p>Link copied!</p>
+                  <button
+                    className="modal-close button-icon"
+                    type="button"
+                    onClick={ closeModal }
+                  >
+                    &times;
+                  </button>
+                </div>
+              </div>
+            )}
             <div className="done-tag-container">
               { el.tags ? el.tags.map((tag) => (
                 <p

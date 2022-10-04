@@ -3,21 +3,6 @@
   flex-direction: column;
 }
 
-.favorite-category {
-  gap: 1.5em;
-  height: 100%;
-  justify-content: center;
-}
-
-.favorite-category > button {
-  width: 18%;
-}
-
-.favorite-category p {
-  font-size: 15px;
-}
-
-
 .favorite-card-container {
   align-items: center;
   align-self: center;
