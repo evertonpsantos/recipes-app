@@ -37,12 +37,11 @@ export default function Button() {
   const closeModal = () => setModalDisplay({ display: 'none' });
 
   const handleFavoriting = () => {
-    console.log(path[1]);
-    if (isFavorite) {
-      removeRecipe('favoriteRecipes', recipe, path[1]);
-      return setIsFavorite(false);
-    }
     if (recipe[path[1]].length !== 0) {
+      if (isFavorite) {
+        removeRecipe('favoriteRecipes', recipe, path[1]);
+        return setIsFavorite(false);
+      }
       const recipeNew = recipe[path[1]][0];
       const checkPath = path[1] === 'meals';
 
@@ -65,7 +64,7 @@ export default function Button() {
     const favoriteArray = readRecipe('favoriteRecipes') || [];
     if (recipe[path[1]].length !== 0) {
       return setIsFavorite(favoriteArray.some((savedRecipe) => savedRecipe
-        .id === recipe[path[1]][0][path === 'meals' ? 'idMeal' : 'idDrink']));
+        .id === recipe[path[1]][0][path[1] === 'meals' ? 'idMeal' : 'idDrink']));
     }
   }, [recipe, path]);
 

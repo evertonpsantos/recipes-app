@@ -7,6 +7,7 @@ import DrinkDetails from '../components/DrinkDetails';
 import RecipesContext from '../context/RecipesContext';
 import Loading from '../components/Loading';
 import '../style/RecipeDetails.css';
+import { readRecipe } from '../helpers/recipeLocalStorage';
 
 export default function RecipeDetails() {
   const { pathname } = useLocation();
@@ -14,6 +15,11 @@ export default function RecipeDetails() {
   const { recipe, setRecipe } = useContext(RecipesContext);
 
   const path = pathname.split('/')[1];
+
+  useEffect(() => {
+    readRecipe('favoriteRecipes');
+    readRecipe('inProgressRecipes');
+  }, []);
 
   useEffect(() => {
     (async () => {

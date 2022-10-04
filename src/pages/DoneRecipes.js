@@ -18,6 +18,12 @@ export default function DoneRecipes() {
   const [modalDisplay, setModalDisplay] = useState({ display: 'none' });
 
   useEffect(() => {
+    readRecipe('favoriteRecipes');
+    readRecipe('inProgressRecipes');
+    readRecipe('doneRecipes');
+  }, []);
+
+  useEffect(() => {
     const recipes = readRecipe('doneRecipes');
     const recipesFiltered = recipes.filter((item, index, array) => index === array
       .findIndex((obj) => obj.id === item.id));

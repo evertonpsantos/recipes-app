@@ -7,12 +7,18 @@ import MealProgress from '../components/MealProgress';
 import DrinkProgress from '../components/DrinkProgress';
 import Loading from '../components/Loading';
 import '../style/RecipeInProgress.css';
+import { readRecipe } from '../helpers/recipeLocalStorage';
 
 export default function RecipeInProgress() {
   const { pathname } = useLocation();
   const { id } = useParams();
   const { setRecipe } = useContext(RecipesContext);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    readRecipe('favoriteRecipes');
+    readRecipe('inProgressRecipes');
+  }, []);
 
   useEffect(() => {
     (async () => setRecipe(pathname.includes('meals')
