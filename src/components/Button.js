@@ -118,14 +118,12 @@ export default function Button() {
           data-testid="favorite-btn"
           onClick={ handleFavoriting }
           className="button-icon"
-          // src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
         >
           <img
             src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
             alt={ isFavorite ? 'full heart' : 'empty heart' }
           />
         </button>
-        { console.log(isFavorite)}
       </div>
     </div>
   );

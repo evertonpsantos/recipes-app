@@ -22,7 +22,6 @@ export default function DrinkDetails() {
         : `${el[1]} - ${renderMeasurement[i]}`)));
   }, [drinks]);
 
-  // if (drinks.length === 0) return <Loading />;
   return (
     <div className="recipe-details-container">
 
@@ -35,12 +34,7 @@ export default function DrinkDetails() {
         <div className="recipe-image-bg" />
         <h1>{drinks[0].strDrink.toUpperCase()}</h1>
         <div className="recipe-category-container">
-          <Link
-            to="/drinks"
-            style={ {
-              width: '40px',
-            } }
-          >
+          <Link to="/drinks">
             <img
               src={ setCategoryIcon(drinks[0].strCategory) }
               alt={ `${drinks[0].strCategory} category logo` }
