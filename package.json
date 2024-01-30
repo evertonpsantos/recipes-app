@@ -1,6 +1,6 @@
 {
   "name": "recipes-app-test",
-  "homepage": "https://evertonpsantos.github.io/recipes-app",
+  "homepage": "https://evertonpsantos.github.io/recipes-app/",
   "version": "1.0.0",
   "private": true,
   "engines": {
