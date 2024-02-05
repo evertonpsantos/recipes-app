@@ -1,13 +1,35 @@
-# :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
 
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
+# Recipes App
 
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+The goal was too develop a recipes app, where you could login, look for recipes, filter by meals or drinks, open a recipe, favorite it and follow the recipe, checking the boxes for every item/step you do. Besides recipes page and recipe details page, you can see the recipes you didn't finish and the favorites area. We also had to test the application using RTL and Jest.
+
+
+
+
+## Pages created:
+
+- Login page
+- Recipes page (where you can filter by meals or drinks)
+- Recipe details
+- In-Progress recipes
+- Done recipes
+- Favorite recipes
+
+## Stacks
+
+React, React-Router, Javascript, CSS, RTL, Jest.
+
+
+## APIs used:
+
+ - [The MealsDB API](https://www.themealdb.com/api.php)
+ - [The CocktailsDB API](https://www.thecocktaildb.com/api.php)
+
+
+## Created in collaboration with:
+
+- [@WayneNtkM ](https://github.com/WayneNtkM)
+- [@biancaoura](https://github.com/biancaoura)
+- [@joao-antonio-csn ](https://github.com/joao-antonio-csn)
+
+> Figma provided by Trybe
